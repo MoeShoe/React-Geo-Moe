@@ -1,0 +1,17 @@
+.main-app-container {
+  height: 100%;
+  width: 100%;
+}
+
+.country-main-container {
+  display: flex;
+  height: 400px;
+}
+
+.country-info-container {
+  width: 50%;
+}
+
+.country-map-container {
+  width: 50%;
+}

@@ -1,7 +1,11 @@
 import styles from "./SearchBar.module.css";
 
 const SearchBar = () => {
-  return <h1>this is the search bar!</h1>;
+  return (
+    <div className={styles["search-bar-container"]}>
+      <input className={styles["search-bar"]} />
+    </div>
+  );
 };
 
 export default SearchBar;
