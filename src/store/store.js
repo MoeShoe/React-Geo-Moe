@@ -4,14 +4,14 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 const countryInitialState = {
   country: {
     area: null,
-    borders: [],
-    capital: [],
-    currencies: {},
-    flags: {},
-    languages: {},
-    name: {},
-    population: {},
-    subregion: {},
+    borderingCountries: [],
+    capital: null,
+    currency: { name: null, symbol: null },
+    flag: { png: null, svg: null },
+    language: null,
+    name: null,
+    population: null,
+    subregion: null,
   },
 };
 
@@ -21,8 +21,35 @@ const countrySlice = createSlice({
   initialState: countryInitialState,
   reducers: {
     setCountry(state, action) {
-      state.country = action.payload;
-      console.log(action.payload);
+      const countryInitialData = action.payload;
+
+      // formatting data
+      const {
+        population,
+        area,
+        flags: flag,
+        borders: borderingCountries,
+        subregion: region,
+      } = countryInitialData;
+      const name = countryInitialData.name.common;
+      const capital = countryInitialData.capital.at(0);
+      const currency = Object.values(countryInitialData.currencies).at(0);
+      const language = Object.values(countryInitialData.languages).at(0);
+
+      //updating state
+      state.country = {
+        population,
+        area,
+        flag,
+        borderingCountries,
+        region,
+        name,
+        capital,
+        currency,
+        language,
+      };
+
+      console.log(countryInitialData);
     },
   },
 });
@@ -42,10 +69,11 @@ export const fetchCountryData = (countryName) => {
       const initialFetch = await fetch(
         `https://restcountries.com/v3.1/name/${countryName}`
       );
-      const countryData = await initialFetch.json();
+      if (!initialFetch.ok) throw new Error("this is not a country!");
+      const [countryData] = await initialFetch.json();
       dispatch(countryActions.setCountry(countryData));
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
     }
   };
 };
