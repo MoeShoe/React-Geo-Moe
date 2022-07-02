@@ -16,7 +16,7 @@ const SearchBar = () => {
   const searchSubmitHandler = (e) => {
     e.preventDefault();
     //form control
-    if (country.trim.length() === 0) return;
+    if (country.trim().length === 0) return;
 
     dispatch(fetchCountryData(country));
   };
