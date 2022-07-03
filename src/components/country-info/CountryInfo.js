@@ -18,26 +18,28 @@ const CountryInfo = () => {
       <div className={styles["country-infos-container"]}>
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
-            <span>Capital:</span> <span>{capital}</span>
+            <span className={styles["info-field"]}>Capital:</span>{" "}
+            <span>{capital}</span>
           </div>
 
           <div className={styles["info-row"]}>
-            <span>Language:</span> <span>{language}</span>
+            <span className={styles["info-field"]}>Language:</span>{" "}
+            <span>{language}</span>
           </div>
 
           <div className={styles["info-row"]}>
-            <span>Currency:</span>{" "}
+            <span className={styles["info-field"]}>Currency:</span>{" "}
             <span>{`${currency.name} (${currency.symbol})`}</span>
           </div>
         </div>
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
-            <span>Population:</span>{" "}
+            <span className={styles["info-field"]}>Population:</span>{" "}
             <span>{`${(population / 1_000_000).toFixed(2)} M`}</span>
           </div>
 
           <div className={styles["info-row"]}>
-            <span>Area:</span>{" "}
+            <span className={styles["info-field"]}>Area:</span>{" "}
             <span>
               {new Intl.NumberFormat("en-UK", {
                 style: "unit",
@@ -48,7 +50,8 @@ const CountryInfo = () => {
           </div>
 
           <div className={styles["info-row"]}>
-            <span>Region:</span> <span>{region}</span>
+            <span className={styles["info-field"]}>Region:</span>{" "}
+            <span>{region}</span>
           </div>
         </div>
       </div>

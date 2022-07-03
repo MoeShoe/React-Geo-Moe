@@ -15,7 +15,6 @@
 .country-infos-container {
   display: flex;
   height: 60%;
-  padding: 10px 15px;
   align-items: center;
   justify-content: space-evenly;
 }
@@ -23,6 +22,14 @@
 /* .info-column {
 } */
 
+.info-column {
+  width: 50%;
+}
+
 .info-row {
   padding: 10px;
+}
+
+.info-field {
+  font-weight: 600;
 }
