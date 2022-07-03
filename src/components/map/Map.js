@@ -6,10 +6,10 @@ import styles from "./Map.module.css";
 
 const Map = () => {
   useEffect(() => {
-    const map = L.map("map").setView([51.505, -0.09], 13);
+    const map = L.map("map").setView([0, 0], 1);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
+      maxZoom: 12,
       attribution: "© OpenStreetMap",
     }).addTo(map);
   }, []);

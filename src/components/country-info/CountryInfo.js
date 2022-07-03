@@ -3,11 +3,18 @@ import { useSelector } from "react-redux";
 import styles from "./CountryInfo.module.css";
 
 const CountryInfo = () => {
-  const { population, area, region, name, capital, currency, language } =
+  const { population, area, region, name, capital, currency, language, flag } =
     useSelector((state) => state.country);
   return (
     <>
-      <div className={styles["country-name"]}>{name}</div>
+      <div
+        className={styles["country-name"]}
+        style={{
+          backgroundImage: `linear-gradient(90deg, white, transparent),url("${flag.svg}")`,
+        }}
+      >
+        {name}
+      </div>
       <div className={styles["country-infos-container"]}>
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
