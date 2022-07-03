@@ -35,7 +35,7 @@ const CountryInfo = () => {
               {new Intl.NumberFormat("en-UK", {
                 style: "unit",
                 unit: "kilometer",
-              }).format(area)}{" "}
+              }).format(area)}
               <sup>2</sup>
             </span>
           </div>
