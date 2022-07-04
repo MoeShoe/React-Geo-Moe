@@ -17,7 +17,7 @@ const CountryInfo = () => {
           exitActive: styles["country-name-exit"],
           exitDone: styles["country-name-exit-done"],
         }}
-        timeout={300}
+        timeout={250}
       >
         <div
           className={styles["country-name"]}
