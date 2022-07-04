@@ -2,6 +2,7 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 //initial states
 const countryInitialState = {
+  isLoading: false,
   country: {
     area: null,
     borderingCountries: [],
@@ -48,8 +49,9 @@ const countrySlice = createSlice({
         currency,
         language,
       };
-
-      console.log(countryInitialData);
+    },
+    toggleLoadingState(state, action) {
+      state.isLoading = action.payload;
     },
   },
 });
@@ -66,16 +68,29 @@ export const countryActions = countrySlice.actions;
 export const fetchCountryData = (countryName) => {
   return async (dispatch) => {
     try {
+      const waitAnimationPromise = waitAnimation();
+      dispatch(countryActions.toggleLoadingState(true));
       const initialFetch = await fetch(
         `https://restcountries.com/v3.1/name/${countryName}`
       );
       if (!initialFetch.ok) throw new Error("this is not a country!");
       const [countryData] = await initialFetch.json();
       dispatch(countryActions.setCountry(countryData));
+      await waitAnimationPromise;
     } catch (err) {
       console.error(err.message);
+    } finally {
+      dispatch(countryActions.toggleLoadingState(false));
     }
   };
 };
 
 export default store;
+
+//! remove this from here later!
+//helper
+
+const waitAnimation = () =>
+  new Promise((res) => {
+    setTimeout(() => res(), 450);
+  });

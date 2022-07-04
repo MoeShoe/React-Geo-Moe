@@ -7,9 +7,25 @@
   font-size: 35px;
   height: 40%;
   font-weight: 700;
+  background-position: -650px;
   background-repeat: no-repeat;
-  background-position: right;
   background-size: 100%;
+  transition: background-position 300ms;
+}
+
+.country-name-enter {
+  background-position: -650px;
+}
+.country-name-enter-done {
+  background-position: center;
+}
+.country-name-exit {
+  background-position: 500px;
+}
+.country-name-exit-done {
+  background-image: none !important;
+  transition: none !important;
+  background-position: -650px;
 }
 
 .country-infos-container {
@@ -18,9 +34,6 @@
   align-items: center;
   justify-content: space-evenly;
 }
-
-/* .info-column {
-} */
 
 .info-column {
   width: 50%;

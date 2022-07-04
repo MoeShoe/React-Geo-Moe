@@ -1,20 +1,35 @@
 import { useSelector } from "react-redux";
+import { CSSTransition } from "react-transition-group";
 
 import styles from "./CountryInfo.module.css";
 
 const CountryInfo = () => {
+  const isLoading = useSelector((state) => state.isLoading);
   const { population, area, region, name, capital, currency, language, flag } =
     useSelector((state) => state.country);
   return (
     <>
-      <div
-        className={styles["country-name"]}
-        style={{
-          backgroundImage: `linear-gradient(90deg, white, transparent),url("${flag.svg}")`,
+      <CSSTransition
+        in={!isLoading && !!flag.svg}
+        classNames={{
+          enterActive: styles["country-name-enter"],
+          enterDone: styles["country-name-enter-done"],
+          exitActive: styles["country-name-exit"],
+          exitDone: styles["country-name-exit-done"],
         }}
+        timeout={300}
       >
-        {name}
-      </div>
+        <div
+          className={styles["country-name"]}
+          style={{
+            backgroundImage: `linear-gradient(90deg, white, transparent), ${` ${
+              flag.svg && `url(${flag.svg})`
+            }`}`,
+          }}
+        >
+          {name}
+        </div>
+      </CSSTransition>
       <div className={styles["country-infos-container"]}>
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
