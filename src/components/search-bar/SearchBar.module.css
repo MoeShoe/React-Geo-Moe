@@ -5,6 +5,7 @@
 }
 
 .search-bar {
+  position: relative;
   border-radius: 20px;
   width: 450px;
   font-size: 17px;
@@ -22,4 +23,27 @@
 .search-bar-error {
   outline: solid 1px red;
   border: solid 0.5px red;
+  animation: search-bar-unvalid 175ms 2;
+}
+
+@keyframes search-bar-unvalid {
+  0% {
+    right: 0;
+  }
+
+  25% {
+    right: 10px;
+  }
+
+  50% {
+    right: 0;
+  }
+
+  75% {
+    right: -10px;
+  }
+
+  100% {
+    right: 0;
+  }
 }

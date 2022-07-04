@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./SearchBar.module.css";
 import { fetchCountryData } from "../../store/store";
+import { countryActions } from "../../store/store";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const SearchBar = () => {
 
     dispatch(fetchCountryData(country));
     setCountry("");
+    dispatch(countryActions.setIsNotCountry(false));
   };
 
   return (
