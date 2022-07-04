@@ -9,8 +9,16 @@
   width: 450px;
   font-size: 17px;
   padding: 12px;
+  padding-left: 40px;
   border: solid 0.5px rgba(0, 0, 0, 0.5);
+  background: url("../../assets/search-bar-icon.png") 5px 50% no-repeat;
+  background-size: 35px;
 }
 .search-bar:focus {
   outline: solid 1px rgba(0, 0, 0, 0.8);
+}
+
+.search-bar-error {
+  outline: solid 1px red;
+  border: solid 0.5px red;
 }

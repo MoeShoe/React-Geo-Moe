@@ -3,6 +3,7 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 //initial states
 const countryInitialState = {
   isLoading: false,
+  isNotCountry: false,
   country: {
     area: null,
     borderingCountries: [],
@@ -50,8 +51,11 @@ const countrySlice = createSlice({
         language,
       };
     },
-    toggleLoadingState(state, action) {
+    setLoadingState(state, action) {
       state.isLoading = action.payload;
+    },
+    setIsNotCountry(state, action) {
+      state.isNotCountry = action.payload;
     },
   },
 });
@@ -69,18 +73,29 @@ export const fetchCountryData = (countryName) => {
   return async (dispatch) => {
     try {
       const waitAnimationPromise = waitAnimation();
-      dispatch(countryActions.toggleLoadingState(true));
+      dispatch(countryActions.setLoadingState(true));
       const initialFetch = await fetch(
         `https://restcountries.com/v3.1/name/${countryName}`
       );
-      if (!initialFetch.ok) throw new Error("this is not a country!");
+      if (!initialFetch.ok) {
+        await waitAnimationPromise;
+        throw new Error("NOT_COUNTRY");
+      }
       const [countryData] = await initialFetch.json();
       dispatch(countryActions.setCountry(countryData));
+      dispatch(countryActions.setIsNotCountry(false));
       await waitAnimationPromise;
     } catch (err) {
+      //* queried country is not a country error handling
+      if (err.message === "NOT_COUNTRY") {
+        dispatch(countryActions.setIsNotCountry(true));
+        return;
+      }
+
+      //* generic error handling for now ...
       console.error(err.message);
     } finally {
-      dispatch(countryActions.toggleLoadingState(false));
+      dispatch(countryActions.setLoadingState(false));
     }
   };
 };
