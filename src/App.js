@@ -8,7 +8,7 @@ function App() {
   return (
     <div className={styles["main-app-container"]}>
       <SearchBar />
-      <div className={styles["country-main-container"]}>
+      <div className={styles["country-main-infos-container"]}>
         <Card className={styles["country-info-container"]}>
           <CountryInfo />
         </Card>

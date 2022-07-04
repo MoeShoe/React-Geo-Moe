@@ -10,21 +10,25 @@
   background-position: -650px;
   background-repeat: no-repeat;
   background-size: 100%;
-  transition: background-position 300ms;
+  transition: background-position 300ms, color 250ms;
 }
 
 .country-name-enter {
   background-position: -650px;
+  color: transparent;
 }
 .country-name-enter-done {
   background-position: center;
+  color: black;
 }
 .country-name-exit {
   background-position: 500px;
+  color: transparent;
 }
 .country-name-exit-done {
   background-image: none !important;
   transition: none !important;
+  color: transparent;
   background-position: -650px;
 }
 
