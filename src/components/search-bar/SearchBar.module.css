@@ -12,6 +12,7 @@
   padding-left: 40px;
   border: solid 0.5px rgba(0, 0, 0, 0.5);
   background: url("../../assets/search-bar-icon.png") 5px 50% no-repeat;
+  background-color: white;
   background-size: 35px;
 }
 .search-bar:focus {

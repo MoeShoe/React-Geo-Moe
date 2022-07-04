@@ -11,7 +11,7 @@
   background-position: -650px;
   background-repeat: no-repeat;
   background-size: 100%;
-  transition: background-position 300ms, color 250ms;
+  transition: background-position 200ms ease-in, color 200ms;
 }
 
 .country-name-enter {
@@ -23,7 +23,7 @@
   color: black;
 }
 .country-name-exit {
-  background-position: 500px;
+  background-position: 800px;
   color: transparent;
 }
 .country-name-exit-done {
