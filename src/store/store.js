@@ -14,6 +14,8 @@ const countryInitialState = {
     name: null,
     population: null,
     subregion: null,
+    latlng: [30, 20],
+    zoomLevel: 5,
   },
 };
 
@@ -24,17 +26,17 @@ const countrySlice = createSlice({
   reducers: {
     setCountry(state, action) {
       const countryInitialData = action.payload;
-      console.log(countryInitialData);
       // formatting data
       const {
         population,
         area,
+        latlng,
         flags: flag,
         borders: borderingCountries,
         subregion: region,
       } = countryInitialData;
       const name = countryInitialData.name?.common;
-      const capital = countryInitialData.capital?.at(0);
+      const capital = countryInitialData.capital?.at(0) || name;
       const currency = Object.values(countryInitialData.currencies)?.at(0);
       const language = Object.values(countryInitialData.languages)?.at(0);
 
@@ -49,6 +51,7 @@ const countrySlice = createSlice({
         capital,
         currency,
         language,
+        latlng,
       };
     },
 
@@ -77,8 +80,10 @@ export const fetchCountryData = (countryName) => {
       const waitAnimationPromise = waitAnimation();
       dispatch(countryActions.setLoadingState(true));
       const initialFetch = await fetch(
-        `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages`
+        `https://restcountries.com/v3.1/name/${countryName}`
       );
+
+      // ?fields=name,area,population,flags,borders,subregion,capital,currencies,languages
 
       if (!initialFetch.ok) {
         await waitAnimationPromise;
@@ -86,6 +91,8 @@ export const fetchCountryData = (countryName) => {
       }
 
       let countryData = await initialFetch.json();
+
+      console.log(countryData);
 
       // guard clause in case we get multiple results
       if (countryData.length > 1)
