@@ -33,10 +33,10 @@ const countrySlice = createSlice({
         borders: borderingCountries,
         subregion: region,
       } = countryInitialData;
-      const name = countryInitialData.name.common;
+      const name = countryInitialData.name?.common;
       const capital = countryInitialData.capital?.at(0);
-      const currency = Object.values(countryInitialData.currencies).at(0);
-      const language = Object.values(countryInitialData.languages).at(0);
+      const currency = Object.values(countryInitialData.currencies)?.at(0);
+      const language = Object.values(countryInitialData.languages)?.at(0);
 
       //updating state
       state.country = {
@@ -51,9 +51,11 @@ const countrySlice = createSlice({
         language,
       };
     },
+
     setLoadingState(state, action) {
       state.isLoading = action.payload;
     },
+
     setIsNotCountry(state, action) {
       state.isNotCountry = action.payload;
     },
@@ -75,7 +77,7 @@ export const fetchCountryData = (countryName) => {
       const waitAnimationPromise = waitAnimation();
       dispatch(countryActions.setLoadingState(true));
       const initialFetch = await fetch(
-        `https://restcountries.com/v3.1/name/${countryName}`
+        `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages`
       );
 
       if (!initialFetch.ok) {
