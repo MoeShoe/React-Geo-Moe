@@ -24,6 +24,7 @@ const countrySlice = createSlice({
   reducers: {
     setCountry(state, action) {
       const countryInitialData = action.payload;
+      console.log(countryInitialData);
       // formatting data
       const {
         population,
@@ -33,7 +34,7 @@ const countrySlice = createSlice({
         subregion: region,
       } = countryInitialData;
       const name = countryInitialData.name.common;
-      const capital = countryInitialData.capital.at(0);
+      const capital = countryInitialData.capital?.at(0);
       const currency = Object.values(countryInitialData.currencies).at(0);
       const language = Object.values(countryInitialData.languages).at(0);
 
@@ -76,13 +77,24 @@ export const fetchCountryData = (countryName) => {
       const initialFetch = await fetch(
         `https://restcountries.com/v3.1/name/${countryName}`
       );
+
       if (!initialFetch.ok) {
         await waitAnimationPromise;
         throw new Error("NOT_COUNTRY");
       }
-      const [countryData] = await initialFetch.json();
-      dispatch(countryActions.setCountry(countryData));
+
+      let countryData = await initialFetch.json();
+
+      // guard clause in case we get multiple results
+      if (countryData.length > 1)
+        countryData = countryData.filter(
+          (country) => country.name.official === countryName
+        );
+
+      dispatch(countryActions.setCountry(countryData.at(0)));
       dispatch(countryActions.setIsNotCountry(false));
+
+      //waits for the animation to finish
       await waitAnimationPromise;
     } catch (err) {
       //* queried country is not a country error handling
