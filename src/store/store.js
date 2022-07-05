@@ -24,7 +24,6 @@ const countrySlice = createSlice({
   reducers: {
     setCountry(state, action) {
       const countryInitialData = action.payload;
-
       // formatting data
       const {
         population,
