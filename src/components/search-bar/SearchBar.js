@@ -6,6 +6,10 @@ import { fetchCountryData } from "../../store/store";
 import { countryActions } from "../../store/store";
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
 
+let autoFillCountry,
+  hiddenAutoFillCountry,
+  visibleAutoFillCountry = "";
+
 const SearchBar = () => {
   const dispatch = useDispatch();
 
@@ -15,8 +19,34 @@ const SearchBar = () => {
   const [country, setCountry] = useState("");
 
   const searchInputChangeHandler = (e) => {
-    if (isLoading) return;
+    if (isLoading || e.target.value.length === 25) return;
     setCountry(e.target.value);
+
+    //*Search input autofill
+
+    //Guard Clause
+    if (e.target.value.trim().length === 0) {
+      visibleAutoFillCountry = hiddenAutoFillCountry = autoFillCountry = "";
+      return;
+    }
+
+    const queriedCountry = e.target.value.trimStart().toLowerCase();
+
+    const autoFillTarget = COUNTRY_NAMES_LIST.find((countryName) =>
+      countryName.common.toLowerCase().startsWith(queriedCountry)
+    );
+
+    // grab the country's official name
+    /* we need to query by the official full name of the country because of unwanted 
+    or multiple results when querying by the common name (ex: india, iran) */
+    autoFillCountry = autoFillTarget?.official || "";
+
+    // set the hidden autofill part
+    hiddenAutoFillCountry = e.target.value;
+
+    // set the visible autofill part
+    visibleAutoFillCountry =
+      autoFillTarget?.common.slice(queriedCountry.length) || "";
   };
 
   const searchSubmitHandler = (e) => {
@@ -28,33 +58,33 @@ const SearchBar = () => {
     //TODO expand form control
     if (queriedCountry.length === 0) return;
 
-    /* i had to add this extra step because of the API sometimes returning multiple countries
-     or returning the wrong country.(ex: comment this out and query iran or india :)) */
-    const potentialTargetCountry = COUNTRY_NAMES_LIST.find(
-      (countryName) => countryName.common.toLowerCase() === queriedCountry
-    );
-
     // reset the error state
     dispatch(countryActions.setIsNotCountry(false));
 
     // contact the API and return the queried country
-    dispatch(
-      fetchCountryData(potentialTargetCountry?.official || queriedCountry)
-    );
+    dispatch(fetchCountryData(autoFillCountry || queriedCountry));
 
     // reset the search input
     setCountry("");
+    autoFillCountry = visibleAutoFillCountry = hiddenAutoFillCountry = "";
   };
 
   return (
     <div className={styles["search-bar-container"]}>
+      <div className={`${styles["search-bar"]} ${styles["ghost-search-bar"]}`}>
+        <span className={styles["hidden-autofill"]}>
+          {hiddenAutoFillCountry}
+        </span>
+        <span>{visibleAutoFillCountry}</span>
+      </div>
       <form onSubmit={searchSubmitHandler} autoComplete="off">
         <input
-          className={`${styles["search-bar"]} ${
+          className={`${styles["search-bar"]} ${styles["real-search-bar"]} ${
             isNotCountry && styles["search-bar-error"]
           }`}
           value={country}
           onChange={searchInputChangeHandler}
+          placeholder={!isLoading ? "Search a Country!" : "Loading..."}
         />
       </form>
     </div>

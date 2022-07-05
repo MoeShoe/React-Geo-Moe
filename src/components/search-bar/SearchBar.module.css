@@ -5,24 +5,43 @@
 }
 
 .search-bar {
-  position: relative;
   border-radius: 20px;
   width: 450px;
   font-size: 17px;
   padding: 12px;
   padding-left: 40px;
-  border: solid 0.5px rgba(0, 0, 0, 0.5);
-  background: url("../../assets/search-bar-icon.png") 5px 50% no-repeat;
-  background-color: white;
-  background-size: 35px;
-}
-.search-bar:focus {
-  outline: solid 1px rgba(0, 0, 0, 0.8);
 }
 
-.search-bar-error {
+.real-search-bar {
+  position: relative;
+  border: solid 1px black;
+  background: url("../../assets/search-bar-icon.png") 5px 50% no-repeat;
+  background-color: rgb(255, 255, 255, 0.5);
+  background-size: 35px;
+}
+
+.real-search-bar:focus {
+  outline: solid 1px black;
+}
+
+.ghost-search-bar {
+  position: absolute;
+  border: solid 1px transparent;
+  outline: none;
+  background-color: white;
+  min-height: 49px;
+}
+
+.ghost-search-bar .hidden-autofill {
+  white-space: pre;
+  color: transparent;
+}
+
+.search-bar-error,
+.search-bar-error:hover,
+.search-bar-error:focus {
   outline: solid 1px red;
-  border: solid 0.5px red;
+  border: solid 1px red !important;
   animation: search-bar-unvalid 175ms 2;
 }
 
