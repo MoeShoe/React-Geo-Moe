@@ -1,0 +1,1 @@
+export const COUNTRY_INFO_ANIMATION_TIME = 450;

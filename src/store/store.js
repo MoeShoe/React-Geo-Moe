@@ -1,6 +1,11 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-//initial states
+import { waitAnimation } from "../helpers/animation-helpers";
+import { calcZoomLevel } from "../helpers/map-helpers";
+
+import { COUNTRY_INFO_ANIMATION_TIME } from "../constants/ANIMATION_CONSTANTS";
+
+//*initial states
 const countryInitialState = {
   isLoading: false,
   isNotCountry: false,
@@ -8,9 +13,9 @@ const countryInitialState = {
     area: null,
     borderingCountries: [],
     capital: null,
-    currency: { name: null, symbol: null },
+    currencies: [{ name: null, symbol: null }],
     flag: { png: null, svg: null },
-    language: null,
+    languages: [],
     name: null,
     population: null,
     subregion: null,
@@ -19,26 +24,13 @@ const countryInitialState = {
   },
 };
 
-// slices
+//*slices
 const countrySlice = createSlice({
   name: "country",
   initialState: countryInitialState,
   reducers: {
     setCountry(state, action) {
       const countryInitialData = action.payload;
-
-      //helper function
-      //!get this out of here
-      const calcZoomLevel = ($area) => {
-        if ($area < 150) return 12;
-        if ($area < 1_000) return 11;
-        if ($area < 5_000) return 9;
-        if ($area < 30_000) return 8;
-        if ($area < 200_000) return 7;
-        if ($area < 1_000_000) return 6;
-        if ($area < 5_000_000) return 5;
-        return 4;
-      };
 
       // formatting data
       const {
@@ -50,8 +42,8 @@ const countrySlice = createSlice({
       } = countryInitialData;
       const name = countryInitialData.name?.common;
       const capital = countryInitialData.capital?.at(0) || name;
-      const currency = Object.values(countryInitialData.currencies)?.at(0);
-      const language = Object.values(countryInitialData.languages)?.at(0);
+      const languages = Object.values(countryInitialData.languages);
+      const currencies = Object.values(countryInitialData.currencies);
       const zoomLevel = calcZoomLevel(area);
       const latlng =
         zoomLevel !== 4
@@ -62,15 +54,15 @@ const countrySlice = createSlice({
       state.country = {
         population,
         area,
+        currencies,
+        languages,
         flag,
         borderingCountries,
         region,
         name,
         capital,
-        currency,
-        language,
-        latlng,
         zoomLevel,
+        latlng,
       };
     },
 
@@ -84,25 +76,26 @@ const countrySlice = createSlice({
   },
 });
 
-//store
+//*store
 const store = configureStore({
   reducer: countrySlice.reducer,
 });
 
-//Actions
+//*Actions
 export const countryActions = countrySlice.actions;
 
-//Thunks
+//*Thunks
 export const fetchCountryData = (countryName) => {
   return async (dispatch) => {
     try {
-      const waitAnimationPromise = waitAnimation();
-      dispatch(countryActions.setLoadingState(true));
-      const initialFetch = await fetch(
-        `https://restcountries.com/v3.1/name/${countryName}`
-      );
+      // creates a promise that waits for the animation to finish to resolve
+      const waitAnimationPromise = waitAnimation(COUNTRY_INFO_ANIMATION_TIME);
 
-      // ?fields=name,area,population,flags,borders,subregion,capital,currencies,languages
+      dispatch(countryActions.setLoadingState(true));
+
+      const initialFetch = await fetch(
+        `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages,latlng,capitalInfo`
+      );
 
       if (!initialFetch.ok) {
         await waitAnimationPromise;
@@ -110,8 +103,6 @@ export const fetchCountryData = (countryName) => {
       }
 
       let countryData = await initialFetch.json();
-
-      console.log(countryData);
 
       // guard clause in case we get multiple results
       if (countryData.length > 1)
@@ -134,17 +125,10 @@ export const fetchCountryData = (countryName) => {
       //* generic error handling for now ...
       console.error(err.message);
     } finally {
+      // only happens once the animation is finished
       dispatch(countryActions.setLoadingState(false));
     }
   };
 };
 
 export default store;
-
-//! remove this from here later!
-//helper
-
-const waitAnimation = () =>
-  new Promise((res) => {
-    setTimeout(() => res(), 450);
-  });

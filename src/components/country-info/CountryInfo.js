@@ -5,8 +5,16 @@ import styles from "./CountryInfo.module.css";
 
 const CountryInfo = () => {
   const isLoading = useSelector((state) => state.isLoading);
-  const { population, area, region, name, capital, currency, language, flag } =
-    useSelector((state) => state.country);
+  const {
+    population,
+    area,
+    region,
+    name,
+    capital,
+    currencies,
+    languages,
+    flag,
+  } = useSelector((state) => state.country);
   return (
     <>
       <CSSTransition
@@ -38,13 +46,19 @@ const CountryInfo = () => {
           </div>
 
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Language:</span>{" "}
-            <span>{language}</span>
+            <span className={styles["info-field"]}>Languages:</span>{" "}
+            {languages.map((lang, i, arr) => (
+              <span key={i}>{`${i > 0 ? ", " : ""}${lang}${
+                arr.length - i === 1 ? "." : ""
+              }`}</span>
+            ))}
           </div>
 
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Currency:</span>{" "}
-            <span>{`${currency.name} (${currency.symbol})`}</span>
+            <span className={styles["info-field"]}>Currencies:</span>{" "}
+            {currencies.map((cur, i) => (
+              <span key={i}>{cur.name && `${cur.name} (${cur.symbol}) `}</span>
+            ))}
           </div>
         </div>
         <div className={styles["info-column"]}>

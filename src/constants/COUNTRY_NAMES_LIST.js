@@ -21,6 +21,10 @@ const COUNTRY_NAMES_LIST = [
       "Macao Special Administrative Region of the People's Republic of China",
   },
   {
+    common: "Niger",
+    official: "Republic of Niger",
+  },
+  {
     common: "Nigeria",
     official: "Federal Republic of Nigeria",
   },
@@ -371,10 +375,6 @@ const COUNTRY_NAMES_LIST = [
   {
     common: "Poland",
     official: "Republic of Poland",
-  },
-  {
-    common: "Niger",
-    official: "Republic of Niger",
   },
   {
     common: "Greece",
