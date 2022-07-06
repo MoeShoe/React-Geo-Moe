@@ -177,6 +177,10 @@ const COUNTRY_NAMES_LIST = [
     official: "Commonwealth of the Bahamas",
   },
   {
+    common: "Mali",
+    official: "Republic of Mali",
+  },
+  {
     common: "Maldives",
     official: "Republic of the Maldives",
   },
@@ -673,10 +677,7 @@ const COUNTRY_NAMES_LIST = [
     common: "Portugal",
     official: "Portuguese Republic",
   },
-  {
-    common: "Mali",
-    official: "Republic of Mali",
-  },
+
   {
     common: "Cook Islands",
     official: "Cook Islands",

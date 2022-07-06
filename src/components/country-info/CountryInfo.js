@@ -7,7 +7,7 @@ const CountryInfo = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
 
   const {
-    population,
+    population: $population,
     area,
     region,
     name,
@@ -16,6 +16,12 @@ const CountryInfo = () => {
     languages,
     flag,
   } = useSelector((state) => state.country.country);
+
+  //format population
+  const population =
+    $population / 1_000_000 < 1_000
+      ? `${($population / 1_000_000).toFixed(2)} M`
+      : `${($population / 1_000_000_000).toFixed(2)} B`;
 
   return (
     <>
@@ -66,7 +72,7 @@ const CountryInfo = () => {
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>Population:</span>{" "}
-            <span>{`${(population / 1_000_000).toFixed(2)} M`}</span>
+            <span>{population}</span>
           </div>
 
           <div className={styles["info-row"]}>
