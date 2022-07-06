@@ -41,6 +41,10 @@ const COUNTRY_NAMES_LIST = [
     official: "Republic of Liberia",
   },
   {
+    common: "Dominican Republic",
+    official: "Dominican Republic",
+  },
+  {
     common: "Dominica",
     official: "Commonwealth of Dominica",
   },
@@ -930,10 +934,7 @@ const COUNTRY_NAMES_LIST = [
     common: "Åland Islands",
     official: "Åland Islands",
   },
-  {
-    common: "Dominican Republic",
-    official: "Dominican Republic",
-  },
+
   {
     common: "Tokelau",
     official: "Tokelau",

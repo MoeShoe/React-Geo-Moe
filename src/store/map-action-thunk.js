@@ -24,9 +24,16 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
 
     // this step is added to improve compatibility between the two different APIs
     if (locationData.country) {
-      const [targetCountry] = COUNTRY_NAMES_LIST.filter((con) =>
-        locationData.country.startsWith(con.common)
+      let [targetCountry] = COUNTRY_NAMES_LIST.filter(
+        (con) =>
+          locationData.country.toLowerCase() === con.common.toLocaleLowerCase()
       );
+      if (!targetCountry) {
+        [targetCountry] = COUNTRY_NAMES_LIST.filter((con) =>
+          locationData.country.startsWith(con.common)
+        );
+      }
+
       dispatch(
         fetchCountryData(targetCountry?.official || locationData.country)
       );

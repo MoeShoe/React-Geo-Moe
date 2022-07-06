@@ -39,6 +39,12 @@ const Map = () => {
 
     //adds event listener for use clicks on map
     map.on("click", updatePinOnMap);
+  }, [dispatch]);
+
+  //* creates pin with message on where the user clicked on the map
+  useEffect(() => {
+    //adds the pop up
+    if (!pinMessage) return;
 
     //adds click me pop up on the map after 5s
     // setTimeout(
@@ -49,12 +55,7 @@ const Map = () => {
     //       .openOn(map),
     //   5_000
     // );
-  }, [dispatch]);
 
-  //* creates pin with message on where the user clicked on the map
-  useEffect(() => {
-    //adds the pop up
-    if (!pinMessage) return;
     const message = !pinIsLoading ? pinMessage : "🌎 Loading...";
     L.popup().setLatLng(userClickLatlng).setContent(message).openOn(map);
   }, [pinMessage, userClickLatlng, pinIsLoading]);

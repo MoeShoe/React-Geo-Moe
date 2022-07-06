@@ -27,11 +27,12 @@ const fetchCountryData = (countryName) => {
 
       let data = await initialFetch.json();
 
-      console.log(data);
-
       // guard clause in case we get multiple results
       if (data.length > 1)
-        data = data.filter((country) => country.name.official === countryName);
+        data = data.filter(
+          (country) =>
+            country.name.official.toLowerCase() === countryName.toLowerCase()
+        );
 
       //setup data for dispatch
       const [{ latlng, capitalInfo, ...countryData }] = data;
