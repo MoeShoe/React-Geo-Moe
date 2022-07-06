@@ -15,7 +15,7 @@ const countryInitialState = {
     population: null,
     subregion: null,
     latlng: [30, 20],
-    zoomLevel: 5,
+    zoomLevel: 4,
   },
 };
 
@@ -26,11 +26,24 @@ const countrySlice = createSlice({
   reducers: {
     setCountry(state, action) {
       const countryInitialData = action.payload;
+
+      //helper function
+      //!get this out of here
+      const calcZoomLevel = ($area) => {
+        if ($area < 150) return 12;
+        if ($area < 1_000) return 11;
+        if ($area < 5_000) return 9;
+        if ($area < 30_000) return 8;
+        if ($area < 200_000) return 7;
+        if ($area < 1_000_000) return 6;
+        if ($area < 5_000_000) return 5;
+        return 4;
+      };
+
       // formatting data
       const {
         population,
         area,
-        latlng,
         flags: flag,
         borders: borderingCountries,
         subregion: region,
@@ -39,6 +52,11 @@ const countrySlice = createSlice({
       const capital = countryInitialData.capital?.at(0) || name;
       const currency = Object.values(countryInitialData.currencies)?.at(0);
       const language = Object.values(countryInitialData.languages)?.at(0);
+      const zoomLevel = calcZoomLevel(area);
+      const latlng =
+        zoomLevel !== 4
+          ? countryInitialData.latlng
+          : countryInitialData.capitalInfo.latlng;
 
       //updating state
       state.country = {
@@ -52,6 +70,7 @@ const countrySlice = createSlice({
         currency,
         language,
         latlng,
+        zoomLevel,
       };
     },
 
