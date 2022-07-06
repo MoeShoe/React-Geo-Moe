@@ -622,6 +622,10 @@ const COUNTRY_NAMES_LIST = [
     official: "Republic of Senegal",
   },
   {
+    common: "United States",
+    official: "United States of America",
+  },
+  {
     common: "United States Virgin Islands",
     official: "Virgin Islands of the United States",
   },
@@ -660,10 +664,6 @@ const COUNTRY_NAMES_LIST = [
   {
     common: "Malawi",
     official: "Republic of Malawi",
-  },
-  {
-    common: "United States",
-    official: "United States of America",
   },
   {
     common: "Panama",
