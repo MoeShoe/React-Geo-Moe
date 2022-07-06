@@ -8,6 +8,11 @@ const mapInitialState = {
     latlng: [45, 15],
     zoomLevel: 4,
   },
+  pin: {
+    pinMessage: "",
+    userClickLatlng: [],
+    pinIsLoading: false,
+  },
 };
 
 //*slices
@@ -28,6 +33,18 @@ const mapSlice = createSlice({
         latlng,
         zoomLevel,
       };
+    },
+
+    setPinMessage(state, action) {
+      state.pin.pinMessage = action.payload;
+    },
+
+    setUserClickLatlng(state, action) {
+      state.pin.userClickLatlng = action.payload;
+    },
+
+    setPinLoadingState(state, action) {
+      state.pin.pinIsLoading = action.payload;
     },
   },
 });

@@ -13,6 +13,11 @@ const Map = () => {
 
   const { latlng, zoomLevel } = useSelector((state) => state.map.map);
 
+  const { pinMessage, userClickLatlng, pinIsLoading } = useSelector(
+    (state) => state.map.pin
+  );
+
+  //* sets up our map
   useEffect(() => {
     //initializes our map
     map = L.map("map").setView([30, 20], 2);
@@ -22,6 +27,18 @@ const Map = () => {
       maxZoom: 12,
       attribution: "© OpenStreetMap",
     }).addTo(map);
+  }, []);
+
+  //* adds event listener to user clicks on map
+  useEffect(() => {
+    //updates pin message
+    const updatePinOnMap = (e) => {
+      //dispatches the latitude and longitude of where the user clicked on the map
+      dispatch(reverseGeocodeCountry(e.latlng));
+    };
+
+    //adds event listener for use clicks on map
+    map.on("click", updatePinOnMap);
 
     //adds click me pop up on the map after 5s
     // setTimeout(
@@ -32,21 +49,17 @@ const Map = () => {
     //       .openOn(map),
     //   5_000
     // );
-
-    //adds event listener for use clicks on map
-    map.on("click", (e) => {
-      //adds the pop up
-      L.popup()
-        .setLatLng(e.latlng)
-        .setContent("You' clicked on the map!")
-        .openOn(map);
-
-      console.log(e.latlng);
-      //dispatches lat lng where the user clicked
-      dispatch(reverseGeocodeCountry(e.latlng));
-    });
   }, [dispatch]);
 
+  //* creates pin with message on where the user clicked on the map
+  useEffect(() => {
+    //adds the pop up
+    if (!pinMessage) return;
+    const message = !pinIsLoading ? pinMessage : "🌎 Loading...";
+    L.popup().setLatLng(userClickLatlng).setContent(message).openOn(map);
+  }, [pinMessage, userClickLatlng, pinIsLoading]);
+
+  //* updates map on country change
   useEffect(() => {
     map.setView(latlng, zoomLevel);
   }, [latlng, zoomLevel]);
