@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./SearchBar.module.css";
-import { fetchCountryData } from "../../store/store";
-import { countryActions } from "../../store/store";
+import { fetchCountryData } from "../../store/country-slice";
+import { uiActions } from "../../store/UI-slice";
+
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
 
 let autoFillCountry,
@@ -13,8 +14,8 @@ let autoFillCountry,
 const SearchBar = () => {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector((state) => state.isLoading);
-  const isNotCountry = useSelector((state) => state.isNotCountry);
+  const isLoading = useSelector((state) => state.ui.isLoading);
+  const isNotCountry = useSelector((state) => state.ui.isNotCountry);
 
   const [country, setCountry] = useState("");
 
@@ -59,7 +60,7 @@ const SearchBar = () => {
     if (queriedCountry.length === 0) return;
 
     // reset the error state
-    dispatch(countryActions.setIsNotCountry(false));
+    dispatch(uiActions.setIsNotCountry(false));
 
     // contact the API and return the queried country
     dispatch(fetchCountryData(autoFillCountry || queriedCountry));

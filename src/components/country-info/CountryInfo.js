@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import styles from "./CountryInfo.module.css";
 
 const CountryInfo = () => {
-  const isLoading = useSelector((state) => state.isLoading);
+  const isLoading = useSelector((state) => state.ui.isLoading);
   const {
     population,
     area,
@@ -14,7 +14,7 @@ const CountryInfo = () => {
     currencies,
     languages,
     flag,
-  } = useSelector((state) => state.country);
+  } = useSelector((state) => state.country.country);
   return (
     <>
       <CSSTransition

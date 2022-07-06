@@ -10,8 +10,8 @@ let map;
 const Map = () => {
   const { latlng, zoomLevel } = useSelector((state) => {
     return {
-      latlng: state.country.latlng,
-      zoomLevel: state.country.zoomLevel,
+      latlng: state.country.country.latlng,
+      zoomLevel: state.country.country.zoomLevel,
     };
   });
 
