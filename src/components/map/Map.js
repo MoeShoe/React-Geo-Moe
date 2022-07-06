@@ -1,13 +1,16 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import styles from "./Map.module.css";
+import reverseGeocodeCountry from "../../store/map-action-thunk";
 
 let map;
 
 const Map = () => {
+  const dispatch = useDispatch();
+
   const { latlng, zoomLevel } = useSelector((state) => state.map.map);
 
   useEffect(() => {
@@ -20,21 +23,29 @@ const Map = () => {
       attribution: "© OpenStreetMap",
     }).addTo(map);
 
-    //adds click me pop up on the map
-    L.popup({ className: styles.popup })
-      .setLatLng([36, 3])
-      .setContent("Click me!")
-      .openOn(map);
+    //adds click me pop up on the map after 5s
+    // setTimeout(
+    //   () =>
+    //     L.popup({ className: styles.popup })
+    //       .setLatLng([36, 3])
+    //       .setContent("Click me!")
+    //       .openOn(map),
+    //   5_000
+    // );
 
     //adds event listener for use clicks on map
     map.on("click", (e) => {
-      console.log(e);
+      //adds the pop up
       L.popup()
         .setLatLng(e.latlng)
-        .setContent("You clicked on the map!")
+        .setContent("You' clicked on the map!")
         .openOn(map);
+
+      console.log(e.latlng);
+      //dispatches lat lng where the user clicked
+      dispatch(reverseGeocodeCountry(e.latlng));
     });
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     map.setView(latlng, zoomLevel);

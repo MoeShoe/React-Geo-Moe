@@ -59,4 +59,4 @@ const fetchCountryData = (countryName) => {
   };
 };
 
-export { fetchCountryData };
+export default fetchCountryData;
