@@ -3,6 +3,7 @@ import { waitAnimation } from "../helpers/animation-helpers";
 import { COUNTRY_INFO_ANIMATION_WAIT_TIME } from "../constants/ANIMATION_CONSTANTS";
 import { uiActions } from "./UI-slice";
 import { countryActions } from "./country-slice";
+import { mapActions } from "./map-slice";
 
 //*Thunks
 const fetchCountryData = (countryName) => {
@@ -24,15 +25,20 @@ const fetchCountryData = (countryName) => {
         throw new Error("NOT_COUNTRY");
       }
 
-      let countryData = await initialFetch.json();
+      let data = await initialFetch.json();
 
       // guard clause in case we get multiple results
-      if (countryData.length > 1)
-        countryData = countryData.filter(
-          (country) => country.name.official === countryName
-        );
+      if (data.length > 1)
+        data = data.filter((country) => country.name.official === countryName);
 
-      dispatch(countryActions.setCountry(countryData.at(0)));
+      //setup data for dispatch
+      const [{ latlng, capitalInfo, ...countryData }] = data;
+
+      //dispatch to reducers
+      dispatch(countryActions.setCountry(countryData));
+      dispatch(
+        mapActions.updateMap({ latlng, capitalInfo, area: countryData.area })
+      );
       dispatch(uiActions.setIsNotCountry(false));
 
       //waits for the animation to finish

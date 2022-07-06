@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { calcZoomLevel } from "../helpers/map-helpers";
-
 //*initial states
 const countryInitialState = {
   country: {
@@ -14,8 +12,6 @@ const countryInitialState = {
     name: null,
     population: null,
     subregion: null,
-    latlng: [30, 20],
-    zoomLevel: 4,
   },
 };
 
@@ -40,11 +36,6 @@ const countrySlice = createSlice({
       const languages = Object.values(countryInitialData.languages);
       const name = countryInitialData.name?.common;
       const capital = countryInitialData.capital?.at(0) || name;
-      const zoomLevel = calcZoomLevel(area);
-      const latlng =
-        zoomLevel !== 4
-          ? countryInitialData.latlng
-          : countryInitialData.capitalInfo.latlng;
 
       //updating state
       state.country = {
@@ -57,8 +48,6 @@ const countrySlice = createSlice({
         region,
         name,
         capital,
-        zoomLevel,
-        latlng,
       };
     },
   },

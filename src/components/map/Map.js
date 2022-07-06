@@ -8,12 +8,7 @@ import styles from "./Map.module.css";
 let map;
 
 const Map = () => {
-  const { latlng, zoomLevel } = useSelector((state) => {
-    return {
-      latlng: state.country.country.latlng,
-      zoomLevel: state.country.country.zoomLevel,
-    };
-  });
+  const { latlng, zoomLevel } = useSelector((state) => state.map.map);
 
   useEffect(() => {
     map = L.map("map").setView([30, 20], 2);
