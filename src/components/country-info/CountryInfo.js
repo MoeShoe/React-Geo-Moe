@@ -5,6 +5,7 @@ import styles from "./CountryInfo.module.css";
 
 const CountryInfo = () => {
   const isLoading = useSelector((state) => state.ui.isLoading);
+
   const {
     population,
     area,
@@ -15,6 +16,7 @@ const CountryInfo = () => {
     languages,
     flag,
   } = useSelector((state) => state.country.country);
+
   return (
     <>
       <CSSTransition

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./SearchBar.module.css";
-import { fetchCountryData } from "../../store/country-slice";
+import { fetchCountryData } from "../../store/action-thunks";
 import { uiActions } from "../../store/UI-slice";
 
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
