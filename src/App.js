@@ -3,6 +3,7 @@ import Card from "./components/UI/Card";
 import CountryInfo from "./components/country-info/CountryInfo";
 import SearchBar from "./components/search-bar/SearchBar";
 import Map from "./components/map/Map";
+import NeighbourCountriesList from "./components/neighbour-countries-list/NeighbourCountriesList";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Map />
         </Card>
       </div>
+      <NeighbourCountriesList />
     </div>
   );
 }
