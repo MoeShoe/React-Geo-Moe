@@ -1,7 +1,25 @@
 import styles from "./NeighbourCountriesList.module.css";
+import NeighbourCountry from "./NeighbourCountry";
 
 const NeighbourCountriesList = () => {
-  return <div>this is the neighbour countries list component</div>;
+  return (
+    <div className={styles["neighbours-container"]}>
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+      <NeighbourCountry />
+    </div>
+  );
 };
 
 export default NeighbourCountriesList;
