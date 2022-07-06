@@ -549,6 +549,10 @@ const COUNTRY_NAMES_LIST = [
     official: "Turks and Caicos Islands",
   },
   {
+    common: "Guinea",
+    official: "Republic of Guinea",
+  },
+  {
     common: "Equatorial Guinea",
     official: "Republic of Equatorial Guinea",
   },
@@ -992,10 +996,6 @@ const COUNTRY_NAMES_LIST = [
   {
     common: "Taiwan",
     official: "Republic of China (Taiwan)",
-  },
-  {
-    common: "Guinea",
-    official: "Republic of Guinea",
   },
   {
     common: "Finland",
