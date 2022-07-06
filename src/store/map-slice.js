@@ -5,7 +5,7 @@ import { calcZoomLevel } from "../helpers/map-helpers";
 //*Initial States
 const mapInitialState = {
   map: {
-    latlng: [30, 20],
+    latlng: [45, 15],
     zoomLevel: 4,
   },
 };
