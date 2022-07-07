@@ -1,4 +1,5 @@
 import { waitAnimation } from "../helpers/animation-helpers";
+import fetchNeighbouringCountries from "./neighbour-country-action-thunk";
 
 import { COUNTRY_INFO_ANIMATION_WAIT_TIME } from "../constants/ANIMATION_CONSTANTS";
 import { uiActions } from "./UI-slice";
@@ -35,13 +36,24 @@ const fetchCountryData = (countryName) => {
         );
 
       //setup data for dispatch
-      const [{ latlng, capitalInfo, ...countryData }] = data;
+      const [
+        { latlng, capitalInfo, borders: neighbouringCountries, ...countryData },
+      ] = data;
 
-      //dispatch to reducers
+      //*dispatch to reducers
+
+      //update Country
       dispatch(countryActions.setCountry(countryData));
+
+      //update Neighbouring Countries
+      dispatch(fetchNeighbouringCountries(neighbouringCountries));
+
+      //update Map
       dispatch(
         mapActions.updateMap({ latlng, capitalInfo, area: countryData.area })
       );
+
+      //update UI
       dispatch(uiActions.setIsNotCountry(false));
 
       //waits for the animation to finish
