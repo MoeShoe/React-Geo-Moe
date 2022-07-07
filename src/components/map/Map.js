@@ -13,8 +13,10 @@ const Map = () => {
 
   const { latlng, zoomLevel } = useSelector((state) => state.map.map);
 
-  const { pinMessage, userClickLatlng, pinIsLoading } = useSelector(
-    (state) => state.map.pin
+  const { pinMessage, userClickLatlng } = useSelector((state) => state.map.pin);
+
+  const pinIsLoading = useSelector(
+    (state) => state.ui.isLoading.mapPinIsLoading
   );
 
   //* sets up our map

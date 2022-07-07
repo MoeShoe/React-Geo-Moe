@@ -11,7 +11,6 @@ const mapInitialState = {
   pin: {
     pinMessage: "",
     userClickLatlng: [],
-    pinIsLoading: false,
   },
 };
 

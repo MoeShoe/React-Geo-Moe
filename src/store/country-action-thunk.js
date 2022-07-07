@@ -16,7 +16,7 @@ const fetchCountryData = (countryName) => {
       );
 
       //set the the loading state to true
-      dispatch(uiActions.setLoadingState(true));
+      dispatch(uiActions.setCountryLoadingState(true));
 
       //clear any previous errors
       dispatch(uiActions.setErrorVisibility(false));
@@ -74,7 +74,7 @@ const fetchCountryData = (countryName) => {
       dispatch(uiActions.setError(err.message));
     } finally {
       // only happens once the animation is finished
-      dispatch(uiActions.setLoadingState(false));
+      dispatch(uiActions.setCountryLoadingState(false));
     }
   };
 };

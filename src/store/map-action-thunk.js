@@ -9,7 +9,7 @@ import { uiActions } from "./UI-slice";
 const reverseGeocodeCountry = (latLng) => async (dispatch) => {
   try {
     // dispatches data about where the user clicked and loading state
-    dispatch(mapActions.setPinLoadingState(true));
+    dispatch(uiActions.setMapPinLoadingState(true));
     dispatch(mapActions.setUserClickLatlng([latLng.lat, latLng.lng]));
 
     // reverse geocodes the country which the user clicked on (or the area)
@@ -69,7 +69,7 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
     //Generic error handling
     dispatch(uiActions.setError("Something went wrong with the map!"));
   } finally {
-    dispatch(mapActions.setPinLoadingState(false));
+    dispatch(uiActions.setMapPinLoadingState(false));
   }
 };
 
