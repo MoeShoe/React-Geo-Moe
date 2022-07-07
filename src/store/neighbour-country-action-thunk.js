@@ -1,4 +1,5 @@
 import { neighbourCountriesActions } from "./neighbour-countries-slice";
+import { uiActions } from "./UI-slice";
 
 const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
   try {
@@ -32,13 +33,20 @@ const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
     );
   } catch (err) {
     // Error handling
-    if (err.message === "NEIGHBOUR_ERROR")
-      console.error(
-        "Something went wrong with fetching neighbouring countries!"
+    if (err.message === "NEIGHBOUR_ERROR") {
+      dispatch(
+        uiActions.setError(
+          "Something went wrong with fetching neighbouring countries!"
+        )
       );
-
+      return;
+    }
     //Generic error handling
-    console.error(err.message);
+    dispatch(
+      uiActions.setError(
+        "Something went wrong with the neighbouring countries!"
+      )
+    );
   }
 };
 

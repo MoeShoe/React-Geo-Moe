@@ -3,6 +3,7 @@ import fetchCountryData from "./country-action-thunk";
 import { GEOCODE_API_KEY } from "../constants/API_KEYS";
 import COUNTRY_NAMES_LIST from "../constants/COUNTRY_NAMES_LIST";
 import { mapActions } from "./map-slice";
+import { uiActions } from "./UI-slice";
 
 //*Thunks
 const reverseGeocodeCountry = (latLng) => async (dispatch) => {
@@ -55,13 +56,18 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
         )
       );
   } catch (err) {
+    //Error handling
     if (err.message === "GENERIC_GEOCODE_ERROR") {
-      console.error(
-        "Something went wrong with reverse geocoding the coordinates"
+      dispatch(
+        uiActions.setError(
+          "Something went wrong with reverse geocoding the coordinates"
+        )
       );
       return;
     }
-    console.error("Something went wrong!");
+
+    //Generic error handling
+    dispatch(uiActions.setError("Something went wrong with the map!"));
   } finally {
     dispatch(mapActions.setPinLoadingState(false));
   }

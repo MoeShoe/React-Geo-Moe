@@ -15,7 +15,11 @@ const fetchCountryData = (countryName) => {
         COUNTRY_INFO_ANIMATION_WAIT_TIME
       );
 
+      //set the the loading state to true
       dispatch(uiActions.setLoadingState(true));
+
+      //clear any previous errors
+      dispatch(uiActions.setErrorVisibility(false));
 
       const initialFetch = await fetch(
         `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages,latlng,capitalInfo`
