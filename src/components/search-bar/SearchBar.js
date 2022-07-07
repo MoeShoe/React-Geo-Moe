@@ -15,7 +15,7 @@ const SearchBar = () => {
   const dispatch = useDispatch();
 
   const isLoading = useSelector((state) => state.ui.isLoading.countryIsLoading);
-  const isNotCountry = useSelector((state) => state.ui.isNotCountry);
+  const isNotCountry = useSelector((state) => state.ui.error.isNotCountry);
 
   const [country, setCountry] = useState("");
 

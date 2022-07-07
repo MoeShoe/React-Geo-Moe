@@ -7,8 +7,8 @@ const uiInitialState = {
     countryIsLoading: false,
     neighboursAreLoading: false,
   },
-  isNotCountry: false,
   error: {
+    isNotCountry: false,
     displayError: false,
     errorMessage: "",
   },
@@ -32,11 +32,15 @@ const uiSlice = createSlice({
     },
 
     setIsNotCountry(state, action) {
-      state.isNotCountry = action.payload;
+      state.error.isNotCountry = action.payload;
     },
 
     setError(state, action) {
-      state.error = { displayError: true, errorMessage: action.payload };
+      state.error = {
+        ...state.error,
+        displayError: true,
+        errorMessage: action.payload,
+      };
     },
 
     setErrorVisibility(state, action) {
