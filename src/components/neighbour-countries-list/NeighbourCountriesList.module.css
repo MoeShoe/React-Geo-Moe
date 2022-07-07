@@ -6,9 +6,19 @@
   min-height: 300px;
 }
 
-.neighbour-info-text {
-  color: gray;
+.neighbour-text {
   opacity: 0.7;
   font-weight: 700;
   font-size: 30px;
+}
+
+.neighbour-info-text {
+  color: gray;
+}
+
+.neighbour-title {
+  width: 100%;
+  color: black;
+  text-align: center;
+  margin: 10px 0;
 }

@@ -17,7 +17,9 @@ const NeighbourCountriesList = () => {
   if (neighbourCountriesList.length === 0 && !countryIsQueried) {
     return (
       <div className={styles["neighbours-container"]}>
-        <span className={styles["neighbour-info-text"]}>
+        <span
+          className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
+        >
           {"* Please Query a Country *"}
         </span>
       </div>
@@ -27,7 +29,9 @@ const NeighbourCountriesList = () => {
   if (countryIsQueried && neighbourCountriesList.length === 0) {
     return (
       <div className={styles["neighbours-container"]}>
-        <span className={styles["neighbour-info-text"]}>
+        <span
+          className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
+        >
           {"* This country has no neighbours :( *"}
         </span>
       </div>
@@ -39,6 +43,11 @@ const NeighbourCountriesList = () => {
   };
   return (
     <div className={styles["neighbours-container"]}>
+      <div
+        className={`${styles["neighbour-text"]} ${styles["neighbour-title"]}`}
+      >
+        Bordering Countries
+      </div>
       {neighbourCountriesList.map((con) => (
         <NeighbourCountry
           flag={con.flags.svg}
