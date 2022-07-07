@@ -25,7 +25,8 @@ const mapSlice = createSlice({
 
       const zoomLevel = calcZoomLevel(initialMapData.area);
       const latlng =
-        zoomLevel === 4 && initialMapData.capitalInfo?.latlng.length !== 0
+        (zoomLevel === 4 || zoomLevel === 12 || zoomLevel === 11) &&
+        initialMapData.capitalInfo?.latlng.length !== 0
           ? initialMapData.capitalInfo?.latlng
           : initialMapData.latlng;
 
