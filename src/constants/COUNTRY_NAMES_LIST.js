@@ -153,7 +153,7 @@ const COUNTRY_NAMES_LIST = [
     official: "New Zealand",
   },
   {
-    common: "Republic of the Congo",
+    common: "Congo",
     official: "Republic of the Congo",
   },
   {
@@ -968,7 +968,7 @@ const COUNTRY_NAMES_LIST = [
     official: "Republic of Vanuatu",
   },
   {
-    common: "DR Congo",
+    common: "Democratic Republic of Congo",
     official: "Democratic Republic of the Congo",
   },
   {

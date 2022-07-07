@@ -20,7 +20,7 @@ const SearchBar = () => {
   const [country, setCountry] = useState("");
 
   const searchInputChangeHandler = (e) => {
-    if (isLoading || e.target.value.length === 25) return;
+    if (isLoading || e.target.value.length === 33) return;
     setCountry(e.target.value);
 
     //*Search input autofill

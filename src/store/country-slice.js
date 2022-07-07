@@ -4,7 +4,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const countryInitialState = {
   country: {
     area: null,
-    borderingCountries: [],
     capital: null,
     currencies: [{ name: null, symbol: null }],
     flag: { png: null, svg: null },
@@ -28,7 +27,6 @@ const countrySlice = createSlice({
         population,
         area,
         flags: flag,
-        borders: borderingCountries,
         subregion: region,
       } = countryInitialData;
 
@@ -44,7 +42,6 @@ const countrySlice = createSlice({
         currencies,
         languages,
         flag,
-        borderingCountries,
         region,
         name,
         capital,
