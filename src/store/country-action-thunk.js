@@ -39,6 +39,9 @@ const fetchCountryData = (countryName) => {
             country.name.official.toLowerCase() === countryName.toLowerCase()
         );
 
+      //in case filtering fails, the user must have queried something incorrect, this API is weird.
+      if (data.length !== 1) throw new Error("NOT_COUNTRY");
+
       //setup data for dispatch
       const [
         { latlng, capitalInfo, borders: neighbouringCountries, ...countryData },

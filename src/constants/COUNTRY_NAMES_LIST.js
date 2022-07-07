@@ -626,6 +626,14 @@ const COUNTRY_NAMES_LIST = [
     official: "United States of America",
   },
   {
+    common: "US",
+    official: "United States of America",
+  },
+  {
+    common: "USA",
+    official: "United States of America",
+  },
+  {
     common: "United States Virgin Islands",
     official: "Virgin Islands of the United States",
   },
