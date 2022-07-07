@@ -1,28 +1,44 @@
-const fetchNeighbouringCountries = (borderCountries) => async () => {
+import { neighbourCountriesActions } from "./neighbour-countries-slice";
+
+const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
   try {
+    if (borderCountries.length === 0) {
+      dispatch(neighbourCountriesActions.setNeighbouringCountries([]));
+      return;
+    }
+
     let apiEndPoint = "https://restcountries.com/v3.1/alpha?codes=";
 
     borderCountries.forEach((con, i, arr) => {
       apiEndPoint += `${con}${
-        arr.length - i !== 1 ? "," : "&fields=name,flag,unMember"
+        arr.length - i !== 1 ? "," : "&fields=name,flags,unMember"
       }`;
     });
 
     const initialFetch = await fetch(apiEndPoint);
+    if (!initialFetch.ok) throw new Error("NEIGHBOUR_ERROR");
     const data = await initialFetch.json();
 
-    console.log(data);
-
+    // filter the list to only sovereign? states (so it would match official lists)
     const neighbourCountriesData = data.filter(
       (con) =>
         con.unMember ||
         NON_UN_MEMBERS_SOVEREIGN_STATES.includes(con.name.official)
     );
 
-    console.log(apiEndPoint);
-    console.log(neighbourCountriesData);
+    //dispatch the list
+    dispatch(
+      neighbourCountriesActions.setNeighbouringCountries(neighbourCountriesData)
+    );
   } catch (err) {
-    console.error(err);
+    // Error handling
+    if (err.message === "NEIGHBOUR_ERROR")
+      console.error(
+        "Something went wrong with fetching neighbouring countries!"
+      );
+
+    //Generic error handling
+    console.error(err.message);
   }
 };
 

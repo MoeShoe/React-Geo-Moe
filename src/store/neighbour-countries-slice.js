@@ -12,8 +12,9 @@ const neighbourCountriesSlice = createSlice({
   name: "neighbour-countries",
   initialState: neighbourCountriesInitialState,
   reducers: {
-    setNeighbouringCountries() {
-      // update the array here
+    setNeighbouringCountries(state, action) {
+      // update the neighbouring countries here
+      state.neighbourCountries = action.payload;
     },
   },
 });
