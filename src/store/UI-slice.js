@@ -4,6 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const uiInitialState = {
   isLoading: false,
   isNotCountry: false,
+  error: {
+    displayError: false,
+    errorMessage: "",
+  },
 };
 
 //*Slice
@@ -17,6 +21,12 @@ const uiSlice = createSlice({
 
     setIsNotCountry(state, action) {
       state.isNotCountry = action.payload;
+    },
+    setError(state, action) {
+      state.error = { displayError: true, errorMessage: action.payload };
+    },
+    setErrorVisibility(state, action) {
+      state.error = { ...state.error, displayError: action.payload };
     },
   },
 });

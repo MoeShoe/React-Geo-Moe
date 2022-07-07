@@ -1,5 +1,8 @@
+import { useSelector } from "react-redux";
+
 import styles from "./App.module.css";
 import Card from "./components/UI/Card";
+import Error from "./components/UI/Error";
 import CountryInfo from "./components/country-info/CountryInfo";
 import SearchBar from "./components/search-bar/SearchBar";
 import Map from "./components/map/Map";
@@ -18,6 +21,7 @@ function App() {
         </Card>
       </div>
       <NeighbourCountriesList />
+      <Error />
     </div>
   );
 }

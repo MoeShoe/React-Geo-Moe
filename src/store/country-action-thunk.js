@@ -62,11 +62,12 @@ const fetchCountryData = (countryName) => {
       //* queried country is not a country error handling
       if (err.message === "NOT_COUNTRY") {
         dispatch(uiActions.setIsNotCountry(true));
+        dispatch(uiActions.setError(`${countryName} is not a country!`));
         return;
       }
 
-      //* generic error handling for now ...
-      console.error(err.message);
+      //* generic error handling
+      dispatch(uiActions.setError(err.message));
     } finally {
       // only happens once the animation is finished
       dispatch(uiActions.setLoadingState(false));
