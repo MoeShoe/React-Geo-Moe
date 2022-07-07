@@ -9,6 +9,8 @@ import Map from "./components/map/Map";
 import NeighbourCountriesList from "./components/neighbour-countries-list/NeighbourCountriesList";
 
 function App() {
+  const showError = useSelector((state) => state.ui.error.displayError);
+
   return (
     <div className={styles["main-app-container"]}>
       <SearchBar />
@@ -21,7 +23,7 @@ function App() {
         </Card>
       </div>
       <NeighbourCountriesList />
-      <Error />
+      {showError && <Error />}
     </div>
   );
 }

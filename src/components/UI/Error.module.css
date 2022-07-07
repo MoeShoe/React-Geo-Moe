@@ -18,12 +18,15 @@
 .error-container-enter {
   transform: translate(-50px);
 }
+
 .error-container-enter-done {
   transform: translate(0);
 }
+
 .error-container-exit {
   transform: translate(-50px);
 }
+
 .error-container-exit-done {
   transform: translate(1000px);
 }

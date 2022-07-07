@@ -2,4 +2,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  align-items: center;
+  min-height: 300px;
+}
+
+.neighbour-info-text {
+  color: gray;
+  opacity: 0.7;
+  font-weight: 700;
+  font-size: 30px;
 }

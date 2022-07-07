@@ -12,21 +12,41 @@ const NeighbourCountriesList = () => {
     (state) => state.neighbouringCountries.neighbourCountries
   );
 
+  const countryIsQueried = useSelector((state) => !!state.country.country.name);
+
+  if (neighbourCountriesList.length === 0 && !countryIsQueried) {
+    return (
+      <div className={styles["neighbours-container"]}>
+        <span className={styles["neighbour-info-text"]}>
+          {"* Please Query a Country *"}
+        </span>
+      </div>
+    );
+  }
+
+  if (countryIsQueried && neighbourCountriesList.length === 0) {
+    return (
+      <div className={styles["neighbours-container"]}>
+        <span className={styles["neighbour-info-text"]}>
+          {"* This country has no neighbours :( *"}
+        </span>
+      </div>
+    );
+  }
+
   const countryClickHandler = (countryName) => {
     dispatch(fetchCountryData(countryName));
   };
   return (
     <div className={styles["neighbours-container"]}>
-      {neighbourCountriesList.map((con) => {
-        return (
-          <NeighbourCountry
-            flag={con.flags.svg}
-            name={con.name.common}
-            key={con.name.official}
-            onCountryClick={() => countryClickHandler(con.name.official)}
-          />
-        );
-      })}
+      {neighbourCountriesList.map((con) => (
+        <NeighbourCountry
+          flag={con.flags.svg}
+          name={con.name.common}
+          key={con.name.official}
+          onCountryClick={() => countryClickHandler(con.name.official)}
+        />
+      ))}
     </div>
   );
 };
