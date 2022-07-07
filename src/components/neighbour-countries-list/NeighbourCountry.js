@@ -1,8 +1,19 @@
 import styles from "./NeighbourCountry.module.css";
 import Card from "../UI/Card";
 
-const NeighbourCountry = () => {
-  return <Card className={styles['neighbour-card']}>this is the neighbour country component</Card>;
+const NeighbourCountry = (props) => {
+  return (
+    <Card className={styles["neighbour-card"]}>
+      <img
+        src={props.flag}
+        alt={`Flag of ${props.name}`}
+        className={styles.flag}
+      />
+      <div className={styles["country-name"]}>
+        <span>{props.name}</span>
+      </div>
+    </Card>
+  );
 };
 
 export default NeighbourCountry;

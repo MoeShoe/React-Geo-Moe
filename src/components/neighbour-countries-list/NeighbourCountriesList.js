@@ -10,7 +10,13 @@ const NeighbourCountriesList = () => {
   return (
     <div className={styles["neighbours-container"]}>
       {neighbourCountriesList.map((con) => {
-        return <NeighbourCountry key={con.name.official} />;
+        return (
+          <NeighbourCountry
+            flag={con.flags.svg}
+            name={con.name.common}
+            key={con.name.official}
+          />
+        );
       })}
     </div>
   );
