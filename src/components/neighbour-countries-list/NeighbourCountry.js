@@ -3,7 +3,7 @@ import Card from "../UI/Card";
 
 const NeighbourCountry = (props) => {
   return (
-    <Card className={styles["neighbour-card"]}>
+    <Card className={styles["neighbour-card"]} onClick={props.onCountryClick}>
       <img
         src={props.flag}
         alt={`Flag of ${props.name}`}

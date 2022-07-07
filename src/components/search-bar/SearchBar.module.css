@@ -13,7 +13,6 @@
 }
 
 .real-search-bar {
-  position: relative;
   border: solid 1px black;
   background: url("../../assets/search-bar-icon.png") 5px 50% no-repeat;
   background-color: rgb(255, 255, 255, 0.5);
@@ -26,6 +25,7 @@
 
 .ghost-search-bar {
   position: absolute;
+  z-index: -1;
   border: solid 1px transparent;
   outline: none;
   background-color: white;
@@ -47,22 +47,22 @@
 
 @keyframes search-bar-unvalid {
   0% {
-    right: 0;
+    transform: translate(0);
   }
 
   25% {
-    right: 10px;
+    transform: translate(10px);
   }
 
   50% {
-    right: 0;
+    transform: translate(0);
   }
 
   75% {
-    right: -10px;
+    transform: translate(-10px);
   }
 
   100% {
-    right: 0;
+    transform: translate(0);
   }
 }

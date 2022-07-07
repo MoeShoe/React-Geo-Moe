@@ -5,6 +5,11 @@
   width: 180px;
 }
 
+.neighbour-card:hover {
+  cursor: pointer;
+  animation: card-hover-animation 1500ms infinite linear;
+}
+
 .flag {
   width: 100%;
   height: 100px;
@@ -24,4 +29,18 @@
 
 .country-name span {
   text-align: center;
+}
+
+@keyframes card-hover-animation {
+  0% {
+    transform: translate(0);
+  }
+
+  50% {
+    transform: translate(0, -5px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
 }
