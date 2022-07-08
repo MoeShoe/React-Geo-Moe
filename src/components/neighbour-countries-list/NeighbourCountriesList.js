@@ -32,7 +32,7 @@ const NeighbourCountriesList = () => {
       // added to prevent breaking the animation
       const loadingTimeout = setTimeout(
         () => setInfoTextContent("* Loading... *"),
-        250
+        500
       );
       return () => {
         clearTimeout(loadingTimeout);

@@ -23,6 +23,12 @@ const fetchCountryData = (countryName) => {
       //clear any previous errors
       dispatch(uiActions.setErrorVisibility(false));
 
+      //scroll the main container into view
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      //TODO
+      /* it sometimes randomly stops scrolling halfway, i couldn't figure out what's
+       causing this bug. will look further into it in the future */
+
       const initialFetch = await fetch(
         `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages,latlng,capitalInfo`
       );
