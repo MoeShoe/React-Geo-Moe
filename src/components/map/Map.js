@@ -6,6 +6,10 @@ import "leaflet/dist/leaflet.css";
 import styles from "./Map.module.css";
 import reverseGeocodeCountry from "../../store/map-action-thunk";
 
+//TODO
+/* find a fix to #closed being added to the URL after a pop up is closed
+ on the map or downgrade to leaflet 1.7.0 where this is not an issue*/
+
 let map;
 
 const Map = () => {

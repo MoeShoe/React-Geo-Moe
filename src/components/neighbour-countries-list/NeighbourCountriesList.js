@@ -14,6 +14,24 @@ const NeighbourCountriesList = () => {
 
   const countryIsQueried = useSelector((state) => !!state.country.country.name);
 
+  const isLoading = useSelector(
+    (state) => state.ui.isLoading.neighboursAreLoading
+  );
+
+  console.log(isLoading);
+
+  if (isLoading)
+    return (
+      <div className={styles["neighbours-container"]}>
+        {" "}
+        <span
+          className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
+        >
+          {"* Loading... *"}
+        </span>
+      </div>
+    );
+
   if (neighbourCountriesList.length === 0 && !countryIsQueried) {
     return (
       <div className={styles["neighbours-container"]}>

@@ -3,6 +3,7 @@ import { uiActions } from "./UI-slice";
 
 const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
   try {
+    dispatch(uiActions.setNeighboursAreLoading(true));
     if (borderCountries.length === 0) {
       dispatch(neighbourCountriesActions.setNeighbouringCountries([]));
       return;
@@ -47,6 +48,8 @@ const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
         "Something went wrong with the neighbouring countries!"
       )
     );
+  } finally {
+    dispatch(uiActions.setNeighboursAreLoading(false));
   }
 };
 

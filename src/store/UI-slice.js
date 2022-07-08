@@ -27,7 +27,7 @@ const uiSlice = createSlice({
       state.isLoading.mapPinIsLoading = action.payload;
     },
 
-    setNeighboursAreLoading(action, state) {
+    setNeighboursAreLoading(state, action) {
       state.isLoading.neighboursAreLoading = action.payload;
     },
 
