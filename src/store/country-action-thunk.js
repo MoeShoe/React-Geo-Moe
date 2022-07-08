@@ -15,8 +15,10 @@ const fetchCountryData = (countryName) => {
         COUNTRY_INFO_ANIMATION_WAIT_TIME
       );
 
-      //set the the loading state to true
+      //set country  loading state to true
       dispatch(uiActions.setCountryLoadingState(true));
+      //Set neighbour countries loading state to true
+      dispatch(uiActions.setNeighboursAreLoading(true));
 
       //clear any previous errors
       dispatch(uiActions.setErrorVisibility(false));

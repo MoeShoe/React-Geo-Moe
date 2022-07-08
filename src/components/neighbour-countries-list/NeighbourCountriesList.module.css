@@ -1,20 +1,43 @@
 .neighbours-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.neighbour-cards-container {
+  display: flex;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  min-height: 300px;
+  transform: translate(0, 25px);
+  opacity: 0;
+  transition: transform 250ms, opacity 250ms;
+}
+
+.neighbour-cards-container-enter {
+  transform: translate(0, 25px);
+  opacity: 0;
+}
+.neighbour-cards-container-enter-done {
+  transform: translate(0);
+  opacity: 1;
+}
+.neighbour-cards-container-exit {
+  transform: translate(0, -25px);
+  opacity: 0;
 }
 
 .neighbour-text {
   opacity: 0.7;
   font-weight: 700;
   font-size: 30px;
+  animation: text-fade-in 1s 1;
 }
 
 .neighbour-info-text {
   color: gray;
-  animation: text-fade-in 1s 1;
 }
 
 .neighbour-title {

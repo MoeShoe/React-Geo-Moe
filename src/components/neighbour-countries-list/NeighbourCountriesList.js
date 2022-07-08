@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { CSSTransition } from "react-transition-group";
 
 import fetchCountryData from "../../store/country-action-thunk";
 
@@ -18,63 +19,61 @@ const NeighbourCountriesList = () => {
     (state) => state.ui.isLoading.neighboursAreLoading
   );
 
-  console.log(isLoading);
+  let infoTextContent = "";
 
-  if (isLoading)
-    return (
-      <div className={styles["neighbours-container"]}>
-        {" "}
-        <span
-          className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
-        >
-          {"* Loading... *"}
-        </span>
-      </div>
-    );
+  if (isLoading) infoTextContent = "* Loading... *";
 
-  if (neighbourCountriesList.length === 0 && !countryIsQueried) {
-    return (
-      <div className={styles["neighbours-container"]}>
-        <span
-          className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
-        >
-          {"* Please Query a Country *"}
-        </span>
-      </div>
-    );
-  }
+  if (neighbourCountriesList.length === 0 && !countryIsQueried)
+    infoTextContent = "* Please Query a Country *";
 
-  if (countryIsQueried && neighbourCountriesList.length === 0) {
-    return (
-      <div className={styles["neighbours-container"]}>
-        <span
-          className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
-        >
-          {"* This country has no neighbours :( *"}
-        </span>
-      </div>
-    );
-  }
+  if (countryIsQueried && neighbourCountriesList.length === 0)
+    infoTextContent = "* This country has no neighbours :( *";
 
   const countryClickHandler = (countryName) => {
     dispatch(fetchCountryData(countryName));
   };
+
   return (
-    <div className={styles["neighbours-container"]}>
-      <div
-        className={`${styles["neighbour-text"]} ${styles["neighbour-title"]}`}
-      >
-        Bordering Countries
+    <>
+      {countryIsQueried && (
+        <div
+          className={`${styles["neighbour-text"]} ${styles["neighbour-title"]}`}
+        >
+          Bordering Countries
+        </div>
+      )}
+      <div className={styles["neighbours-container"]}>
+        <CSSTransition
+          in={!isLoading && !infoTextContent}
+          classNames={{
+            enterActive: styles["neighbour-cards-container-enter"],
+            enterDone: styles["neighbour-cards-container-enter-done"],
+            exitActive: styles["neighbour-cards-container-exit"],
+          }}
+          unmountOnExit
+          timeout={250}
+        >
+          <div className={styles["neighbour-cards-container"]}>
+            {neighbourCountriesList.map((con) => (
+              <NeighbourCountry
+                flag={con.flags.svg}
+                name={con.name.common}
+                onCountryClick={() => countryClickHandler(con.name.official)}
+                key={con.name.official}
+              />
+            ))}
+          </div>
+        </CSSTransition>
+
+        {infoTextContent && (
+          <span
+            className={`${styles["neighbour-text"]} ${styles["neighbour-info-text"]}`}
+          >
+            {infoTextContent}
+          </span>
+        )}
       </div>
-      {neighbourCountriesList.map((con) => (
-        <NeighbourCountry
-          flag={con.flags.svg}
-          name={con.name.common}
-          key={con.name.official}
-          onCountryClick={() => countryClickHandler(con.name.official)}
-        />
-      ))}
-    </div>
+    </>
   );
 };
 

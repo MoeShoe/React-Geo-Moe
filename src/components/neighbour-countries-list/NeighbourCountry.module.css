@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 220px;
   width: 180px;
+  transition: transform 250ms, opacity 250ms;
 }
 
 .neighbour-card:hover {

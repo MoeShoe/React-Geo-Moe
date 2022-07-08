@@ -3,7 +3,6 @@ import { uiActions } from "./UI-slice";
 
 const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
   try {
-    dispatch(uiActions.setNeighboursAreLoading(true));
     if (borderCountries.length === 0) {
       dispatch(neighbourCountriesActions.setNeighbouringCountries([]));
       return;
@@ -18,7 +17,11 @@ const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
     });
 
     const initialFetch = await fetch(apiEndPoint);
-    if (!initialFetch.ok) throw new Error("NEIGHBOUR_ERROR");
+
+    if (!initialFetch.ok) {
+      throw new Error("NEIGHBOUR_ERROR");
+    }
+
     const data = await initialFetch.json();
 
     // filter the list to only sovereign? states (so it would match official lists)
