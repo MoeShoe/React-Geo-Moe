@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
@@ -7,6 +8,8 @@ import styles from "./NeighbourCountriesList.module.css";
 import NeighbourCountry from "./NeighbourCountry";
 
 const NeighbourCountriesList = () => {
+  const [infoTextContent, setInfoTextContent] = useState("");
+
   const dispatch = useDispatch();
 
   const neighbourCountriesList = useSelector(
@@ -19,15 +22,30 @@ const NeighbourCountriesList = () => {
     (state) => state.ui.isLoading.neighboursAreLoading
   );
 
-  let infoTextContent = "";
+  useEffect(() => {
+    if (neighbourCountriesList.length === 0 && !countryIsQueried) {
+      setInfoTextContent("* Please Query a Country *");
+      return;
+    }
 
-  if (isLoading) infoTextContent = "* Loading... *";
+    if (isLoading) {
+      // added to prevent breaking the animation
+      const loadingTimeout = setTimeout(
+        () => setInfoTextContent("* Loading... *"),
+        250
+      );
+      return () => {
+        clearTimeout(loadingTimeout);
+      };
+    }
 
-  if (neighbourCountriesList.length === 0 && !countryIsQueried)
-    infoTextContent = "* Please Query a Country *";
+    if (countryIsQueried && neighbourCountriesList.length === 0 && !isLoading) {
+      setInfoTextContent("* This country has no neighbours :( *");
+      return;
+    }
 
-  if (countryIsQueried && neighbourCountriesList.length === 0)
-    infoTextContent = "* This country has no neighbours :( *";
+    setInfoTextContent("");
+  }, [neighbourCountriesList, countryIsQueried, isLoading]);
 
   const countryClickHandler = (countryName) => {
     dispatch(fetchCountryData(countryName));
