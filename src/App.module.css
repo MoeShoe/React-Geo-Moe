@@ -10,8 +10,32 @@
 
 .country-info-container {
   width: 50%;
+  animation: country-infos-fade-in 1s 1;
 }
 
 .country-map-container {
   width: 50%;
+  animation: map-fade-in 1s 1;
+}
+
+@keyframes map-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes country-infos-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
 }
