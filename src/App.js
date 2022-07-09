@@ -9,6 +9,8 @@ import SearchBar from "./components/search-bar/SearchBar";
 import Map from "./components/map/Map";
 import NeighbourCountriesList from "./components/neighbour-countries-list/NeighbourCountriesList";
 import Button from "./components/UI/Button";
+import COUNTRY_NAMES_LIST from "./constants/COUNTRY_NAMES_LIST";
+import fetchCountryData from "./store/country-action-thunk";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,10 +21,20 @@ function App() {
     dispatch(getUserGeolocation());
   };
 
+  const getRandomCountryHandler = () => {
+    const randomCountryIndex = Math.trunc(
+      Math.random() * (COUNTRY_NAMES_LIST.length + 1)
+    );
+    const randomCountry = COUNTRY_NAMES_LIST[randomCountryIndex].official;
+
+    dispatch(fetchCountryData(randomCountry));
+  };
+
   return (
     <div className={styles["main-app-container"]}>
       <SearchBar />
       <Button onClick={getUserGeolocationHander}>where am i?</Button>
+      <Button onClick={getRandomCountryHandler}>Random Country</Button>
       <div className={styles["country-main-infos-container"]}>
         <CountryInfo />
         <Map />
