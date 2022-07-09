@@ -1,3 +1,8 @@
+.country-info-container {
+  width: 50%;
+  animation: country-infos-fade-in 1s 1;
+}
+
 .country-name {
   position: relative;
   display: flex;
@@ -51,4 +56,15 @@
 
 .info-field {
   font-weight: 600;
+}
+
+@keyframes country-infos-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
 }

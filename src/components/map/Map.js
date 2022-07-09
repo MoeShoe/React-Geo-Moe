@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 
 import styles from "./Map.module.css";
 import reverseGeocodeCountry from "../../store/map-action-thunk";
+import Card from "../UI/Card";
 
 //TODO
 /* find a fix to #closed being added to the URL after a pop up is closed
@@ -71,7 +72,11 @@ const Map = () => {
     map.setView(latlng, zoomLevel);
   }, [latlng, zoomLevel]);
 
-  return <div id="map" className={styles.mapC}></div>;
+  return (
+    <Card className={styles["country-map-container"]}>
+      <div id="map" className={styles.mapC}></div>
+    </Card>
+  );
 };
 
 export default Map;

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
 import styles from "./CountryInfo.module.css";
+import Card from "../UI/Card";
 
 const CountryInfo = () => {
   const isLoading = useSelector((state) => state.ui.isLoading.countryIsLoading);
@@ -24,7 +25,7 @@ const CountryInfo = () => {
       : `${($population / 1_000_000_000).toFixed(2)} B`;
 
   return (
-    <>
+    <Card className={styles["country-info-container"]}>
       <CSSTransition
         in={!isLoading && !!flag.svg}
         classNames={{
@@ -92,7 +93,7 @@ const CountryInfo = () => {
           </div>
         </div>
       </div>
-    </>
+    </Card>
   );
 };
 
