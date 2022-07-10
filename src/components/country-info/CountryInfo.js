@@ -39,7 +39,7 @@ const CountryInfo = () => {
         <div
           className={styles["country-name"]}
           style={{
-            backgroundImage: `linear-gradient(90deg, white, transparent), ${` ${
+            backgroundImage: `linear-gradient(270deg, transparent 0%, rgba(255,255,255,0.7) 100%), ${` ${
               flag.svg && `url(${flag.svg})`
             }`}`,
           }}
@@ -50,34 +50,28 @@ const CountryInfo = () => {
       <div className={styles["country-infos-container"]}>
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Capital:</span>{" "}
+            <span className={styles["info-field"]}>Capital:</span>
             <span>{capital}</span>
           </div>
 
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Languages:</span>{" "}
-            {languages.map((lang, i, arr) => (
-              <span key={i}>{`${i > 0 ? ", " : ""}${lang}${
-                arr.length - i === 1 ? "." : ""
-              }`}</span>
-            ))}
+            <span className={styles["info-field"]}>Languages:</span>
+            <span>{languages}</span>
           </div>
 
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Currencies:</span>{" "}
-            {currencies.map((cur, i) => (
-              <span key={i}>{cur.name && `${cur.name} (${cur.symbol}) `}</span>
-            ))}
+            <span className={styles["info-field"]}>Currencies:</span>
+            <span>{currencies}</span>
           </div>
         </div>
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Population:</span>{" "}
+            <span className={styles["info-field"]}>Population:</span>
             <span>{population}</span>
           </div>
 
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Area:</span>{" "}
+            <span className={styles["info-field"]}>Area:</span>
             <span>
               {new Intl.NumberFormat("en-UK", {
                 style: "unit",
@@ -88,7 +82,7 @@ const CountryInfo = () => {
           </div>
 
           <div className={styles["info-row"]}>
-            <span className={styles["info-field"]}>Region:</span>{" "}
+            <span className={styles["info-field"]}>Region:</span>
             <span>{region}</span>
           </div>
         </div>

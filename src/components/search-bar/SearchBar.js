@@ -74,7 +74,7 @@ const SearchBar = () => {
     setCountry("");
     autoFillCountry = visibleAutoFillCountry = "";
     hiddenAutoFillCountry = "x";
-    e.target.firstChild.blur();
+    // e.target.firstChild.blur();
   };
 
   return (

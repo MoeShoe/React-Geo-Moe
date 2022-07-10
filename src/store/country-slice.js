@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { arrayToTextFormatter } from "../helpers/data-formatting-helpers";
+
 //*initial states
 const countryInitialState = {
   country: {
     area: null,
-    capital: null,
-    currencies: [{ name: null, symbol: null }],
+    capital: "",
+    currencies: "",
     flag: { png: null, svg: null },
-    languages: [],
-    name: null,
+    languages: "",
+    name: "",
     population: null,
-    subregion: null,
+    subregion: "",
   },
 };
 
@@ -23,17 +25,31 @@ const countrySlice = createSlice({
       const countryInitialData = action.payload;
 
       // formatting data
+      const currencies = Object.values(countryInitialData.currencies).reduce(
+        (acc, cur, i, arr) => {
+          if (arr.length - i === 1)
+            return (acc += `${cur.name} (${cur.symbol}).`);
+          return (acc += `${cur.name} (${cur.symbol}), `);
+        },
+        ""
+      );
+
+      const languages = arrayToTextFormatter(
+        Object.values(countryInitialData.languages)
+      );
+
+      const name = countryInitialData.name?.common;
+      const capital =
+        countryInitialData.capital?.length !== 0
+          ? arrayToTextFormatter(countryInitialData.capital)
+          : name;
+
       const {
         population,
         area,
         flags: flag,
         subregion: region,
       } = countryInitialData;
-
-      const currencies = Object.values(countryInitialData.currencies);
-      const languages = Object.values(countryInitialData.languages);
-      const name = countryInitialData.name?.common;
-      const capital = countryInitialData.capital?.at(0) || name;
 
       //updating state
       state.country = {
