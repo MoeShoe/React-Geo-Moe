@@ -1,4 +1,5 @@
 .search-bar-container {
+  position: relative;
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -10,26 +11,29 @@
   font-size: 17px;
   padding: 12px;
   padding-left: 40px;
+  border: none;
+  outline: none;
+}
+
+.search-bar:focus {
+  border: none;
+  outline: none;
 }
 
 .real-search-bar {
-  border: solid 1px black;
-  background: url("../../assets/search-bar-icon.png") 5px 50% no-repeat;
-  background-color: rgb(255, 255, 255, 0.5);
-  background-size: 35px;
-}
-
-.real-search-bar:focus {
-  outline: solid 1px black;
+  background-color: transparent;
 }
 
 .ghost-search-bar {
   position: absolute;
   z-index: -1;
-  border: solid 1px transparent;
-  outline: none;
   background-color: white;
-  min-height: 49px;
+}
+
+.ghost-search-bar::before {
+  content: "🌍";
+  position: absolute;
+  left: 13px;
 }
 
 .ghost-search-bar .hidden-autofill {
@@ -37,11 +41,14 @@
   color: transparent;
 }
 
+.ghost-search-bar .visible-autofill {
+  color: rgba(0, 0, 0, 0.5);
+}
+
 .search-bar-error,
 .search-bar-error:hover,
 .search-bar-error:focus {
-  outline: solid 1px red;
-  border: solid 1px red !important;
+  outline: solid 2px red;
   animation: search-bar-unvalid 175ms 2;
 }
 

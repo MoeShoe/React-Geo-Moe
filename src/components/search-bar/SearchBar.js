@@ -8,8 +8,11 @@ import { uiActions } from "../../store/UI-slice";
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
 
 let autoFillCountry,
-  hiddenAutoFillCountry,
   visibleAutoFillCountry = "";
+
+/* this initial value was added to prevent the input from collapsing
+ into itself and in process avoid magic numbers in min-height */
+let hiddenAutoFillCountry = "x";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -20,14 +23,14 @@ const SearchBar = () => {
   const [country, setCountry] = useState("");
 
   const searchInputChangeHandler = (e) => {
-    if (isLoading || e.target.value.length === 33) return;
     setCountry(e.target.value);
 
     //*Search input autofill
 
     //Guard Clause
     if (e.target.value.trim().length === 0) {
-      visibleAutoFillCountry = hiddenAutoFillCountry = autoFillCountry = "";
+      visibleAutoFillCountry = autoFillCountry = "";
+      hiddenAutoFillCountry = "x";
       return;
     }
 
@@ -67,28 +70,36 @@ const SearchBar = () => {
 
     // reset the search input
     setCountry("");
-    autoFillCountry = visibleAutoFillCountry = hiddenAutoFillCountry = "";
+    autoFillCountry = visibleAutoFillCountry = "";
+    hiddenAutoFillCountry = "x";
   };
 
   return (
-    <div className={styles["search-bar-container"]}>
+    <form
+      onSubmit={searchSubmitHandler}
+      autoComplete="off"
+      className={styles["search-bar-container"]}
+    >
+      {/* Real search bar */}
+      <input
+        className={`${styles["search-bar"]} ${styles["real-search-bar"]} ${
+          isNotCountry && styles["search-bar-error"]
+        }`}
+        value={country}
+        onChange={searchInputChangeHandler}
+        placeholder={!isLoading ? "Search a Country!" : "Loading..."}
+        maxLength="33"
+      />
+      {/* Fake search bar used for autofill suggestions */}
       <div className={`${styles["search-bar"]} ${styles["ghost-search-bar"]}`}>
         <span className={styles["hidden-autofill"]}>
           {hiddenAutoFillCountry}
         </span>
-        <span>{visibleAutoFillCountry}</span>
+        <span className={styles["visible-autofill"]}>
+          {visibleAutoFillCountry}
+        </span>
       </div>
-      <form onSubmit={searchSubmitHandler} autoComplete="off">
-        <input
-          className={`${styles["search-bar"]} ${styles["real-search-bar"]} ${
-            isNotCountry && styles["search-bar-error"]
-          }`}
-          value={country}
-          onChange={searchInputChangeHandler}
-          placeholder={!isLoading ? "Search a Country!" : "Loading..."}
-        />
-      </form>
-    </div>
+    </form>
   );
 };
 
