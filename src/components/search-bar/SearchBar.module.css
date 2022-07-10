@@ -1,8 +1,41 @@
+/* needed to animate linear gradient background */
+@property --degree {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
 .search-bar-container {
   position: relative;
   display: flex;
   justify-content: center;
   padding: 10px;
+}
+
+form {
+  position: relative;
+  border-radius: 20px;
+}
+
+/* used pseudo elements with extra padding to create a border because of the inability
+ to create borders with gradiant colors directly in css */
+.search-bar-loading::after {
+  content: "";
+  position: absolute;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  border-radius: 22px;
+  top: -2px;
+  left: -2px;
+  z-index: -2;
+
+  background: linear-gradient(
+    var(--degree),
+    rgba(0, 127, 255, 0) 85%,
+    rgba(0, 159, 255, 1) 100%
+  );
+
+  animation: search-bar-loading 2s infinite;
 }
 
 .search-bar {
@@ -26,8 +59,9 @@
 
 .ghost-search-bar {
   position: absolute;
-  z-index: -1;
+  top: 0;
   background-color: white;
+  z-index: -1;
 }
 
 .ghost-search-bar::before {
@@ -71,5 +105,17 @@
 
   100% {
     transform: translate(0);
+  }
+}
+
+@keyframes search-bar-loading {
+  0% {
+    --degree: 0deg;
+  }
+  50% {
+    --degree: 180deg;
+  }
+  100% {
+    --degree: 360deg;
   }
 }

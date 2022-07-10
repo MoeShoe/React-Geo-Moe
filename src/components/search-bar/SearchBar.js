@@ -23,6 +23,8 @@ const SearchBar = () => {
   const [country, setCountry] = useState("");
 
   const searchInputChangeHandler = (e) => {
+    if (isLoading) return;
+
     setCountry(e.target.value);
 
     //*Search input autofill
@@ -72,34 +74,39 @@ const SearchBar = () => {
     setCountry("");
     autoFillCountry = visibleAutoFillCountry = "";
     hiddenAutoFillCountry = "x";
+    e.target.firstChild.blur();
   };
 
   return (
-    <form
-      onSubmit={searchSubmitHandler}
-      autoComplete="off"
-      className={styles["search-bar-container"]}
-    >
-      {/* Real search bar */}
-      <input
-        className={`${styles["search-bar"]} ${styles["real-search-bar"]} ${
-          isNotCountry && styles["search-bar-error"]
-        }`}
-        value={country}
-        onChange={searchInputChangeHandler}
-        placeholder={!isLoading ? "Search a Country!" : "Loading..."}
-        maxLength="33"
-      />
-      {/* Fake search bar used for autofill suggestions */}
-      <div className={`${styles["search-bar"]} ${styles["ghost-search-bar"]}`}>
-        <span className={styles["hidden-autofill"]}>
-          {hiddenAutoFillCountry}
-        </span>
-        <span className={styles["visible-autofill"]}>
-          {visibleAutoFillCountry}
-        </span>
-      </div>
-    </form>
+    <div className={styles["search-bar-container"]}>
+      <form
+        onSubmit={searchSubmitHandler}
+        autoComplete="off"
+        className={`${isLoading && styles["search-bar-loading"]}`}
+      >
+        {/* Real search bar */}
+        <input
+          className={`${styles["search-bar"]} ${styles["real-search-bar"]} ${
+            isNotCountry && styles["search-bar-error"]
+          }`}
+          value={country}
+          onChange={searchInputChangeHandler}
+          placeholder={!isLoading ? "Search a Country!" : "Loading..."}
+          maxLength="33"
+        />
+        {/* Fake search bar used for autofill suggestions */}
+        <div
+          className={`${styles["search-bar"]} ${styles["ghost-search-bar"]}`}
+        >
+          <span className={styles["hidden-autofill"]}>
+            {hiddenAutoFillCountry}
+          </span>
+          <span className={styles["visible-autofill"]}>
+            {visibleAutoFillCountry}
+          </span>
+        </div>
+      </form>
+    </div>
   );
 };
 
