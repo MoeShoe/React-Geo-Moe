@@ -21,7 +21,7 @@ const CountryIntroduction = (props) => {
           </div>
           <div className={styles["introduction-text"]}>
             <span className={styles["text-emoji"]}>🤓</span> Become a Geography
-            buff in no time and flex your exceptional knowledge to your friends.
+            buff!
           </div>
         </div>
         <div className={styles["instruction-text"]}>

@@ -12,8 +12,12 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
 
     //set map loading state to true
     dispatch(uiActions.setMapPinLoadingState(true));
-    //set country  loading state to true
-    dispatch(uiActions.setCountryLoadingState(true));
+
+    //TODO
+    //* it introduces bugs to the animation, will figure out a fix later
+    // //set country  loading state to true
+    // dispatch(uiActions.setCountryLoadingState(true));
+
     //Set neighbour countries loading state to true
     dispatch(uiActions.setNeighboursAreLoading(true));
 
@@ -62,14 +66,14 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
             "i don't think this is a country :/ "
         )
       );
-      //set country  loading state to false
-      dispatch(uiActions.setCountryLoadingState(false));
+      // //set country  loading state to false
+      // dispatch(uiActions.setCountryLoadingState(false));
       //Set neighbour countries loading state to false
       dispatch(uiActions.setNeighboursAreLoading(false));
     }
   } catch (err) {
-    //set country  loading state to false
-    dispatch(uiActions.setCountryLoadingState(false));
+    // //set country  loading state to false
+    // dispatch(uiActions.setCountryLoadingState(false));
     //Set neighbour countries loading state to false
     dispatch(uiActions.setNeighboursAreLoading(false));
 

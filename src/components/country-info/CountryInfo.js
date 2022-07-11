@@ -43,6 +43,7 @@ const CountryInfo = () => {
         currencies={currencies}
         languages={languages}
         continent={continent}
+        isLoading={isLoading}
       />
     </Card>
   );
