@@ -30,7 +30,7 @@ const fetchCountryData = (countryName) => {
        causing this bug. will look further into it in the future */
 
       const initialFetch = await fetch(
-        `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages,latlng,capitalInfo`
+        `https://restcountries.com/v3.1/name/${countryName}?fields=name,area,population,flags,borders,subregion,capital,currencies,languages,latlng,capitalInfo,region`
       );
 
       if (!initialFetch.ok) {

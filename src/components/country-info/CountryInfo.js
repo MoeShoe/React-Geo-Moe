@@ -17,18 +17,21 @@ const CountryInfo = () => {
     currencies,
     languages,
     flag,
+    continent,
   } = useSelector((state) => state.country.country);
 
   return (
     <Card className={styles["country-info-container"]}>
       <CountryInfoHeader isLoading={isLoading} name={name.common} flag={flag} />
       <CountryInfoDetail
+        name={name.official}
         population={population}
         area={area}
         region={region}
         capital={capital}
         currencies={currencies}
         languages={languages}
+        continent={continent}
       />
     </Card>
   );

@@ -16,7 +16,9 @@ const NeighbourCountriesList = () => {
     (state) => state.neighbouringCountries.neighbourCountries
   );
 
-  const countryIsQueried = useSelector((state) => !!state.country.country.name);
+  const countryIsQueried = useSelector(
+    (state) => !!state.country.country.name.common
+  );
 
   const isLoading = useSelector(
     (state) => state.ui.isLoading.neighboursAreLoading

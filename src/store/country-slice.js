@@ -12,7 +12,8 @@ const countryInitialState = {
     languages: "",
     name: { common: "", official: "" },
     population: "",
-    subregion: "",
+    region: "",
+    continent: "",
   },
 };
 
@@ -28,8 +29,8 @@ const countrySlice = createSlice({
       const currencies = Object.values(countryInitialData.currencies).reduce(
         (acc, cur, i, arr) => {
           if (arr.length - i === 1)
-            return (acc += `${cur.name} (${cur.symbol}).`);
-          return (acc += `${cur.name} (${cur.symbol}), `);
+            return (acc += `${cur.name}${cur.symbol && ` (${cur.symbol})`}.`);
+          return (acc += `${cur.name}${cur.symbol && ` (${cur.symbol})`}, `);
         },
         ""
       );
@@ -57,7 +58,7 @@ const countrySlice = createSlice({
 
       const flag = countryInitialData.flags.svg;
 
-      const { subregion: region } = countryInitialData;
+      const { subregion: region, region: continent } = countryInitialData;
 
       //updating state
       state.country = {
@@ -69,6 +70,7 @@ const countrySlice = createSlice({
         region,
         name,
         capital,
+        continent,
       };
     },
   },

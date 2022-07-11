@@ -15,15 +15,5 @@
 
 .info-field {
   font-weight: 600;
-}
-
-@keyframes country-infos-fade-in {
-  0% {
-    opacity: 0;
-    transform: translate(-50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
+  margin-right: 5px;
 }
