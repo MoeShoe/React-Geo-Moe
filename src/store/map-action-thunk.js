@@ -73,6 +73,12 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
     //Set neighbour countries loading state to false
     dispatch(uiActions.setNeighboursAreLoading(false));
 
+    // Offline error
+    if (err.message === "Failed to fetch") {
+      dispatch(uiActions.setError(`You appear to be offline.`));
+      return;
+    }
+
     //Error handling
     if (err.message === "GENERIC_GEOCODE_ERROR") {
       dispatch(

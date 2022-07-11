@@ -84,6 +84,12 @@ const fetchCountryData = (countryName) => {
         return;
       }
 
+      // Offline error
+      if (err.message === "Failed to fetch") {
+        dispatch(uiActions.setError(`You appear to be offline.`));
+        return;
+      }
+
       //* generic error handling
       dispatch(uiActions.setError(err.message));
     } finally {
