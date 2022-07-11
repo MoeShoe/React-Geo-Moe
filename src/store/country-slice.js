@@ -5,13 +5,13 @@ import { arrayToTextFormatter } from "../helpers/data-formatting-helpers";
 //*initial states
 const countryInitialState = {
   country: {
-    area: null,
+    area: "",
     capital: "",
     currencies: "",
-    flag: { png: null, svg: null },
+    flag: "", // url for an SVG
     languages: "",
-    name: "",
-    population: null,
+    name: { common: "", official: "" },
+    population: "",
     subregion: "",
   },
 };
@@ -38,18 +38,26 @@ const countrySlice = createSlice({
         Object.values(countryInitialData.languages)
       );
 
-      const name = countryInitialData.name?.common;
+      const name = countryInitialData.name;
+
       const capital =
         countryInitialData.capital?.length !== 0
           ? arrayToTextFormatter(countryInitialData.capital)
-          : name;
+          : name?.common;
 
-      const {
-        population,
-        area,
-        flags: flag,
-        subregion: region,
-      } = countryInitialData;
+      const population =
+        countryInitialData.population / 1_000_000 < 1_000
+          ? `${(countryInitialData.population / 1_000_000).toFixed(2)} M`
+          : `${(countryInitialData.population / 1_000_000_000).toFixed(2)} B`;
+
+      const area = new Intl.NumberFormat("en-UK", {
+        style: "unit",
+        unit: "kilometer",
+      }).format(countryInitialData.area);
+
+      const flag = countryInitialData.flags.svg;
+
+      const { subregion: region } = countryInitialData;
 
       //updating state
       state.country = {

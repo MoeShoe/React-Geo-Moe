@@ -1,0 +1,29 @@
+.country-infos-container {
+  display: flex;
+  height: 60%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.info-column {
+  width: 50%;
+}
+
+.info-row {
+  padding: 10px;
+}
+
+.info-field {
+  font-weight: 600;
+}
+
+@keyframes country-infos-fade-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}

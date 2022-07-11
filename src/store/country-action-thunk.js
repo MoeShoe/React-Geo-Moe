@@ -35,6 +35,7 @@ const fetchCountryData = (countryName) => {
 
       if (!initialFetch.ok) {
         await waitAnimationPromise;
+        dispatch(uiActions.setNeighboursAreLoading(false));
         throw new Error("NOT_COUNTRY");
       }
 
