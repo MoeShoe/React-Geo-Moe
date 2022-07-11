@@ -20,6 +20,29 @@ const CountryInfo = () => {
     continent,
   } = useSelector((state) => state.country.country);
 
+  const isInitial = !!!name.common;
+
+  if (isInitial) {
+    return (
+      <Card className={styles["country-info-container"]}>
+        <div
+          className={`${styles["introduction-container"]} ${
+            isLoading && styles["introduction-container-fadeout"]
+          }`}
+        >
+          <div className={styles["introduction-header"]}>
+            Welcome to GeoMoe!
+          </div>
+          <div className={styles["introduction-text"]}>
+            Here you can learn all sorts of things about countries or
+            territories, you can start by querying a country in the searchbar or
+            by clicking a country on the map.
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card className={styles["country-info-container"]}>
       <CountryInfoHeader isLoading={isLoading} name={name.common} flag={flag} />
