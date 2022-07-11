@@ -4,6 +4,7 @@ import styles from "./CountryInfo.module.css";
 import Card from "../UI/Card";
 import CountryInfoHeader from "./CountryInfoHeader";
 import CountryInfoDetail from "./CountryInfoDetail";
+import CountryIntroduction from "./CountryIntroduction";
 
 const CountryInfo = () => {
   const isLoading = useSelector((state) => state.ui.isLoading.countryIsLoading);
@@ -25,20 +26,7 @@ const CountryInfo = () => {
   if (isInitial) {
     return (
       <Card className={styles["country-info-container"]}>
-        <div
-          className={`${styles["introduction-container"]} ${
-            isLoading && styles["introduction-container-fadeout"]
-          }`}
-        >
-          <div className={styles["introduction-header"]}>
-            Welcome to GeoMoe!
-          </div>
-          <div className={styles["introduction-text"]}>
-            Here you can learn all sorts of things about countries or
-            territories, you can start by querying a country in the searchbar or
-            by clicking a country on the map.
-          </div>
-        </div>
+        <CountryIntroduction isLoading={isLoading} />
       </Card>
     );
   }

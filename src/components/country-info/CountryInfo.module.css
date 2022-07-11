@@ -1,33 +1,14 @@
 .country-info-container {
   width: 50%;
-  animation: country-infos-fade-in 1s 1;
-}
-
-.introduction-container-fadeout {
-  opacity: 0;
-  transition: opacity 250ms;
-}
-
-.introduction-container {
-  padding: 15px;
-}
-
-.introduction-header {
-  font-size: 35px;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.introduction-text {
-  font-size: 20px;
+  animation: country-infos-fade-in 1s;
 }
 
 @keyframes country-infos-fade-in {
-  0% {
+  from {
     opacity: 0;
     transform: translate(-50px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translate(0);
   }

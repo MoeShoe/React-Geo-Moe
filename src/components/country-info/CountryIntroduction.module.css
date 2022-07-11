@@ -1,0 +1,46 @@
+.introduction-container {
+  padding: 15px;
+  height: 100%;
+  position: relative;
+}
+
+.introduction-container-fadeout {
+  opacity: 0;
+  transition: opacity 250ms;
+}
+
+.introduction-header {
+  font-size: 45px;
+  text-align: center;
+  font-weight: 700;
+  opacity: 0.8;
+  height: 10%;
+}
+
+.introduction-texts-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 80%;
+}
+
+.introduction-text {
+  font-size: 20px;
+  margin: 20px 0;
+  color: rgb(44, 41, 41);
+}
+
+.instruction-text {
+  position: absolute;
+  bottom: 15px;
+  left: 4px;
+  text-align: center;
+  font-size: 19px;
+  font-weight: 600;
+  color: rgba(128, 128, 128, 0.9);
+}
+
+.text-emoji {
+  font-size: 23px;
+  margin-right: 7px;
+}

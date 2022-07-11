@@ -78,7 +78,9 @@ const fetchCountryData = (countryName) => {
       //* queried country is not a country error handling
       if (err.message === "NOT_COUNTRY") {
         dispatch(uiActions.setIsNotCountry(true));
-        dispatch(uiActions.setError(`${countryName} is not a country!`));
+        dispatch(
+          uiActions.setError(`${countryName} is not a country nor a territory!`)
+        );
         return;
       }
 

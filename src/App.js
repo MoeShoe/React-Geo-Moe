@@ -33,8 +33,8 @@ function App() {
   return (
     <div className={styles["main-app-container"]}>
       <SearchBar />
-      <Button onClick={getUserGeolocationHander}>where am i?</Button>
-      <Button onClick={getRandomCountryHandler}>Random Country</Button>
+      {/* <Button onClick={getUserGeolocationHander}>where am i?</Button> */}
+      {/* <Button onClick={getRandomCountryHandler}>Random Country</Button> */}
       <div className={styles["country-main-infos-container"]}>
         <CountryInfo />
         <Map />
