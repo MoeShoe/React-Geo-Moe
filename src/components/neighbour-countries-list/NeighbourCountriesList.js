@@ -8,7 +8,7 @@ import styles from "./NeighbourCountriesList.module.css";
 import NeighbourCountry from "./NeighbourCountry";
 
 const NeighbourCountriesList = () => {
-  const [infoTextContent, setInfoTextContent] = useState("");
+  const [infoTextContent, setInfoTextContent] = useState("initial");
 
   const dispatch = useDispatch();
 
