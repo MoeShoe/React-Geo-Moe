@@ -25,8 +25,8 @@ const CountryIntroduction = (props) => {
           </div>
         </div>
         <div className={styles["instruction-text"]}>
-          *You can start by querying a country in the search bar or by clicking
-          a country on the map*
+          * You can start by querying a country in the search bar or by clicking
+          a country on the map *
         </div>
       </div>
     </>

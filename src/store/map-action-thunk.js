@@ -9,8 +9,16 @@ import { uiActions } from "./UI-slice";
 const reverseGeocodeCountry = (latLng) => async (dispatch) => {
   try {
     // dispatches data about where the user clicked and loading state
+
+    //set map loading state to true
     dispatch(uiActions.setMapPinLoadingState(true));
+    //set country  loading state to true
+    dispatch(uiActions.setCountryLoadingState(true));
+    //Set neighbour countries loading state to true
+    dispatch(uiActions.setNeighboursAreLoading(true));
+
     dispatch(mapActions.setUserClickLatlng([latLng.lat, latLng.lng]));
+    dispatch(mapActions.setPinMessage("loading"));
 
     // reverse geocodes the country which the user clicked on (or the area)
     const initialFetch = await fetch(
@@ -47,15 +55,24 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
       dispatch(fetchCountryData(locationData.dependency));
       dispatch(mapActions.setPinMessage(`${locationData.dependency}!`));
       return;
-    } else
+    } else {
       dispatch(
         mapActions.setPinMessage(
-          `This is the ${
-            locationData.label || "i don't think this is a country :/ "
-          }!`
+          (locationData.label && `This is the ${locationData.label}!`) ||
+            "i don't think this is a country :/ "
         )
       );
+      //set country  loading state to false
+      dispatch(uiActions.setCountryLoadingState(false));
+      //Set neighbour countries loading state to false
+      dispatch(uiActions.setNeighboursAreLoading(false));
+    }
   } catch (err) {
+    //set country  loading state to false
+    dispatch(uiActions.setCountryLoadingState(false));
+    //Set neighbour countries loading state to false
+    dispatch(uiActions.setNeighboursAreLoading(false));
+
     //Error handling
     if (err.message === "GENERIC_GEOCODE_ERROR") {
       dispatch(
