@@ -1,0 +1,6 @@
+.nav-bar-container {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  background-color: #b8e4f0;
+}
