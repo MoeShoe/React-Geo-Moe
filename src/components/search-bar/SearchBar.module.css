@@ -32,7 +32,7 @@ form {
   background: linear-gradient(
     var(--degree),
     rgba(0, 127, 255, 0) 85%,
-    rgba(0, 159, 255, 1) 100%
+    #ff6d24 100%
   );
 
   animation: search-bar-loading 2s infinite;

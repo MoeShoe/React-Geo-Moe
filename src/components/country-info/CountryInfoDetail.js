@@ -29,7 +29,10 @@ const CountryInfoDetail = (props) => {
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <IoIosBowtie className={styles["info-icon"]} />
+              <IoIosBowtie
+                className={styles["info-icon"]}
+                style={{ color: "rgba(0,0,0,0.8)" }}
+              />
               Official Name:
             </span>
             <span className={styles["info-data"]}>
@@ -40,7 +43,10 @@ const CountryInfoDetail = (props) => {
 
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <FaCity className={styles["info-icon"]} />
+              <FaCity
+                className={styles["info-icon"]}
+                style={{ color: "gray" }}
+              />
               Capital:
             </span>
             <span className={styles["info-data"]}>{capital}</span>
@@ -48,7 +54,10 @@ const CountryInfoDetail = (props) => {
 
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <IoLanguage className={styles["info-icon"]} />
+              <IoLanguage
+                className={styles["info-icon"]}
+                style={{ color: "blue" }}
+              />
               Languages:
             </span>
             <span className={styles["info-data"]}>{languages}</span>
@@ -56,7 +65,10 @@ const CountryInfoDetail = (props) => {
 
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <FaMoneyBill className={styles["info-icon"]} />
+              <FaMoneyBill
+                className={styles["info-icon"]}
+                style={{ color: "green" }}
+              />
               Currency:
             </span>
             <span className={styles["info-data"]}>{currencies}</span>
@@ -65,7 +77,10 @@ const CountryInfoDetail = (props) => {
         <div className={styles["info-column"]}>
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <IoIosPeople className={styles["info-icon"]} />
+              <IoIosPeople
+                className={styles["info-icon"]}
+                style={{ color: "purple" }}
+              />
               Population:
             </span>
             <span className={styles["info-data"]}>{population}</span>
@@ -73,7 +88,10 @@ const CountryInfoDetail = (props) => {
 
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <GiFlatPlatform className={styles["info-icon"]} />
+              <GiFlatPlatform
+                className={styles["info-icon"]}
+                style={{ color: "#B2C29D" }}
+              />
               Area:
             </span>
             <span className={styles["info-data"]}>
@@ -84,7 +102,10 @@ const CountryInfoDetail = (props) => {
 
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <GiAfrica className={styles["info-icon"]} />
+              <GiAfrica
+                className={styles["info-icon"]}
+                style={{ color: "#426767" }}
+              />
               Continent:
             </span>
             <span className={styles["info-data"]}>
@@ -95,7 +116,10 @@ const CountryInfoDetail = (props) => {
 
           <div className={styles["info-row"]}>
             <span className={styles["info-field"]}>
-              <GiPoland className={styles["info-icon"]} />
+              <GiPoland
+                className={styles["info-icon"]}
+                style={{ color: "#B7987B" }}
+              />
               Region:
             </span>
             <span className={styles["info-data"]}>

@@ -11,22 +11,27 @@
   background-position: -650px;
   background-repeat: no-repeat;
   background-size: 100%;
-  transition: background-position 250ms ease-in, color 250ms;
+  box-shadow: 0 6px 4px 0px white;
+  box-shadow: none;
+  transition: background-position 250ms ease-in, color 250ms, box-shadow 50ms;
 }
 
 .country-name-enter {
   background-position: -650px;
   color: transparent;
+  box-shadow: 0 6px 4px 0px white;
 }
 
 .country-name-enter-done {
   background-position: center;
   color: black;
-  transition: background-position 250ms ease-out, color 250ms;
+  box-shadow: 0 2px 20px 0px rgb(0 0 0 / 10%);
+  transition: background-position 250ms ease-out, color 250ms, box-shadow 250ms;
 }
 
 .country-name-exit {
   background-position: 800px;
+  box-shadow: 0 6px 4px 0px white;
   color: transparent;
 }
 
@@ -34,5 +39,6 @@
   background-image: none !important;
   transition: none !important;
   color: transparent;
+  box-shadow: 0 6px 4px 0px transparent;
   background-position: -650px;
 }

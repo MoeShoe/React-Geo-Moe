@@ -31,13 +31,14 @@ const NavBar = () => {
   return (
     <div className={styles["nav-bar-container"]}>
       <div className={styles["app-header"]}>
-        <span className={styles['header-part-1']}>Geo</span>
-        <span className={styles['header-part-2']}>Moe</span>
+        <span className={styles["header-part-1"]}>Geo</span>
+        <span className={styles["header-part-2"]}>Moe</span>
       </div>
       <SearchBar isLoading={isLoading} />
       <Button
         onClick={getUserGeolocationHandler}
         className={styles["navbar-actions"]}
+        style={{ fontSize: "22px" }}
         data-tooltip={"Get your current Country"}
         disabled={isLoading}
       >

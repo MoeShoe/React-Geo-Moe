@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding: 2px;
-  background-color: #98bae7;
+  background-color: #c1deae;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
@@ -13,6 +13,8 @@
   font-weight: 800;
   color: white;
   cursor: pointer;
+
+  text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.15);
 }
 
 .header-part-1 {

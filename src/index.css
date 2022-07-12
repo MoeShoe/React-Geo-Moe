@@ -5,13 +5,10 @@
   font-family: "Manrope", sans-serif;
 }
 
-html,
-body,
-#root {
-  height: 100%;
-  width: 100%;
-}
-
 body {
-  background-color: aliceblue;
+  background: linear-gradient(
+    180deg,
+    rgba(232, 232, 166, 1) 0%,
+    rgba(242, 245, 200, 1) 100%
+  );
 }
