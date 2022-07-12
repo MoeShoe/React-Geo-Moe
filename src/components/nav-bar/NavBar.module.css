@@ -9,6 +9,39 @@
 
 .navbar-actions {
   font-size: 20px;
+  position: relative;
   width: 50px !important;
   height: 40px !important;
+}
+
+.navbar-actions:hover::after {
+  content: attr(data-tooltip);
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 14px;
+  font-weight: 600;
+  position: absolute;
+  top: 45px;
+  left: -37.5px;
+  height: 40px;
+  width: 125px;
+  border-radius: 7px;
+  background-color: white;
+  /*? have to use this absurd value or the map will still appear on top */
+  z-index: 10000;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+  animation: tooltip-fade-in 1s;
+}
+
+@keyframes tooltip-fade-in {
+  0% {
+    opacity: 0;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

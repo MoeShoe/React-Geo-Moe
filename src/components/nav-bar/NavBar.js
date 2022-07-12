@@ -31,6 +31,7 @@ const NavBar = () => {
       <Button
         onClick={getUserGeolocationHandler}
         className={styles["navbar-actions"]}
+        data-tooltip={"Get your current Country"}
         disabled={isLoading}
       >
         📍
@@ -38,6 +39,7 @@ const NavBar = () => {
       <Button
         onClick={getRandomCountryHandler}
         className={styles["navbar-actions"]}
+        data-tooltip={"Get a random Country"}
         disabled={isLoading}
       >
         🎲
