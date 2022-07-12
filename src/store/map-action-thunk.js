@@ -35,29 +35,27 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
     const data = await initialFetch.json();
     const locationData = data.response.features.at(0).properties;
 
+    const target = locationData.country || locationData.dependency;
+
     // this step is added to improve compatibility between the two different APIs
-    if (locationData.country) {
+    if (target) {
       let [targetCountry] = COUNTRY_NAMES_LIST.filter(
-        (con) =>
-          locationData.country.toLowerCase() === con.common.toLocaleLowerCase()
+        (con) => target.toLowerCase() === con.common.toLocaleLowerCase()
       );
       if (!targetCountry) {
         [targetCountry] = COUNTRY_NAMES_LIST.filter((con) =>
-          locationData.country.startsWith(con.common)
+          target.startsWith(con.common)
         );
       }
 
-      dispatch(
-        fetchCountryData(targetCountry?.official || locationData.country)
-      );
-      dispatch(mapActions.setPinMessage(`${locationData.country}!`));
-      return;
-    }
+      if (!targetCountry) {
+        [targetCountry] = COUNTRY_NAMES_LIST.filter((con) =>
+          con.common.startsWith(target)
+        );
+      }
 
-    //sometimes we get the dependency field instead of country from the API
-    if (locationData.dependency) {
-      dispatch(fetchCountryData(locationData.dependency));
-      dispatch(mapActions.setPinMessage(`${locationData.dependency}!`));
+      dispatch(fetchCountryData(targetCountry?.official || target));
+      dispatch(mapActions.setPinMessage(`${target}!`));
       return;
     } else {
       dispatch(

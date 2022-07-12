@@ -939,7 +939,7 @@ const COUNTRY_NAMES_LIST = [
     official: "Bailiwick of Guernsey",
   },
   {
-    common: "Åland Islands",
+    common: "Aland Islands",
     official: "Åland Islands",
   },
 
