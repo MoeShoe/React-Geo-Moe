@@ -27,6 +27,7 @@ const NavBar = () => {
 
   return (
     <div className={styles["nav-bar-container"]}>
+      <div className={styles["app-header"]}>GeoMoe</div>
       <SearchBar isLoading={isLoading} />
       <Button
         onClick={getUserGeolocationHandler}

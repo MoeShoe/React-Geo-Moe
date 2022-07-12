@@ -7,6 +7,13 @@
     rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 }
 
+.app-header {
+  margin: 0 10px;
+  font-size: 30px;
+  font-weight: 700;
+  color: white;
+}
+
 .navbar-actions {
   font-size: 20px;
   position: relative;
@@ -14,6 +21,7 @@
   height: 40px !important;
 }
 
+/* Tool-tip */
 .navbar-actions:hover::after {
   content: attr(data-tooltip);
   color: rgba(0, 0, 0, 0.8);
