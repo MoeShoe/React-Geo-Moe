@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import getUserGeolocation from "../../store/get-user-geolocation-action";
 
@@ -11,6 +11,8 @@ import SearchBar from "../search-bar/SearchBar";
 const NavBar = () => {
   const dispatch = useDispatch();
 
+  const isLoading = useSelector((state) => state.ui.isLoading.countryIsLoading);
+
   const getUserGeolocationHandler = () => {
     dispatch(getUserGeolocation());
   };
@@ -20,15 +22,26 @@ const NavBar = () => {
       Math.random() * (COUNTRY_NAMES_LIST.length + 1)
     );
     const randomCountry = COUNTRY_NAMES_LIST[randomCountryIndex].official;
-
     dispatch(fetchCountryData(randomCountry));
   };
 
   return (
     <div className={styles["nav-bar-container"]}>
-      <SearchBar />
-      <Button onClick={getUserGeolocationHandler}>where am i?</Button>
-      <Button onClick={getRandomCountryHandler}>Random Country</Button>
+      <SearchBar isLoading={isLoading} />
+      <Button
+        onClick={getUserGeolocationHandler}
+        className={styles["navbar-actions"]}
+        disabled={isLoading}
+      >
+        📍
+      </Button>
+      <Button
+        onClick={getRandomCountryHandler}
+        className={styles["navbar-actions"]}
+        disabled={isLoading}
+      >
+        🎲
+      </Button>
     </div>
   );
 };

@@ -14,10 +14,10 @@ let autoFillCountry,
  into itself and in process avoid magic numbers in min-height */
 let hiddenAutoFillCountry = "x";
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector((state) => state.ui.isLoading.countryIsLoading);
+  const isLoading = props.isLoading;
   const isNotCountry = useSelector((state) => state.ui.error.isNotCountry);
 
   const [country, setCountry] = useState("");
@@ -96,7 +96,9 @@ const SearchBar = () => {
         />
         {/* Fake search bar used for autofill suggestions */}
         <div
-          className={`${styles["search-bar"]} ${styles["ghost-search-bar"]}`}
+          className={`${styles["search-bar"]} ${styles["ghost-search-bar"]} ${
+            isNotCountry && styles["search-bar-error"]
+          }`}
         >
           <span className={styles["hidden-autofill"]}>
             {hiddenAutoFillCountry}
