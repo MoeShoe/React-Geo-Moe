@@ -15,8 +15,9 @@
 }
 
 .navbar-actions {
-  font-size: 20px;
+  font-size: 25px;
   position: relative;
+  color: white !important;
   width: 50px !important;
   height: 40px !important;
 }

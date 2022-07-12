@@ -2,6 +2,8 @@ import { createPortal } from "react-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
+//icons
+import { MdError } from "react-icons/md";
 
 import styles from "./Error.module.css";
 import Card from "./Card";
@@ -41,7 +43,10 @@ const Error = () => {
     >
       <Card className={styles["error-container"]}>
         <div className={styles["error-header-container"]}>
-          <span className={styles["error-header"]}>❗Error</span>
+          <span className={styles["error-header"]}>
+            <MdError className={styles["error-icon"]} />
+            Error
+          </span>
           <button
             className={styles["error-close-button"]}
             onClick={closeErrorHandler}

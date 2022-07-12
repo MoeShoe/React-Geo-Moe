@@ -1,4 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
+//icons
+import { GiCardRandom } from "react-icons/gi";
+import { BsFillPinMapFill } from "react-icons/bs";
 
 import getUserGeolocation from "../../store/get-user-geolocation-action";
 
@@ -35,7 +38,7 @@ const NavBar = () => {
         data-tooltip={"Get your current Country"}
         disabled={isLoading}
       >
-        📍
+        <BsFillPinMapFill />
       </Button>
       <Button
         onClick={getRandomCountryHandler}
@@ -43,7 +46,7 @@ const NavBar = () => {
         data-tooltip={"Get a random Country"}
         disabled={isLoading}
       >
-        🎲
+        <GiCardRandom />
       </Button>
     </div>
   );
