@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { arrayToTextFormatter } from "../helpers/data-formatting-helpers";
+import {
+  arrayToTextFormatter,
+  formatPopualtion,
+} from "../helpers/data-formatting-helpers";
 
 //*initial states
 const countryInitialState = {
@@ -46,10 +49,7 @@ const countrySlice = createSlice({
           ? arrayToTextFormatter(countryInitialData.capital)
           : name?.common;
 
-      const population =
-        countryInitialData.population / 1_000_000 < 1_000
-          ? `${(countryInitialData.population / 1_000_000).toFixed(2)} M`
-          : `${(countryInitialData.population / 1_000_000_000).toFixed(2)} B`;
+      const population = formatPopualtion(countryInitialData.population);
 
       const area = new Intl.NumberFormat("en-UK", {
         style: "unit",

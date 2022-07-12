@@ -6,9 +6,5 @@
 }
 
 body {
-  background: linear-gradient(
-    180deg,
-    rgba(232, 232, 166, 1) 0%,
-    rgba(242, 245, 200, 1) 100%
-  );
+  background: aliceblue;
 }
