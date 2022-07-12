@@ -30,7 +30,7 @@ const Map = () => {
     map = L.map("map").setView([30, 20], 2);
 
     //sets up openstreetmap as our map source of choice
-    L.tileLayer("https://b.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+    L.tileLayer("https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
       maxZoom: 12,
       attribution: "© OpenStreetMap",
     }).addTo(map);

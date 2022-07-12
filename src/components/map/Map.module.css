@@ -1,6 +1,7 @@
 .country-map-container {
   width: 50%;
   animation: map-fade-in 1s 1;
+  height: 550px;
 }
 
 .mapC {
@@ -25,5 +26,11 @@
   100% {
     opacity: 1;
     transform: translate(0);
+  }
+}
+
+@media (max-width: 955px) {
+  .country-map-container {
+    width: 90vw;
   }
 }

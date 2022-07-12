@@ -40,7 +40,7 @@ form {
 
 .search-bar {
   border-radius: 20px;
-  width: 450px;
+  width: 100%;
   font-size: 17px;
   padding: 12px;
   padding-left: 40px;
@@ -119,5 +119,11 @@ form {
   }
   100% {
     --degree: 360deg;
+  }
+}
+
+@media (max-width: 955px) {
+  form {
+    width: 50vw;
   }
 }

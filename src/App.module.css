@@ -1,9 +1,14 @@
-.main-app-container {
-  height: 100%;
-  width: 100%;
-}
-
 .country-main-infos-container {
   display: flex;
   height: 550px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 955px) {
+  .country-main-infos-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 1100px;
+    margin-bottom: 40px;
+  }
 }

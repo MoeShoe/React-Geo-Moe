@@ -8,7 +8,7 @@
   height: 40%;
   color: transparent;
   font-weight: 700;
-  background-position: -650px;
+  background-position: -900px;
   background-repeat: no-repeat;
   background-size: 100%;
   box-shadow: 0 6px 4px 0px white;
@@ -17,7 +17,7 @@
 }
 
 .country-name-enter {
-  background-position: -650px;
+  background-position: -900px;
   color: transparent;
   box-shadow: 0 6px 4px 0px white;
 }
@@ -40,5 +40,5 @@
   transition: none !important;
   color: transparent;
   box-shadow: 0 6px 4px 0px transparent;
-  background-position: -650px;
+  background-position: -900px;
 }

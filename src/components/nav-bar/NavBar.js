@@ -35,23 +35,25 @@ const NavBar = () => {
         <span className={styles["header-part-2"]}>Moe</span>
       </div>
       <SearchBar isLoading={isLoading} />
-      <Button
-        onClick={getUserGeolocationHandler}
-        className={styles["navbar-actions"]}
-        style={{ fontSize: "22px" }}
-        data-tooltip={"Get your current Country"}
-        disabled={isLoading}
-      >
-        <BsFillPinMapFill />
-      </Button>
-      <Button
-        onClick={getRandomCountryHandler}
-        className={styles["navbar-actions"]}
-        data-tooltip={"Get a random Country"}
-        disabled={isLoading}
-      >
-        <GiCardRandom />
-      </Button>
+      <div className={styles["actions-container"]}>
+        <Button
+          onClick={getUserGeolocationHandler}
+          className={styles["navbar-actions"]}
+          style={{ fontSize: "22px" }}
+          data-tooltip={"Get your current Country"}
+          disabled={isLoading}
+        >
+          <BsFillPinMapFill />
+        </Button>
+        <Button
+          onClick={getRandomCountryHandler}
+          className={styles["navbar-actions"]}
+          data-tooltip={"Get a random Country"}
+          disabled={isLoading}
+        >
+          <GiCardRandom />
+        </Button>
+      </div>
     </div>
   );
 };

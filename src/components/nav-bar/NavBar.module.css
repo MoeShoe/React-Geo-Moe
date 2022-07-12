@@ -75,3 +75,12 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 955px) {
+  .app-header {
+    display: none;
+  }
+  .actions-container {
+    width: 25vh;
+  }
+}

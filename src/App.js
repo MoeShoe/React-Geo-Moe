@@ -11,7 +11,7 @@ function App() {
   const showError = useSelector((state) => state.ui.error.displayError);
 
   return (
-    <div className={styles["main-app-container"]}>
+    <>
       <NavBar />
       <div className={styles["country-main-infos-container"]}>
         <CountryInfo />
@@ -19,7 +19,7 @@ function App() {
       </div>
       <NeighbourCountriesList />
       {showError && <Error />}
-    </div>
+    </>
   );
 }
 

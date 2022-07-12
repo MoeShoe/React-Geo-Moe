@@ -1,6 +1,7 @@
 .country-info-container {
   width: 50%;
   animation: country-infos-fade-in 1s;
+  height: 550px;
 }
 
 @keyframes country-infos-fade-in {
@@ -11,5 +12,13 @@
   to {
     opacity: 1;
     transform: translate(0);
+  }
+}
+
+/* 955px*/
+
+@media (max-width: 955px) {
+  .country-info-container {
+    width: 90vw;
   }
 }
