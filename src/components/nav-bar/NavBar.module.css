@@ -9,9 +9,28 @@
 
 .app-header {
   margin: 0 10px;
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 35px;
+  font-weight: 800;
   color: white;
+  cursor: pointer;
+}
+
+.header-part-1 {
+  color: #578052;
+  transition: color 500ms;
+}
+
+.app-header:hover .header-part-1 {
+  color: #1e3b8b;
+}
+
+.header-part-2 {
+  color: #1e3b8b;
+  transition: color 500ms;
+}
+
+.app-header:hover .header-part-2 {
+  color: #578052;
 }
 
 .navbar-actions {
