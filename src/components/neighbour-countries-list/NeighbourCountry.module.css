@@ -46,3 +46,10 @@
     transform: translate(0);
   }
 }
+
+@media (max-width: 955px) {
+  .neighbour-card {
+    height: 190px;
+    width: 150px;
+  }
+}

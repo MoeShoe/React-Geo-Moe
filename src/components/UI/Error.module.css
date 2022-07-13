@@ -71,3 +71,9 @@
   margin-left: 10px;
   font-size: 19px;
 }
+
+@media (max-width: 955px) {
+  .error-container {
+    width: 90vw;
+  }
+}
