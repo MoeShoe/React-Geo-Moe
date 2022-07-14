@@ -1,6 +1,7 @@
 .nav-bar-container {
   display: flex;
   align-items: center;
+  width: 100%;
   padding: 2px;
   background-color: #c1deae;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
@@ -35,7 +36,15 @@
   color: #578052;
 }
 
-.navbar-actions {
+.nav-sub-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-action {
   font-size: 25px;
   position: relative;
   color: white !important;
@@ -44,7 +53,7 @@
 }
 
 /* Tool-tip */
-.navbar-actions:hover::after {
+.navbar-action:hover::after {
   content: attr(data-tooltip);
   color: rgba(0, 0, 0, 0.8);
   font-size: 14px;
@@ -64,6 +73,19 @@
   animation: tooltip-fade-in 500ms;
 }
 
+/* .links-container {
+} */
+
+.nav-link {
+  display: inline-block;
+  width: 50%;
+  padding: 0 20px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  font-weight: 600;
+}
+
 @keyframes tooltip-fade-in {
   0% {
     opacity: 0;
@@ -80,7 +102,36 @@
   .app-header {
     display: none;
   }
+  .nav-sub-container {
+    width: 50vh;
+  }
   .actions-container {
-    width: 25vh;
+    width: 40%;
+  }
+  .links-container {
+    width: 60%;
+  }
+  .nav-link {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 690px) {
+  .links-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .actions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar-action {
+    transform: scale(0.8);
+  }
+  .nav-link {
+    padding: 0;
   }
 }

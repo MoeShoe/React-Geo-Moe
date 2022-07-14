@@ -36,28 +36,34 @@ const NavBar = () => {
         <span className={styles["header-part-2"]}>Moe</span>
       </Link>
       <SearchBar isLoading={isLoading} />
-      <div className={styles["actions-container"]}>
-        <Button
-          onClick={getUserGeolocationHandler}
-          className={styles["navbar-actions"]}
-          style={{ fontSize: "22px" }}
-          data-tooltip={"Get your current Country"}
-          disabled={isLoading}
-        >
-          <BsFillPinMapFill />
-        </Button>
-        <Button
-          onClick={getRandomCountryHandler}
-          className={styles["navbar-actions"]}
-          data-tooltip={"Get a random Country"}
-          disabled={isLoading}
-        >
-          <GiCardRandom />
-        </Button>
-      </div>
-      <div className={styles["links-container"]}>
-        <Link to="/Quizzes">Quizzes</Link>
-        <Link to="/About">About</Link>
+      <div className={styles["nav-sub-container"]}>
+        <div className={styles["actions-container"]}>
+          <Button
+            onClick={getUserGeolocationHandler}
+            className={styles["navbar-action"]}
+            style={{ fontSize: "22px" }}
+            data-tooltip={"Get your current Country"}
+            disabled={isLoading}
+          >
+            <BsFillPinMapFill />
+          </Button>
+          <Button
+            onClick={getRandomCountryHandler}
+            className={styles["navbar-action"]}
+            data-tooltip={"Get a random Country"}
+            disabled={isLoading}
+          >
+            <GiCardRandom />
+          </Button>
+        </div>
+        <div className={styles["links-container"]}>
+          <Link to="/Quizzes" className={styles["nav-link"]}>
+            Quizzes
+          </Link>
+          <Link to="/About" className={styles["nav-link"]}>
+            About
+          </Link>
+        </div>
       </div>
     </div>
   );
