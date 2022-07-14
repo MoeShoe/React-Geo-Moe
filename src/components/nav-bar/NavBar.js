@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 //icons
-import { GiCardRandom } from "react-icons/gi";
-import { BsFillPinMapFill } from "react-icons/bs";
+import { GiCardRandom, GiEarthAfricaEurope } from "react-icons/gi";
+import { BsFillPinMapFill, BsFillInfoCircleFill } from "react-icons/bs";
+import { HiPuzzle } from "react-icons/hi";
 
 import getUserGeolocation from "../../store/get-user-geolocation-action";
 
@@ -92,7 +93,10 @@ const NavBar = () => {
             }
             style={{ width: "33%" }}
           >
-            Home
+            <span>
+              <GiEarthAfricaEurope className={styles["link-icon"]} />
+              Home
+            </span>
           </NavLink>
         )}
         <NavLink
@@ -102,7 +106,10 @@ const NavBar = () => {
           }
           style={!pathIsHome ? { width: "33%" } : {}}
         >
-          Quizzes
+          <span>
+            <HiPuzzle className={styles["link-icon"]} />
+            Quizzes
+          </span>
         </NavLink>
         <NavLink
           to="/About"
@@ -111,7 +118,13 @@ const NavBar = () => {
           }
           style={!pathIsHome ? { width: "33%" } : {}}
         >
-          About
+          <span>
+            <BsFillInfoCircleFill
+              className={styles["link-icon"]}
+              style={{ transform: "scale(0.85) translateY(4px)" }}
+            />
+            About
+          </span>
         </NavLink>
       </div>
     </div>
