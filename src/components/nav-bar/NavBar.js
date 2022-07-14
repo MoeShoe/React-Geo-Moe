@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 //icons
 import { GiCardRandom } from "react-icons/gi";
 import { BsFillPinMapFill } from "react-icons/bs";
@@ -30,10 +31,10 @@ const NavBar = () => {
 
   return (
     <div className={styles["nav-bar-container"]}>
-      <div className={styles["app-header"]}>
+      <Link to="/" className={styles["app-header"]}>
         <span className={styles["header-part-1"]}>Geo</span>
         <span className={styles["header-part-2"]}>Moe</span>
-      </div>
+      </Link>
       <SearchBar isLoading={isLoading} />
       <div className={styles["actions-container"]}>
         <Button
@@ -53,6 +54,10 @@ const NavBar = () => {
         >
           <GiCardRandom />
         </Button>
+      </div>
+      <div className={styles["links-container"]}>
+        <Link to="/Quizzes">Quizzes</Link>
+        <Link to="/About">About</Link>
       </div>
     </div>
   );

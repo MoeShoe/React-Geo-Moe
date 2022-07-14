@@ -1,0 +1,6 @@
+//* this is the 404 page
+const NotFound = () => {
+  return <div>404 not found :\</div>;
+};
+
+export default NotFound;
