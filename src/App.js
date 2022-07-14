@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 
-import styles from "./App.module.css";
 import NavBar from "./components/nav-bar/NavBar";
-import CountryInfo from "./components/country-info/CountryInfo";
-import Map from "./components/map/Map";
-import NeighbourCountriesList from "./components/neighbour-countries-list/NeighbourCountriesList";
 import Error from "./components/UI/Error";
+import MainPage from "./pages/MainPage";
+import QuizzesPage from "./pages/QuizzesPage";
 
 function App() {
   const showError = useSelector((state) => state.ui.error.displayError);
@@ -13,11 +12,10 @@ function App() {
   return (
     <>
       <NavBar />
-      <div className={styles["country-main-infos-container"]}>
-        <CountryInfo />
-        <Map />
-      </div>
-      <NeighbourCountriesList />
+      <Routes>
+        <Route path="/" element={<MainPage />}></Route>
+        <Route path="/Quizzes" element={<QuizzesPage />}></Route>
+      </Routes>
       {showError && <Error />}
     </>
   );
