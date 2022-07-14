@@ -1,11 +1,54 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const quizzesInitialState = {};
+import {
+  RELAXED_QUIZ_PARAMS,
+  CHALLENGE_QUIZ_PARAMS,
+  HARDCORE_QUIZ_PARAMS,
+} from "../constants/QUIZZES_PARAMS";
+
+const quizzesInitialState = {
+  quizInPlay: false,
+  quiz: {
+    quizType: "", // RELAXED CHALLENGE HARDCORE
+    quizParams: {},
+  },
+};
 
 const quizzesSlice = createSlice({
   name: "quizzes",
   initialState: quizzesInitialState,
-  reducers: {},
+  reducers: {
+    setCurrentQuiz(state, action) {
+      state.quizInPlay = true;
+
+      switch (action.payload) {
+        case "RELAXED":
+          state.quiz = {
+            quizType: "RELAXED",
+            quizParams: RELAXED_QUIZ_PARAMS,
+          };
+          break;
+
+        case "CHALLENGE":
+          state.quiz = {
+            quizType: "CHALLENGE",
+            quizParams: CHALLENGE_QUIZ_PARAMS,
+          };
+          break;
+
+        case "HARDCORE":
+          state.quiz = {
+            quizType: "HARDCORE",
+            quizParams: HARDCORE_QUIZ_PARAMS,
+          };
+          break;
+
+        default:
+          break;
+      }
+      console.log(state.quiz);
+    },
+  },
 });
 
 export const quizzesActions = quizzesSlice.actions;
