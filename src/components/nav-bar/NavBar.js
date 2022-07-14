@@ -83,7 +83,16 @@ const NavBar = () => {
           pathIsHome && styles["links-container-is-home"]
         }`}
       >
-        {!pathIsHome && (
+        <CSSTransition
+          in={!pathIsHome}
+          unmountOnExit
+          timeout={250}
+          classNames={{
+            enterActive: styles["home-link-enter"],
+            enterDone: styles["home-link-enter-done"],
+            exitActive: styles["home-link-exit"],
+          }}
+        >
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -91,20 +100,18 @@ const NavBar = () => {
                 isActive ? styles["nav-link-active"] : ""
               }`
             }
-            style={{ width: "33%" }}
           >
             <span>
               <GiEarthAfricaEurope className={styles["link-icon"]} />
               Home
             </span>
           </NavLink>
-        )}
+        </CSSTransition>
         <NavLink
           to="/Quizzes"
           className={({ isActive }) =>
             `${styles["nav-link"]} ${isActive ? styles["nav-link-active"] : ""}`
           }
-          style={!pathIsHome ? { width: "33%" } : {}}
         >
           <span>
             <HiPuzzle className={styles["link-icon"]} />
@@ -116,7 +123,6 @@ const NavBar = () => {
           className={({ isActive }) =>
             `${styles["nav-link"]} ${isActive ? styles["nav-link-active"] : ""}`
           }
-          style={!pathIsHome ? { width: "33%" } : {}}
         >
           <span>
             <BsFillInfoCircleFill

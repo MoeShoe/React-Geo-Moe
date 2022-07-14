@@ -91,7 +91,6 @@
 
 .nav-link {
   display: inline-block;
-  width: 50%;
   padding: 0 20px;
   text-decoration: none;
   font-size: 25px;
@@ -127,6 +126,15 @@
   color: #578052;
 }
 
+.home-link-enter,
+.home-link-exit {
+  display: none;
+}
+
+.home-link-enter-done {
+  animation: container-fade-in 250ms;
+}
+
 @keyframes tooltip-fade-in {
   0% {
     opacity: 0;
@@ -139,7 +147,7 @@
   }
 }
 
-@media (max-width: 955px) {
+@media (max-width: 1035px) {
   .app-header-is-home {
     position: absolute;
     opacity: 0;
@@ -173,7 +181,7 @@
   }
 
   .nav-sub-container {
-    width: 60%;
+    width: 67%;
   }
 
   .links-container,
@@ -184,7 +192,7 @@
 
   .links-container-is-home {
     align-items: center;
-    width: 40%;
+    width: 33%;
   }
 
   .actions-container {
