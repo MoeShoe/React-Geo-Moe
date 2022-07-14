@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
 import styles from "./QuizzesPage.module.css";
-import QuizzesList from "../components/quizz/QuizzesList";
+import QuizzesList from "../components/quiz/QuizzesList";
 
 const QuizzesPage = () => {
   const quizInPlay = useSelector((state) => state.quizzes.quizInPlay);
