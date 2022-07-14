@@ -1,8 +1,5 @@
-.quizzes-main-title {
-  color: #484b4d;
-  margin-top: 30px;
-  font-weight: 700;
-  font-size: 30px;
-  text-align: center;
-  animation: container-fade-in 500ms;
+.quizzes-list-container-exit {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: opacity 500ms, transform 500ms;
 }

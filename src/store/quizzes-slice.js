@@ -46,7 +46,6 @@ const quizzesSlice = createSlice({
         default:
           break;
       }
-      console.log(state.quiz);
     },
   },
 });
