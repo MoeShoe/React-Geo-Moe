@@ -8,7 +8,7 @@
 
 .neighbour-card:hover {
   cursor: pointer;
-  animation: card-hover-animation 1500ms infinite linear;
+  animation: card-hover-animation 1500ms infinite;
 }
 
 .flag {

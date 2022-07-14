@@ -1,15 +1,55 @@
 .quizzes-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
   height: 550px;
 }
 
-.quizz-challenge-select-container {
-  height: 50%;
-  width: 225px;
+.quiz-challenge-select-container {
+  height: 60%;
+  width: 250px;
+  cursor: pointer;
   animation: container-fade-in 1s;
+}
+
+.quiz-challenge-select-container:hover {
+  animation: container-fade-in 1s, card-hover-animation 1500ms infinite;
+}
+
+.quiz-challenge-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 600;
+  height: 30%;
+}
+
+.quiz-challenge-header span {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.quiz-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 70%;
+  padding: 0 15px;
+  list-style: none;
+}
+
+.quiz-detail {
+  display: flex;
+  font-weight: 600;
+  color: #2e2b2b;
+}
+
+.quiz-detail span {
+  margin-right: 5px;
 }
 
 @keyframes container-fade-in {
@@ -20,5 +60,26 @@
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@keyframes card-hover-animation {
+  0% {
+    transform: translate(0);
+  }
+
+  50% {
+    transform: translate(0, -5px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@media (max-width: 955px) {
+  .neighbour-card {
+    height: 190px;
+    width: 150px;
   }
 }
