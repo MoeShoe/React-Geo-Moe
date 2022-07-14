@@ -18,7 +18,6 @@ const NavBar = () => {
   const dispatch = useDispatch();
 
   const path = useLocation();
-  //Spaghetti
   const pathIsHome = path.pathname === "/";
 
   const isLoading = useSelector((state) => state.ui.isLoading.countryIsLoading);
