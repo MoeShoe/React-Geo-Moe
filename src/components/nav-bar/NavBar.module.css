@@ -44,12 +44,22 @@
   width: 100%;
 }
 
+.actions-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .navbar-action {
   font-size: 25px;
   position: relative;
-  color: white !important;
+  color: #1e3b8b !important;
   width: 50px !important;
   height: 40px !important;
+}
+
+.navbar-action:hover {
+  color: #fff !important;
+  transition: color 500ms;
 }
 
 /* Tool-tip */
@@ -73,17 +83,27 @@
   animation: tooltip-fade-in 500ms;
 }
 
-/* .links-container {
-} */
-
 .nav-link {
   display: inline-block;
   width: 50%;
   padding: 0 20px;
   text-decoration: none;
   font-size: 25px;
-  color: white;
+  color: #1e3b8b;
   font-weight: 600;
+}
+
+.nav-link:hover {
+  color: #2d59d1;
+  transition: color 500ms;
+}
+
+.nav-link-active {
+  color: #578052;
+}
+
+.nav-link-active:hover {
+  color: #578052;
 }
 
 @keyframes tooltip-fade-in {

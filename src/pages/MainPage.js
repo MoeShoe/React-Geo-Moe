@@ -10,7 +10,7 @@ const MainPage = () => {
         <CountryInfo />
         <Map />
       </div>
-      <NeighbourCountriesList />;
+      <NeighbourCountriesList />
     </>
   );
 };

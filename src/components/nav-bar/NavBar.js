@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 //icons
 import { GiCardRandom } from "react-icons/gi";
 import { BsFillPinMapFill } from "react-icons/bs";
@@ -31,10 +31,10 @@ const NavBar = () => {
 
   return (
     <div className={styles["nav-bar-container"]}>
-      <Link to="/" className={styles["app-header"]}>
+      <NavLink to="/" className={styles["app-header"]}>
         <span className={styles["header-part-1"]}>Geo</span>
         <span className={styles["header-part-2"]}>Moe</span>
-      </Link>
+      </NavLink>
       <SearchBar isLoading={isLoading} />
       <div className={styles["nav-sub-container"]}>
         <div className={styles["actions-container"]}>
@@ -57,12 +57,26 @@ const NavBar = () => {
           </Button>
         </div>
         <div className={styles["links-container"]}>
-          <Link to="/Quizzes" className={styles["nav-link"]}>
+          <NavLink
+            to="/Quizzes"
+            className={({ isActive }) =>
+              `${styles["nav-link"]} ${
+                isActive ? styles["nav-link-active"] : ""
+              }`
+            }
+          >
             Quizzes
-          </Link>
-          <Link to="/About" className={styles["nav-link"]}>
+          </NavLink>
+          <NavLink
+            to="/About"
+            className={({ isActive }) =>
+              `${styles["nav-link"]} ${
+                isActive ? styles["nav-link-active"] : ""
+              }`
+            }
+          >
             About
-          </Link>
+          </NavLink>
         </div>
       </div>
     </div>
