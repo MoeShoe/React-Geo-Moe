@@ -22,7 +22,7 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
     dispatch(uiActions.setNeighboursAreLoading(true));
 
     dispatch(mapActions.setUserClickLatlng([latLng.lat, latLng.lng]));
-    dispatch(mapActions.setPinMessage("loading"));
+    dispatch(mapActions.setPinMessage("❗Error"));
 
     // reverse geocodes the country which the user clicked on (or the area)
     const initialFetch = await fetch(
@@ -38,20 +38,37 @@ const reverseGeocodeCountry = (latLng) => async (dispatch) => {
     const target = locationData.country || locationData.dependency;
 
     // this step is added to improve compatibility between the two different APIs
+
     if (target) {
-      let [targetCountry] = COUNTRY_NAMES_LIST.filter(
-        (con) => target.toLowerCase() === con.common.toLocaleLowerCase()
-      );
+      // exact match
+      let targetCountry = COUNTRY_NAMES_LIST.find((con) => {
+        if (Array.isArray(con.common)) {
+          let $$con = con.common.find(
+            ($con) => target.toLowerCase() === $con.toLowerCase()
+          );
+          return !!$$con;
+        } else return target.toLowerCase() === con.common.toLowerCase();
+      });
+
+      // partial match
       if (!targetCountry) {
-        [targetCountry] = COUNTRY_NAMES_LIST.filter((con) =>
-          target.startsWith(con.common)
-        );
+        targetCountry = COUNTRY_NAMES_LIST.find((con) => {
+          if (Array.isArray(con.common))
+            return !!con.common.find(($con) =>
+              target.toLowerCase().startsWith($con.toLowerCase())
+            );
+          else return target.toLowerCase().startsWith(con.common.toLowerCase());
+        });
       }
 
       if (!targetCountry) {
-        [targetCountry] = COUNTRY_NAMES_LIST.filter((con) =>
-          con.common.startsWith(target)
-        );
+        targetCountry = COUNTRY_NAMES_LIST.find((con) => {
+          if (Array.isArray(con.common))
+            return !!con.common.find(($con) =>
+              $con.toLowerCase().startsWith(target.toLowerCase())
+            );
+          else return con.common.toLowerCase().startsWith(target.toLowerCase());
+        });
       }
 
       dispatch(fetchCountryData(targetCountry?.official || target));

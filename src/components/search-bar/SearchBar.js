@@ -38,9 +38,20 @@ const SearchBar = (props) => {
 
     const queriedCountry = e.target.value.trimStart().toLowerCase();
 
-    const autoFillTarget = COUNTRY_NAMES_LIST.find((countryName) =>
-      countryName.common.toLowerCase().startsWith(queriedCountry)
-    );
+    // variable in case country name is an array
+    let caseCountryNameArray;
+
+    const autoFillTarget = COUNTRY_NAMES_LIST.find((countryName) => {
+      if (Array.isArray(countryName.common)) {
+        let $country = countryName.common.find(($$countryName) =>
+          $$countryName.toLowerCase().startsWith(queriedCountry)
+        );
+        if (!!$country) caseCountryNameArray = $country;
+        return !!$country;
+      } else {
+        return countryName.common.toLowerCase().startsWith(queriedCountry);
+      }
+    });
 
     // grab the country's official name
     /* we need to query by the official full name of the country because of unwanted 
@@ -51,6 +62,13 @@ const SearchBar = (props) => {
     hiddenAutoFillCountry = e.target.value;
 
     // set the visible autofill part
+    if (caseCountryNameArray) {
+      visibleAutoFillCountry = caseCountryNameArray.slice(
+        queriedCountry.length
+      );
+      return;
+    }
+
     visibleAutoFillCountry =
       autoFillTarget?.common.slice(queriedCountry.length) || "";
   };
