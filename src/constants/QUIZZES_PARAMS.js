@@ -8,7 +8,7 @@ const RELAXED_QUIZ_PARAMS = {
 };
 
 const CHALLENGE_QUIZ_PARAMS = {
-  numberOfCountries: 192,
+  numberOfCountries: 195,
   time: 600,
   lives: 5,
   onlyUN: true,
@@ -18,7 +18,7 @@ const HARDCORE_QUIZ_PARAMS = {
   numberOfCountries: COUNTRY_NAMES_LIST.length, // 252 including territories
   time: 900,
   lives: 3,
-  onlyUN: false, // territories included
+  onlyUN: false, // non UN members (only countries that are widely recognized to some extent) and territories included
 };
 
 export { RELAXED_QUIZ_PARAMS, CHALLENGE_QUIZ_PARAMS, HARDCORE_QUIZ_PARAMS };

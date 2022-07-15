@@ -71,7 +71,8 @@ const QuizzesList = () => {
           </div>
           <ul className={styles["quiz-details"]}>
             <li className={styles["quiz-detail"]}>
-              <span>🌎</span> Guess all the 195 Countries of the world.
+              <span>🌎</span> Guess all the 195 Countries of the world. (UN
+              members only)
             </li>
             <li className={styles["quiz-detail"]}>
               <span>🌍</span>You have 10 minutes.

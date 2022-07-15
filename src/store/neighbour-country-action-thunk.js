@@ -58,8 +58,9 @@ const fetchNeighbouringCountries = (borderCountries) => async (dispatch) => {
 
 export default fetchNeighbouringCountries;
 
-/* this is not meant to reflect any of my political views as a developer,
- i made this project with complete objectivity in mind. this was listed according to Wikipedia*/
+/* this is not meant to reflect any of my political views as a developer,i made this project
+ with complete objectivity in mind. this was listed particularly when dealing with bordering
+  countries because i thought it would increase the educational value of the Web-App*/
 const NON_UN_MEMBERS_SOVEREIGN_STATES = [
   "State of Palestine",
   "Republic of Kosovo",

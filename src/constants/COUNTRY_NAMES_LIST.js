@@ -538,7 +538,7 @@ const COUNTRY_NAMES_LIST = [
   {
     common: "Kosovo",
     official: "Republic of Kosovo",
-    isUN: true,
+    isUN: false,
   },
   {
     common: "Anguilla",
@@ -1210,8 +1210,8 @@ const COUNTRY_NAMES_LIST = [
   },
   {
     common: [
-      "Democratic Republic of Congo",
       "Democratic Republic of the Congo",
+      "Democratic Republic of Congo",
     ],
     official: "Democratic Republic of the Congo",
     isUN: true,
@@ -1249,7 +1249,7 @@ const COUNTRY_NAMES_LIST = [
   {
     common: "Taiwan",
     official: "Republic of China (Taiwan)",
-    isUN: true,
+    isUN: false,
   },
   {
     common: "Finland",

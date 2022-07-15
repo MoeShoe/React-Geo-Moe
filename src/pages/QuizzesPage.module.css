@@ -3,3 +3,17 @@
   transform: translateY(-30px);
   transition: opacity 500ms, transform 500ms;
 }
+
+.quiz-container {
+  transition: opacity 500ms, transform 500ms;
+}
+
+.quiz-container-enter {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.quiz-container-enter-done {
+  opacity: 1;
+  transform: translateY(0);
+}
