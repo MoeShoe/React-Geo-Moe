@@ -5,10 +5,13 @@
 }
 
 .quiz-container {
+  opacity: 0;
   transition: opacity 500ms, transform 500ms;
 }
 
 .quiz-container-enter {
+  position: absolute;
+  top: 0;
   opacity: 0;
   transform: translateY(30px);
 }

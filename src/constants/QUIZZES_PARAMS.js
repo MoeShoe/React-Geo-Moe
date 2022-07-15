@@ -8,7 +8,7 @@ const RELAXED_QUIZ_PARAMS = {
 };
 
 const CHALLENGE_QUIZ_PARAMS = {
-  numberOfCountries: 195,
+  numberOfCountries: COUNTRY_NAMES_LIST.filter((con) => con.isUN).length,
   time: 600,
   lives: 5,
   onlyUN: true,

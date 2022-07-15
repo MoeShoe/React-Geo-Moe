@@ -777,7 +777,7 @@ const COUNTRY_NAMES_LIST = [
     isUN: true,
   },
   {
-    common: ["United States", "USA", "US"],
+    common: ["United States", "United States of America", "USA", "US"],
     official: "United States of America",
     isUN: true,
   },
