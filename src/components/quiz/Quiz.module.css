@@ -10,6 +10,11 @@
   font-size: 30px;
 }
 
+.quiz-details-container div {
+  width: 33%;
+  text-align: center;
+}
+
 .country-cards-container {
   display: flex;
   justify-content: space-evenly;
