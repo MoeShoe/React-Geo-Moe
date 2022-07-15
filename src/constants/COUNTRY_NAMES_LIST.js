@@ -1258,4 +1258,4 @@ const COUNTRY_NAMES_LIST = [
   },
 ];
 
-export default COUNTRY_NAMES_LIST;
+export default Object.freeze(COUNTRY_NAMES_LIST);

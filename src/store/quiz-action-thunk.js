@@ -4,7 +4,7 @@ import { uiActions } from "./UI-slice";
 const getQuizCountry = (country, position) => async (dispatch) => {
   try {
     const initialFetch = await fetch(
-      `https://restcountries.com/v3.1/name/${country}?fields=flags`
+      `https://restcountries.com/v3.1/name/${country}?fields=name,flags`
     );
 
     if (!initialFetch.ok) throw new Error();
@@ -13,7 +13,7 @@ const getQuizCountry = (country, position) => async (dispatch) => {
 
     const formattedData = {
       position,
-      countryData: { name: country, flag: data.flags.svg },
+      countryData: { name: data.name.common, flag: data.flags.svg },
     };
 
     dispatch(quizzesActions.setCountryPosition(formattedData));

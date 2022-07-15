@@ -99,7 +99,7 @@ const QuizzesList = () => {
           </div>
           <ul className={styles["quiz-details"]}>
             <li className={styles["quiz-detail"]}>
-              <span>🌎</span> Guess all the 252 Countries and Territories of the
+              <span>🌎</span> Guess all the 250 Countries and Territories of the
               world.
             </li>
             <li className={styles["quiz-detail"]}>
