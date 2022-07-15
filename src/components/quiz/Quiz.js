@@ -1,14 +1,21 @@
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./Quiz.module.css";
 import Card from "../UI/Card";
+import getQuizCountry from "../../store/quiz-action-thunk";
 
 let isInitial = true;
 
 const Quiz = () => {
+  const dispatch = useDispatch();
+
+  //possible positions: nextFadedCountry, nextCountry, currentCountry, prevCountry, prevFadedCountry.
+  // dispatch(getQuizCountry("Oman", "nextCountry"));
+
   const inputGuess = useRef();
 
+  //* quiz parameters
   const { name, numberOfCountries, time, lives, onlyUN } = useSelector(
     (state) => state.quizzes.quiz.quizParams
   );
@@ -17,9 +24,7 @@ const Quiz = () => {
     ? `${lives} Lives`
     : "Unlimited Lives";
 
-  console.log(new Date(time));
-
-  const formattedTime = new Intl.DateTimeFormat("en-US", {
+  let formattedTime = new Intl.DateTimeFormat("en-US", {
     minute: "2-digit",
     second: "2-digit",
   }).format(time);
@@ -40,25 +45,44 @@ const Quiz = () => {
         <div className={styles["quiz-time"]}>{formattedTime}</div>
       </div>
       <div className={styles["country-cards-container"]}>
-        <Card className={styles["country-card"]}>
+        <Card
+          className={`${styles["country-card"]} ${styles["next-faded-country"]}`}
+        >
           <img src="" alt={`Flag of `} className={styles.flag} />
           <div className={styles["country-name"]}>
             <span>?</span>
           </div>
         </Card>
-        <Card className={styles["country-card"]}>
+        <Card className={`${styles["country-card"]} ${styles["next-country"]}`}>
           <img src="" alt={`Flag of `} className={styles.flag} />
           <div className={styles["country-name"]}>
             <span>?</span>
           </div>
         </Card>
-        <Card className={styles["country-card"]}>
+        <Card
+          className={`${styles["country-card"]} ${styles["current-country"]}`}
+        >
+          <img src="" alt={`Flag of `} className={styles.flag} />
+          <div className={styles["country-name"]}>
+            <span>?</span>
+          </div>
+        </Card>
+        <Card className={`${styles["country-card"]} ${styles["prev-country"]}`}>
+          <img src="" alt={`Flag of `} className={styles.flag} />
+          <div className={styles["country-name"]}>
+            <span>?</span>
+          </div>
+        </Card>
+        <Card
+          className={`${styles["country-card"]} ${styles["prev-faded-country"]}`}
+        >
           <img src="" alt={`Flag of `} className={styles.flag} />
           <div className={styles["country-name"]}>
             <span>?</span>
           </div>
         </Card>
       </div>
+      <div className={styles["number-of-countries"]}>0/{numberOfCountries}</div>
       <form
         className={styles["quiz-input-container"]}
         autoComplete="off"

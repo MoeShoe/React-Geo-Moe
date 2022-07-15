@@ -12,14 +12,41 @@ const quizzesInitialState = {
     quizType: "", // RELAXED CHALLENGE HARDCORE
     quizParams: {},
   },
+  quizGameData: {
+    gameIsOver: false,
+    countries: {
+      nextFadedCountry: {
+        name: "",
+        flag: "", // SVG url
+      },
+      nextCountry: {
+        name: "",
+        flag: "",
+      },
+      currentCountry: {
+        name: "",
+        flag: "",
+      },
+      prevCountry: {
+        name: "",
+        flag: "",
+      },
+      prevFadedCountry: {
+        name: "",
+        flag: "",
+      },
+    },
+  },
 };
 
 const quizzesSlice = createSlice({
   name: "quizzes",
   initialState: quizzesInitialState,
   reducers: {
+    // sets Quiz Type and initializes the game.
     setCurrentQuiz(state, action) {
       state.quizInPlay = true;
+      state.quizGameData.gameIsOver = false;
 
       switch (action.payload) {
         case "RELAXED":
@@ -46,6 +73,12 @@ const quizzesSlice = createSlice({
         default:
           break;
       }
+    },
+
+    // changes country cards positions
+    setCountryPosition(state, action) {
+      state.quizGameData.countries[action.payload.position] =
+        action.payload.countryData; // {name, flag}
     },
   },
 });

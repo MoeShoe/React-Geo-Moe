@@ -17,11 +17,13 @@
 
 .country-cards-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  height: 220px;
   margin: 60px 0;
 }
 
 .country-card {
+  position: absolute;
   display: flex;
   flex-direction: column;
   height: 220px;
@@ -48,6 +50,34 @@
 }
 
 .country-name span {
+  text-align: center;
+}
+
+.next-faded-country {
+  transform: translateX(-600px) scale(0.4);
+  opacity: 0;
+}
+.next-country {
+  transform: translateX(-300px) scale(0.8);
+  opacity: 0.5;
+}
+.current-country {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+}
+.prev-country {
+  transform: translateX(300px) scale(0.8);
+  opacity: 0.5;
+}
+.prev-faded-country {
+  transform: translateX(600px) scale(0.4);
+  opacity: 0;
+}
+
+.number-of-countries {
+  color: #484b4d;
+  font-weight: 700;
+  font-size: 30px;
   text-align: center;
 }
 
