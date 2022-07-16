@@ -716,7 +716,11 @@ const COUNTRY_NAMES_LIST = [
     isUN: false,
   },
   {
-    common: ["São Tomé and Príncipe", "Sao Tome and Principe"],
+    common: [
+      "São Tomé and Príncipe",
+      "Sao Tome and Principe",
+      "Sao Tome Principe",
+    ],
     official: "Democratic Republic of São Tomé and Príncipe",
     isUN: true,
   },
@@ -822,7 +826,7 @@ const COUNTRY_NAMES_LIST = [
     isUN: true,
   },
   {
-    common: "Guinea-Bissau",
+    common: ["Guinea-Bissau", "Guinea Bissau"],
     official: "Republic of Guinea-Bissau",
     isUN: true,
   },

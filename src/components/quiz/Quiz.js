@@ -5,6 +5,7 @@ import styles from "./Quiz.module.css";
 import Card from "../UI/Card";
 import getQuizCountry from "../../store/quiz-action-thunk";
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
+import { quizzesActions } from "../../store/quizzes-slice";
 
 let isInitial = true;
 
@@ -19,7 +20,7 @@ const listOfCountryPositions = [
   "prevFadedCountry",
 ];
 
-let currentCountryIndex = 2;
+let currentCountryIndex = [-1, -2, -3];
 
 let countryCardsClasses = [
   styles["next-faded-country"],
@@ -32,6 +33,10 @@ let countryCardsClasses = [
 const shiftClassesRight = () => {
   const poppedClass = countryCardsClasses.pop();
   countryCardsClasses.unshift(poppedClass);
+
+  if (currentCountryIndex !== 4) currentCountryIndex++;
+  else currentCountryIndex = 0;
+
   return countryCardsClasses.slice();
 };
 
@@ -61,8 +66,8 @@ const shiftClassesGuessCorrect = () => {
     $$countryCardsClasses[currentCountryIndex] +
     ` ${styles["card-is-correct"]}`;
 
-  if (currentCountryIndex !== 0) currentCountryIndex--;
-  else currentCountryIndex = 2;
+  const $index = currentCountryIndex.pop();
+  currentCountryIndex.unshift($index);
 
   return $$countryCardsClasses;
 };
@@ -91,12 +96,17 @@ const Quiz = () => {
 
   //! refactor into a hook and move elsewhere
 
+  const nextCountryList = useSelector(
+    (state) => state.quizzes.quizGameData.nextCountries
+  );
+  const prevCountryList = useSelector(
+    (state) => state.quizzes.quizGameData.prevCountries
+  );
+
+  console.log(nextCountryList);
+
   const [$countryCardsClasses, setCountryCardsClasses] =
     useState(countryCardsClasses);
-
-  const countriesOrder = useSelector(
-    (state) => state.quizzes.quizGameData.countries
-  );
 
   const getRandomCountry = () => {
     const getRandomIndex = (lgth) => Math.trunc(Math.random() * (lgth + 1));
@@ -104,10 +114,10 @@ const Quiz = () => {
     if (onlyUN) countriesList = COUNTRY_NAMES_LIST.filter((con) => con.isUN);
     else countriesList = COUNTRY_NAMES_LIST;
     ////////////////////////////////////////////
-    let randomIndex = getRandomIndex(countriesList.length);
+    let randomIndex = getRandomIndex(countriesList.length - 1);
 
     while (usedIndexesArray.includes(randomIndex)) {
-      randomIndex = getRandomIndex(countriesList.length);
+      randomIndex = getRandomIndex(countriesList.length - 1);
     }
 
     usedIndexesArray.push(randomIndex);
@@ -119,19 +129,12 @@ const Quiz = () => {
   useEffect(() => {
     const initializeGame = () => {
       // order is important
-      dispatch(getQuizCountry(getRandomCountry(), "nextCountry"));
-      dispatch(getQuizCountry(getRandomCountry(), "nextFadedCountry"));
-      dispatch(getQuizCountry(getRandomCountry(), "currentCountry"));
+      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
+      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
+      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
     };
     initializeGame();
   }, [dispatch]);
-
-  const nextCountryList = useSelector(
-    (state) => state.quizzes.quizGameData.nextCountries
-  );
-  const prevCountryList = useSelector(
-    (state) => state.quizzes.quizGameData.prevCountries
-  );
 
   //! end
 
@@ -142,8 +145,8 @@ const Quiz = () => {
     if (inputGuess.current.value === "") return;
 
     //!
-    const targetCountryName =
-      countriesOrder[listOfCountryPositions[currentCountryIndex]].name;
+    const targetCountryName = nextCountryList.at(-1).name;
+    console.log(targetCountryName);
 
     let guessIsCorrect;
 
@@ -157,13 +160,19 @@ const Quiz = () => {
         targetCountryName.toLowerCase();
     }
 
-    const getNewCountry = () => {
-      dispatch(getQuizCountry(getRandomCountry()));
-    };
+    // const onCorrectGuess = () => {
+    //   dispatch(
+    //     quizzesActions.setCountryPosition(
+    //       listOfCountryPositions[currentCountryIndex]
+    //     )
+    //   );
+    // };
 
     if (guessIsCorrect) {
       console.log("guess is correct");
       setCountryCardsClasses(shiftClassesGuessCorrect());
+      dispatch(quizzesActions.onGuessSuccess());
+      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
     } else {
       console.log("guess is incorrect");
       return;
@@ -188,7 +197,7 @@ const Quiz = () => {
           className={`${styles["country-card"]} ${$countryCardsClasses[0]}`}
         >
           <img
-            src={countriesOrder.nextFadedCountry.flag}
+            src={nextCountryList.at(currentCountryIndex[2])?.flag}
             alt="Mystery Flag"
             className={styles.flag}
           />
@@ -198,13 +207,13 @@ const Quiz = () => {
         </Card>
         <Card
           className={`${styles["country-card"]} ${
-            !countriesOrder.nextFadedCountry.name.at(0)
+            !nextCountryList.at(currentCountryIndex[1])?.name?.at(0)
               ? styles["hidden-country"]
               : ""
           } ${$countryCardsClasses[1]}`}
         >
           <img
-            src={countriesOrder.nextCountry.flag}
+            src={nextCountryList.at(currentCountryIndex[1])?.flag}
             alt="Mystery Flag"
             className={styles.flag}
           />
@@ -216,7 +225,7 @@ const Quiz = () => {
           className={`${styles["country-card"]} ${$countryCardsClasses[2]}`}
         >
           <img
-            src={countriesOrder.currentCountry.flag}
+            src={nextCountryList.at(currentCountryIndex[0])?.flag}
             alt="Mystery Flag"
             className={styles.flag}
           />
@@ -226,13 +235,11 @@ const Quiz = () => {
         </Card>
         <Card
           className={`${styles["country-card"]} ${
-            !countriesOrder.prevCountry.name.at(0)
-              ? styles["hidden-country"]
-              : ""
+            !prevCountryList.at(-1)?.name?.at(0) ? styles["hidden-country"] : ""
           } ${$countryCardsClasses[3]}`}
         >
           <img
-            src={countriesOrder.prevCountry.flag}
+            src={prevCountryList.at(-1)?.flag}
             alt="Mystery Flag"
             className={styles.flag}
           />
@@ -244,7 +251,7 @@ const Quiz = () => {
           className={`${styles["country-card"]} ${$countryCardsClasses[4]}`}
         >
           <img
-            src={countriesOrder.prevFadedCountry.flag}
+            src={prevCountryList.at(-2)?.flag}
             alt="Mystery Flag"
             className={styles.flag}
           />

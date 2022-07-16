@@ -14,29 +14,8 @@ const quizzesInitialState = {
   },
   quizGameData: {
     gameIsOver: false,
-    countries: {
-      nextFadedCountry: {
-        name: "",
-        flag: "", // SVG url
-      },
-      nextCountry: {
-        name: "",
-        flag: "",
-      },
-      currentCountry: {
-        name: "",
-        flag: "",
-      },
-      prevCountry: {
-        name: "",
-        flag: "",
-      },
-      prevFadedCountry: {
-        name: "",
-        flag: "",
-      },
-    },
-    nextCountries: [],
+
+    nextCountries: [], //last element is the current country
     prevCountries: [],
   },
 };
@@ -79,22 +58,18 @@ const quizzesSlice = createSlice({
 
     // changes country cards positions
     setCountryPosition(state, action) {
-      state.quizGameData.countries[action.payload.position] =
-        action.payload.countryData; // {name, flag}
+      const direction = action.payload.arr;
+
+      if (direction === "NEXT")
+        state.quizGameData.nextCountries.unshift(action.payload.country);
+
+      if (direction === "PREV")
+        state.quizGameData.prevCountries.unshift(action.payload.country);
     },
 
-    // updates next, prev arrays
-    updateNextPrevCountries(state, action) {
-      // payload: {country: {name, flag}, arr: "PREV" || "NEXT", }
-      const country = action.payload.country;
-
-      if (action.payload.arr === "nextCountry") {
-        state.quizGameData.nextCountries.push(country);
-      }
-
-      if (action.payload.arr === "nextFadedCountry") {
-        state.quizGameData.nextCountries.unshift(country);
-      }
+    // on successful guess
+    onGuessSuccess(state) {
+      state.quizGameData.nextCountries.pop();
     },
   },
 });
