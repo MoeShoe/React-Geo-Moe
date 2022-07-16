@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./Quiz.module.css";
@@ -7,7 +7,67 @@ import getQuizCountry from "../../store/quiz-action-thunk";
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
 
 let isInitial = true;
+
+//!
 const usedIndexesArray = [];
+
+const listOfCountryPositions = [
+  "nextFadedCountry",
+  "nextCountry",
+  "currentCountry",
+  "prevCountry",
+  "prevFadedCountry",
+];
+
+let currentCountryIndex = 2;
+
+let countryCardsClasses = [
+  styles["next-faded-country"],
+  styles["next-country"],
+  styles["current-country"],
+  styles["prev-country"],
+  styles["prev-faded-country"],
+];
+
+const shiftClassesRight = () => {
+  const poppedClass = countryCardsClasses.pop();
+  countryCardsClasses.unshift(poppedClass);
+  return countryCardsClasses.slice();
+};
+
+const shiftClassesLeft = () => {
+  const shiftedClass = countryCardsClasses.shift();
+  countryCardsClasses.push(shiftedClass);
+
+  if (currentCountryIndex !== 0) currentCountryIndex--;
+  else currentCountryIndex = 4;
+
+  return countryCardsClasses.slice();
+};
+
+const shiftClassesGuessCorrect = () => {
+  const $countryCardsClasses = countryCardsClasses.slice(0, 3);
+
+  const shiftedClass = $countryCardsClasses.shift();
+  $countryCardsClasses.push(shiftedClass);
+
+  const $$countryCardsClasses = $countryCardsClasses.concat(
+    countryCardsClasses.slice(3)
+  );
+
+  countryCardsClasses = $$countryCardsClasses.slice();
+
+  $$countryCardsClasses[currentCountryIndex] =
+    $$countryCardsClasses[currentCountryIndex] +
+    ` ${styles["card-is-correct"]}`;
+
+  if (currentCountryIndex !== 0) currentCountryIndex--;
+  else currentCountryIndex = 2;
+
+  return $$countryCardsClasses;
+};
+
+//! end
 
 const Quiz = () => {
   const dispatch = useDispatch();
@@ -29,22 +89,14 @@ const Quiz = () => {
     second: "2-digit",
   }).format(time);
 
-  //* event handlers
-  const quizGuessSubmitHandler = (e) => {
-    e.preventDefault();
-    inputGuess.current.value = "";
-
-    // undo initial state
-    if (isInitial) isInitial = false;
-  };
-
   //! refactor into a hook and move elsewhere
+
+  const [$countryCardsClasses, setCountryCardsClasses] =
+    useState(countryCardsClasses);
 
   const countriesOrder = useSelector(
     (state) => state.quizzes.quizGameData.countries
   );
-
-  console.log(countriesOrder);
 
   const getRandomCountry = () => {
     const getRandomIndex = (lgth) => Math.trunc(Math.random() * (lgth + 1));
@@ -59,18 +111,70 @@ const Quiz = () => {
     }
 
     usedIndexesArray.push(randomIndex);
-    return countriesList[randomIndex].official;
+    return countriesList[randomIndex];
   };
 
   //possible positions: nextFadedCountry, nextCountry, currentCountry, prevCountry, prevFadedCountry.
   // dispatch(getQuizCountry("Oman", "nextCountry"));
   useEffect(() => {
-    dispatch(getQuizCountry(getRandomCountry(), "currentCountry"));
-    dispatch(getQuizCountry(getRandomCountry(), "nextCountry"));
-    dispatch(getQuizCountry(getRandomCountry(), "nextFadedCountry"));
+    const initializeGame = () => {
+      // order is important
+      dispatch(getQuizCountry(getRandomCountry(), "nextCountry"));
+      dispatch(getQuizCountry(getRandomCountry(), "nextFadedCountry"));
+      dispatch(getQuizCountry(getRandomCountry(), "currentCountry"));
+    };
+    initializeGame();
   }, [dispatch]);
 
+  const nextCountryList = useSelector(
+    (state) => state.quizzes.quizGameData.nextCountries
+  );
+  const prevCountryList = useSelector(
+    (state) => state.quizzes.quizGameData.prevCountries
+  );
+
   //! end
+
+  //* event handlers
+  const quizGuessSubmitHandler = (e) => {
+    e.preventDefault();
+    //Guard Clause
+    if (inputGuess.current.value === "") return;
+
+    //!
+    const targetCountryName =
+      countriesOrder[listOfCountryPositions[currentCountryIndex]].name;
+
+    let guessIsCorrect;
+
+    if (Array.isArray(targetCountryName)) {
+      guessIsCorrect = targetCountryName
+        .map((countryName) => countryName.toLowerCase())
+        .includes(inputGuess.current.value.toLowerCase());
+    } else {
+      guessIsCorrect =
+        inputGuess.current.value.toLowerCase() ===
+        targetCountryName.toLowerCase();
+    }
+
+    const getNewCountry = () => {
+      dispatch(getQuizCountry(getRandomCountry()));
+    };
+
+    if (guessIsCorrect) {
+      console.log("guess is correct");
+      setCountryCardsClasses(shiftClassesGuessCorrect());
+    } else {
+      console.log("guess is incorrect");
+      return;
+    }
+
+    //! end
+
+    inputGuess.current.value = "";
+    // undo initial state
+    if (isInitial) isInitial = false;
+  };
 
   return (
     <div className={styles["quiz-container"]}>
@@ -81,21 +185,11 @@ const Quiz = () => {
       </div>
       <div className={styles["country-cards-container"]}>
         <Card
-          className={`${styles["country-card"]} ${styles["next-faded-country"]}`}
+          className={`${styles["country-card"]} ${$countryCardsClasses[0]}`}
         >
           <img
             src={countriesOrder.nextFadedCountry.flag}
-            alt={`Flag of ${countriesOrder.nextFadedCountry.name}`}
-            className={styles.flag}
-          />
-          <div className={styles["country-name"]}>
-            <span>?</span>
-          </div>
-        </Card>
-        <Card className={`${styles["country-card"]} ${styles["next-country"]}`}>
-          <img
-            src={countriesOrder.nextCountry.flag}
-            alt={`Flag of ${countriesOrder.nextCountry.name}`}
+            alt="Mystery Flag"
             className={styles.flag}
           />
           <div className={styles["country-name"]}>
@@ -103,21 +197,27 @@ const Quiz = () => {
           </div>
         </Card>
         <Card
-          className={`${styles["country-card"]} ${styles["current-country"]}`}
+          className={`${styles["country-card"]} ${
+            !countriesOrder.nextFadedCountry.name.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${$countryCardsClasses[1]}`}
+        >
+          <img
+            src={countriesOrder.nextCountry.flag}
+            alt="Mystery Flag"
+            className={styles.flag}
+          />
+          <div className={styles["country-name"]}>
+            <span>?</span>
+          </div>
+        </Card>
+        <Card
+          className={`${styles["country-card"]} ${$countryCardsClasses[2]}`}
         >
           <img
             src={countriesOrder.currentCountry.flag}
-            alt={`Flag of ${countriesOrder.currentCountry.name}`}
-            className={styles.flag}
-          />
-          <div className={styles["country-name"]}>
-            <span>?</span>
-          </div>
-        </Card>
-        <Card className={`${styles["country-card"]} ${styles["prev-country"]}`}>
-          <img
-            src={countriesOrder.prevCountry.flag}
-            alt={`Flag of ${countriesOrder.prevCountry.name}`}
+            alt="Mystery Flag"
             className={styles.flag}
           />
           <div className={styles["country-name"]}>
@@ -125,11 +225,27 @@ const Quiz = () => {
           </div>
         </Card>
         <Card
-          className={`${styles["country-card"]} ${styles["prev-faded-country"]}`}
+          className={`${styles["country-card"]} ${
+            !countriesOrder.prevCountry.name.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${$countryCardsClasses[3]}`}
+        >
+          <img
+            src={countriesOrder.prevCountry.flag}
+            alt="Mystery Flag"
+            className={styles.flag}
+          />
+          <div className={styles["country-name"]}>
+            <span>?</span>
+          </div>
+        </Card>
+        <Card
+          className={`${styles["country-card"]} ${$countryCardsClasses[4]}`}
         >
           <img
             src={countriesOrder.prevFadedCountry.flag}
-            alt={`Flag of ${countriesOrder.prevFadedCountry.name}`}
+            alt="Mystery Flag"
             className={styles.flag}
           />
           <div className={styles["country-name"]}>

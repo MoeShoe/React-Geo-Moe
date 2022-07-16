@@ -41,7 +41,7 @@ const COUNTRY_NAMES_LIST = [
     isUN: true,
   },
   {
-    common: "Myanmar",
+    common: ["Myanmar", "Burma"],
     official: "Republic of the Union of Myanmar",
     isUN: true,
   },

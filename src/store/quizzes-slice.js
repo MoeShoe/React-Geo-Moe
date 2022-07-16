@@ -36,6 +36,8 @@ const quizzesInitialState = {
         flag: "",
       },
     },
+    nextCountries: [],
+    prevCountries: [],
   },
 };
 
@@ -79,6 +81,20 @@ const quizzesSlice = createSlice({
     setCountryPosition(state, action) {
       state.quizGameData.countries[action.payload.position] =
         action.payload.countryData; // {name, flag}
+    },
+
+    // updates next, prev arrays
+    updateNextPrevCountries(state, action) {
+      // payload: {country: {name, flag}, arr: "PREV" || "NEXT", }
+      const country = action.payload.country;
+
+      if (action.payload.arr === "nextCountry") {
+        state.quizGameData.nextCountries.push(country);
+      }
+
+      if (action.payload.arr === "nextFadedCountry") {
+        state.quizGameData.nextCountries.unshift(country);
+      }
     },
   },
 });

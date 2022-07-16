@@ -74,6 +74,14 @@
   opacity: 0;
 }
 
+.card-is-correct {
+  animation: card-guess-correct 150ms;
+}
+
+.hidden-country {
+  opacity: 0;
+}
+
 .number-of-countries {
   color: #484b4d;
   font-weight: 700;
@@ -111,4 +119,15 @@
 
 .quiz-input-error:focus {
   border: solid 2px red;
+}
+
+@keyframes card-guess-correct {
+  from {
+    transform: translate(0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(0, -100px);
+    opacity: 0;
+  }
 }
