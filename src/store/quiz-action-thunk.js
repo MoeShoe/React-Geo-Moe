@@ -4,16 +4,21 @@ import { uiActions } from "./UI-slice";
 const getQuizCountry = (country, position) => async (dispatch) => {
   try {
     const initialFetch = await fetch(
-      `https://restcountries.com/v3.1/name/${country.official}?fields=flags`
+      `https://restcountries.com/v3.1/name/${country.official}?fields=flags,name`
     );
 
     if (!initialFetch.ok) throw new Error();
 
-    const [data] = await initialFetch.json();
+    let data = await initialFetch.json();
+
+    console.log(data);
+
+    if (data.length !== 1)
+      data = data.filter((con) => con.name.official === country.official);
 
     const formattedData = {
       position,
-      countryData: { name: country.common, flag: data.flags.svg },
+      countryData: { name: country.common, flag: data.at(0).flags.svg },
     };
 
     dispatch(quizzesActions.setCountryPosition(formattedData));
@@ -25,7 +30,7 @@ const getQuizCountry = (country, position) => async (dispatch) => {
       })
     );
   } catch (_) {
-    dispatch(uiActions.setError("You appear to be offline"));
+    dispatch(uiActions.setError("You appear to be offline!"));
   }
 };
 

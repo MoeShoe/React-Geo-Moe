@@ -103,8 +103,6 @@ const Quiz = () => {
     (state) => state.quizzes.quizGameData.prevCountries
   );
 
-  console.log(nextCountryList);
-
   const [$countryCardsClasses, setCountryCardsClasses] =
     useState(countryCardsClasses);
 
@@ -114,6 +112,12 @@ const Quiz = () => {
     if (onlyUN) countriesList = COUNTRY_NAMES_LIST.filter((con) => con.isUN);
     else countriesList = COUNTRY_NAMES_LIST;
     ////////////////////////////////////////////
+
+    if (usedIndexesArray.length === countriesList.length) {
+      console.log("you finished the game! congratulations!");
+      return;
+    }
+
     let randomIndex = getRandomIndex(countriesList.length - 1);
 
     while (usedIndexesArray.includes(randomIndex)) {
@@ -146,7 +150,6 @@ const Quiz = () => {
 
     //!
     const targetCountryName = nextCountryList.at(-1).name;
-    console.log(targetCountryName);
 
     let guessIsCorrect;
 
