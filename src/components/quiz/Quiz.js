@@ -21,6 +21,7 @@ const listOfCountryPositions = [
 ];
 
 let currentCountryIndex = [-1, -2, -3];
+let currentCountryClassIndex = 2;
 
 let countryCardsClasses = [
   styles["next-faded-country"],
@@ -34,8 +35,8 @@ const shiftClassesRight = () => {
   const poppedClass = countryCardsClasses.pop();
   countryCardsClasses.unshift(poppedClass);
 
-  if (currentCountryIndex !== 4) currentCountryIndex++;
-  else currentCountryIndex = 0;
+  // if (currentCountryIndex !== 4) currentCountryIndex++;
+  // else currentCountryIndex = 0;
 
   return countryCardsClasses.slice();
 };
@@ -44,8 +45,8 @@ const shiftClassesLeft = () => {
   const shiftedClass = countryCardsClasses.shift();
   countryCardsClasses.push(shiftedClass);
 
-  if (currentCountryIndex !== 0) currentCountryIndex--;
-  else currentCountryIndex = 4;
+  // if (currentCountryIndex !== 0) currentCountryIndex--;
+  // else currentCountryIndex = 4;
 
   return countryCardsClasses.slice();
 };
@@ -62,9 +63,12 @@ const shiftClassesGuessCorrect = () => {
 
   countryCardsClasses = $$countryCardsClasses.slice();
 
-  $$countryCardsClasses[currentCountryIndex] =
-    $$countryCardsClasses[currentCountryIndex] +
+  $$countryCardsClasses[currentCountryClassIndex] =
+    $$countryCardsClasses[currentCountryClassIndex] +
     ` ${styles["card-is-correct"]}`;
+
+  if (currentCountryClassIndex !== 0) currentCountryClassIndex--;
+  else currentCountryClassIndex = 2;
 
   const $index = currentCountryIndex.pop();
   currentCountryIndex.unshift($index);
@@ -173,9 +177,12 @@ const Quiz = () => {
 
     if (guessIsCorrect) {
       console.log("guess is correct");
+
       setCountryCardsClasses(shiftClassesGuessCorrect());
+
+      dispatch(getQuizCountry(getRandomCountry(), "NEXT", true));
+
       dispatch(quizzesActions.onGuessSuccess());
-      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
     } else {
       console.log("guess is incorrect");
       return;

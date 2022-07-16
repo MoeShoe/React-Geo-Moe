@@ -60,8 +60,10 @@ const quizzesSlice = createSlice({
     setCountryPosition(state, action) {
       const direction = action.payload.arr;
 
-      if (direction === "NEXT")
+      if (direction === "NEXT") {
+        if (action.payload.shift) state.quizGameData.nextCountries.shift();
         state.quizGameData.nextCountries.unshift(action.payload.country);
+      }
 
       if (direction === "PREV")
         state.quizGameData.prevCountries.unshift(action.payload.country);
@@ -69,7 +71,8 @@ const quizzesSlice = createSlice({
 
     // on successful guess
     onGuessSuccess(state) {
-      state.quizGameData.nextCountries.pop();
+      const poppedCountry = state.quizGameData.nextCountries.pop();
+      state.quizGameData.nextCountries.unshift(poppedCountry);
     },
   },
 });
