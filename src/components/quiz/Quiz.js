@@ -7,17 +7,7 @@ import getQuizCountry from "../../store/quiz-action-thunk";
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
 import { quizzesActions } from "../../store/quizzes-slice";
 
-let isInitial = true;
-
 //!
-let countriesList = [];
-
-let gameIsWon,
-  gameIsLost = false;
-let $lives;
-
-let startTimer = false;
-let quizTimer, $time;
 
 let currentCountryIndex = [-1, -2, -3, -4, -5];
 let currentCountryClassIndex = 2;
@@ -92,27 +82,105 @@ const Quiz = () => {
   );
 
   //*data formatting
-  const [formattedLives, setFormattedLives] = useState(
-    Number.isFinite(lives) ? `${lives} Lives` : "Unlimited Lives"
-  );
 
-  const [formattedTime, setFormattedTime] = useState(
-    new Intl.DateTimeFormat("en-US", {
+  const [quizTime, setQuizTime] = useState({
+    time: time, //*
+    formattedTime: new Intl.DateTimeFormat("en-US", {
       minute: "2-digit",
       second: "2-digit",
-    }).format(time)
-  );
+    }).format(time),
+  });
 
   //!
   //* Quiz Game state reducer
 
+  const deepClone = (refData) => JSON.parse(JSON.stringify(refData));
+
+  const getRandomIndex = (lgth) => Math.trunc(Math.random() * lgth);
+  const getRandomCountry = () => {
+    // Guard Clause
+    if (quizGameState.countriesList.length === 0) {
+      return;
+    }
+
+    const randomIndex = getRandomIndex(quizGameState.countriesList.length);
+
+    dispatchQuizGameState({ type: "REMOVE_COUNTRY", payload: randomIndex });
+    return quizGameState.countriesList[randomIndex];
+  };
+
   const quizGameStateReducer = (state, action) => {
     switch (action.type) {
       case "INITIALIZE_GAME":
-        dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-        dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-        dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-        break;
+        let $countriesList;
+        if (onlyUN)
+          $countriesList = deepClone(
+            COUNTRY_NAMES_LIST.filter((con) => con.isUN)
+          );
+        else $countriesList = deepClone(COUNTRY_NAMES_LIST);
+
+        dispatch(
+          getQuizCountry(
+            $countriesList
+              .splice(getRandomIndex($countriesList.length), 1)
+              .at(0),
+            "NEXT"
+          )
+        );
+
+        dispatch(
+          getQuizCountry(
+            $countriesList
+              .splice(getRandomIndex($countriesList.length), 1)
+              .at(0),
+            "NEXT"
+          )
+        );
+
+        dispatch(
+          getQuizCountry(
+            $countriesList
+              .splice(getRandomIndex($countriesList.length), 1)
+              .at(0),
+            "NEXT"
+          )
+        );
+
+        return deepClone({
+          ...state,
+          countriesList: $countriesList,
+        });
+
+      case "REMOVE_COUNTRY":
+        return deepClone({
+          ...state,
+          countriesList: state.countriesList
+            .slice(0, action.payload)
+            .concat(state.countriesList.slice(action.payload + 1)),
+        });
+
+      case "UNDO_INITIAL":
+        return deepClone({ ...state, isInitial: false });
+
+      case "UPDATE_GAME_STATE":
+        return deepClone({ ...state, gameState: action.payload });
+
+      case "DECREMENT_LIVES":
+        return deepClone({
+          ...state,
+          lives: state.lives - 1,
+          formattedLives: `${state.lives - 1} Lives`,
+        });
+
+      case "SET_TIMER":
+        return deepClone({
+          ...state,
+          timer: {
+            ...state.timer,
+            startTimer: action.payload.startTimer,
+            quizTimer: action.payload.timer,
+          },
+        });
 
       case "SHIFT_CLASSES_LEFT":
         break;
@@ -124,7 +192,8 @@ const Quiz = () => {
         break;
 
       default:
-        break;
+        console.log("you are in the default block!");
+        return deepClone({ ...state });
     }
   };
 
@@ -143,11 +212,6 @@ const Quiz = () => {
     timer: {
       startTimer: false,
       quizTimer: null,
-      time: time, //*
-      formattedTime: new Intl.DateTimeFormat("en-US", {
-        second: "2-digit",
-        minute: "2-digit",
-      }).format(time),
     },
 
     cardClasses: {
@@ -171,6 +235,8 @@ const Quiz = () => {
     quizGameStateReducer,
     quizGameInitialState
   );
+
+  console.log(quizGameState);
 
   //! reducer end
   ///////////////////////////////////////////////
@@ -202,53 +268,25 @@ const Quiz = () => {
   //* add winning handler
   if (numberOfGuessedCountries === numberOfCountries) {
     console.log("Congratulations!, you won!");
-    gameIsWon = true;
+    dispatchQuizGameState({
+      type: "UPDATE_GAME_STATE",
+      payload: { won: true },
+    });
   }
 
-  //* add losing handler
-  if (gameIsLost) {
+  if (quizGameState.gameState.lost) {
     console.log("You lost! :( try again?");
   }
 
-  if (gameIsWon || gameIsLost) {
-    dispatch(quizzesActions.resetQuiz());
-    clearInterval(quizTimer);
+  if (quizGameState.gameState.won || quizGameState.gameState.lost) {
+    console.log("game has been resolved!");
+    // dispatch(quizzesActions.resetQuiz());
+    clearInterval(quizGameState.timer.quizTimer);
   }
 
-  if (!$lives && $lives !== 0) $lives = lives;
-  if (!$time && $time !== 0) $time = time;
-
-  const getRandomCountry = () => {
-    const getRandomIndex = (lgth) => Math.trunc(Math.random() * lgth);
-
-    if (isInitial && countriesList.length === 0) {
-      // deep cloning
-      if (onlyUN)
-        countriesList = JSON.parse(
-          JSON.stringify(COUNTRY_NAMES_LIST.filter((con) => con.isUN))
-        );
-      else countriesList = JSON.parse(JSON.stringify(COUNTRY_NAMES_LIST));
-    }
-    ////////////////////////////////////////////
-
-    if (countriesList.length === 0) {
-      return;
-    }
-
-    const randomIndex = getRandomIndex(countriesList.length);
-
-    const [country] = countriesList.splice(randomIndex, 1);
-    return country;
-  };
-
   useEffect(() => {
-    const initializeGame = () => {
-      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-    };
-    initializeGame();
-  }, [dispatch]);
+    dispatchQuizGameState({ type: "INITIALIZE_GAME" });
+  }, []);
 
   //! end
 
@@ -259,7 +297,7 @@ const Quiz = () => {
     if (inputGuess.current.value === "") return;
 
     //!
-    if (gameIsWon || gameIsLost) return;
+    if (quizGameState.gameState.won || quizGameState.gameState.lost) return;
 
     const targetCountryName = nextCountryList.at(-1).name;
 
@@ -305,37 +343,51 @@ const Quiz = () => {
     else {
       setGuessAnimation("guess-false");
 
-      if (Number.isFinite(lives)) {
-        $lives--;
-        setFormattedLives($lives + " Lives");
-        if ($lives === 0) gameIsLost = true;
+      if (Number.isFinite(quizGameState.lives)) {
+        console.log("decremented!");
+        dispatchQuizGameState({ type: "DECREMENT_LIVES" });
       }
+
+      //* add losing handler
+      if (quizGameState.lives === 1)
+        dispatchQuizGameState({
+          type: "UPDATE_GAME_STATE",
+          payload: { lost: true },
+        });
     }
 
-    if (!startTimer) {
-      startTimer = true;
-
-      quizTimer = setInterval(() => {
-        $time -= 1000; // because it's in Milliseconds
-
-        setFormattedTime(
-          new Intl.DateTimeFormat("en-US", {
-            second: "2-digit",
-            minute: "2-digit",
-          }).format($time)
-        );
-
-        if ($time === 0) {
-          gameIsLost = true;
-          clearInterval(quizTimer);
-        }
-      }, 1000);
+    if (!quizGameState.timer.startTimer) {
+      dispatchQuizGameState({
+        type: "SET_TIMER",
+        payload: {
+          startTimer: true,
+          timer: setInterval(() => {
+            setQuizTime((state) => {
+              const newTime = state.time - 1_000; //because it's in milliseconds
+              if (newTime === 0) {
+                dispatchQuizGameState({
+                  type: "UPDATE_GAME_STATE",
+                  payload: { lost: true },
+                });
+              }
+              return {
+                time: newTime,
+                formattedTime: new Intl.DateTimeFormat("en-US", {
+                  second: "2-digit",
+                  minute: "2-digit",
+                }).format(newTime),
+              };
+            });
+          }, 1000),
+        },
+      });
     }
 
     //! end
 
     // undo initial state
-    if (isInitial) isInitial = false;
+    if (quizGameState.isInitial)
+      dispatchQuizGameState({ type: "UNDO_INITIAL" });
   };
 
   return (
@@ -346,21 +398,21 @@ const Quiz = () => {
           style={
             Number.isFinite(lives)
               ? {
-                  color: `hsl(${($lives / lives) * 120},100%,40%)`,
+                  color: `hsl(${(quizGameState.lives / lives) * 120},100%,40%)`,
                 }
               : { color: "hsl(120,100%,40%)" }
           }
         >
-          {formattedLives}
+          {quizGameState.formattedLives}
         </div>
         <div className={styles["quiz-type"]}>{name}</div>
         <div
           className={styles["quiz-time"]}
           style={{
-            color: `hsl(${($time / time) * 120},100%,40%)`,
+            color: `hsl(${(quizTime.time / time) * 120},100%,40%)`,
           }}
         >
-          {formattedTime}
+          {quizTime.formattedTime}
         </div>
       </div>
       <div className={styles["country-cards-container"]}>
@@ -454,9 +506,9 @@ const Quiz = () => {
             guessAnimation ? styles[guessAnimation] : ""
           }`}
           maxLength="33"
-          placeholder={isInitial ? "Input your guess here!" : ""}
+          placeholder={quizGameState.isInitial ? "Input your guess here!" : ""}
           ref={inputGuess}
-          disabled={gameIsLost || gameIsWon}
+          disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
         />
       </form>
     </div>
