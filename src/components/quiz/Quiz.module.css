@@ -121,6 +121,19 @@
   border: solid 2px red;
 }
 
+.quiz-input-correct:after {
+  content: "";
+  height: 100px;
+  width: 100px;
+  color: red;
+}
+.quiz-input-false:after {
+  content: "";
+  height: 100px;
+  width: 100px;
+  color: blue;
+}
+
 @keyframes card-guess-correct {
   from {
     transform: translate(0);

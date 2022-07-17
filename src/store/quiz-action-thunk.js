@@ -18,7 +18,7 @@ const getQuizCountry =
       if (data.length !== 1)
         data = data.filter((con) => con.name.official === country.official);
 
-      //waits for on correct guess animation
+      //waits for onCorrect guess animation
       if (shift) await waitAnimation(250);
 
       dispatch(

@@ -501,7 +501,7 @@ const COUNTRY_NAMES_LIST = [
     isUN: true,
   },
   {
-    common: ["Timor-Leste", "East Timor"],
+    common: ["Timor-Leste", "Timor Leste", "East Timor"],
     official: "Democratic Republic of Timor-Leste",
     isUN: true,
   },

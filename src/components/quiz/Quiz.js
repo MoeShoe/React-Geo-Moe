@@ -12,13 +12,10 @@ let isInitial = true;
 //!
 const usedIndexesArray = [];
 
-const listOfCountryPositions = [
-  "nextFadedCountry",
-  "nextCountry",
-  "currentCountry",
-  "prevCountry",
-  "prevFadedCountry",
-];
+let gameIsWon = false;
+
+let startTimer = false;
+let quizTimer, $time;
 
 let currentCountryIndex = [-1, -2, -3];
 let currentCountryClassIndex = 2;
@@ -93,11 +90,14 @@ const Quiz = () => {
     ? `${lives} Lives`
     : "Unlimited Lives";
 
-  let formattedTime = new Intl.DateTimeFormat("en-US", {
-    minute: "2-digit",
-    second: "2-digit",
-  }).format(time);
+  const [formattedTime, setFormattedTime] = useState(
+    new Intl.DateTimeFormat("en-US", {
+      minute: "2-digit",
+      second: "2-digit",
+    }).format(time)
+  );
 
+  //TODO
   //! refactor into a hook and move elsewhere
 
   const nextCountryList = useSelector(
@@ -110,6 +110,15 @@ const Quiz = () => {
   const [$countryCardsClasses, setCountryCardsClasses] =
     useState(countryCardsClasses);
 
+  const [numberOfGuessedCountries, setNumberOfGuessedCountries] = useState(0);
+
+  //* add winning handler
+  if (numberOfGuessedCountries === numberOfCountries) {
+    console.log("Congratulations!, you won the game!");
+    gameIsWon = true;
+    clearInterval(quizTimer);
+  }
+
   const getRandomCountry = () => {
     const getRandomIndex = (lgth) => Math.trunc(Math.random() * (lgth + 1));
     let countriesList;
@@ -117,8 +126,9 @@ const Quiz = () => {
     else countriesList = COUNTRY_NAMES_LIST;
     ////////////////////////////////////////////
 
+    //TODO
+    // bad! change!
     if (usedIndexesArray.length === countriesList.length) {
-      console.log("you finished the game! congratulations!");
       return;
     }
 
@@ -132,11 +142,8 @@ const Quiz = () => {
     return countriesList[randomIndex];
   };
 
-  //possible positions: nextFadedCountry, nextCountry, currentCountry, prevCountry, prevFadedCountry.
-  // dispatch(getQuizCountry("Oman", "nextCountry"));
   useEffect(() => {
     const initializeGame = () => {
-      // order is important
       dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
       dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
       dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
@@ -153,6 +160,8 @@ const Quiz = () => {
     if (inputGuess.current.value === "") return;
 
     //!
+    if (gameIsWon) return;
+
     const targetCountryName = nextCountryList.at(-1).name;
 
     let guessIsCorrect;
@@ -167,30 +176,54 @@ const Quiz = () => {
         targetCountryName.toLowerCase();
     }
 
-    // const onCorrectGuess = () => {
-    //   dispatch(
-    //     quizzesActions.setCountryPosition(
-    //       listOfCountryPositions[currentCountryIndex]
-    //     )
-    //   );
-    // };
-
     if (guessIsCorrect) {
       console.log("guess is correct");
 
       setCountryCardsClasses(shiftClassesGuessCorrect());
 
-      dispatch(getQuizCountry(getRandomCountry(), "NEXT", true));
+      if (
+        numberOfCountries - numberOfGuessedCountries !== 2 &&
+        numberOfCountries - numberOfGuessedCountries !== 1
+      )
+        dispatch(getQuizCountry(getRandomCountry(), "NEXT", true));
+      else {
+        dispatch(
+          quizzesActions.setCountryPosition({
+            country: { name: "", flag: "" },
+            arr: "NEXT",
+            shift: true,
+          })
+        );
+      }
 
       dispatch(quizzesActions.onGuessSuccess());
+
+      setNumberOfGuessedCountries((prevState) => ++prevState);
+
+      inputGuess.current.value = "";
     } else {
       console.log("guess is incorrect");
-      return;
+    }
+
+    if (!startTimer) {
+      startTimer = true;
+      $time = time;
+
+      quizTimer = setInterval(() => {
+        setFormattedTime(
+          new Intl.DateTimeFormat("en-US", {
+            second: "2-digit",
+            minute: "2-digit",
+          }).format($time)
+        );
+        $time -= 1000; // because it's in Milliseconds
+
+        if ($time < 0) clearInterval(quizTimer);
+      }, 1000);
     }
 
     //! end
 
-    inputGuess.current.value = "";
     // undo initial state
     if (isInitial) isInitial = false;
   };
@@ -204,7 +237,11 @@ const Quiz = () => {
       </div>
       <div className={styles["country-cards-container"]}>
         <Card
-          className={`${styles["country-card"]} ${$countryCardsClasses[0]}`}
+          className={`${styles["country-card"]} ${
+            !nextCountryList.at(currentCountryIndex[2])?.name?.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${$countryCardsClasses[0]}`}
         >
           <img
             src={nextCountryList.at(currentCountryIndex[2])?.flag}
@@ -232,7 +269,11 @@ const Quiz = () => {
           </div>
         </Card>
         <Card
-          className={`${styles["country-card"]} ${$countryCardsClasses[2]}`}
+          className={`${styles["country-card"]} ${
+            !nextCountryList.at(currentCountryIndex[0])?.name?.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${$countryCardsClasses[2]}`}
         >
           <img
             src={nextCountryList.at(currentCountryIndex[0])?.flag}
@@ -258,7 +299,9 @@ const Quiz = () => {
           </div>
         </Card>
         <Card
-          className={`${styles["country-card"]} ${$countryCardsClasses[4]}`}
+          className={`${styles["country-card"]} ${
+            !prevCountryList.at(-2)?.name?.at(0) ? styles["hidden-country"] : ""
+          } ${$countryCardsClasses[4]}`}
         >
           <img
             src={prevCountryList.at(-2)?.flag}
@@ -270,9 +313,11 @@ const Quiz = () => {
           </div>
         </Card>
       </div>
-      <div className={styles["number-of-countries"]}>0/{numberOfCountries}</div>
+      <div className={styles["number-of-countries"]}>
+        {numberOfGuessedCountries}/{numberOfCountries}
+      </div>
       <form
-        className={styles["quiz-input-container"]}
+        className={`${styles["quiz-input-container"]}`}
         autoComplete="off"
         onSubmit={quizGuessSubmitHandler}
       >
