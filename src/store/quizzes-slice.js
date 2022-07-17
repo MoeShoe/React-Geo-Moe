@@ -13,8 +13,6 @@ const quizzesInitialState = {
     quizParams: {},
   },
   quizGameData: {
-    gameIsOver: false,
-
     nextCountries: [], //last element is the current country
     prevCountries: [],
   },
@@ -24,10 +22,24 @@ const quizzesSlice = createSlice({
   name: "quizzes",
   initialState: quizzesInitialState,
   reducers: {
+    // resets the quiz
+    resetQuiz(state) {
+      state.quizInPlay = false;
+
+      // state.quiz = {
+      //   quizType: "",
+      //   quizParams: {},
+      // };
+
+      // state.quizGameData = {
+      //   nextCountries: [],
+      //   prevCountries: [],
+      // };
+    },
+
     // sets Quiz Type and initializes the game.
     setCurrentQuiz(state, action) {
       state.quizInPlay = true;
-      state.quizGameData.gameIsOver = false;
 
       switch (action.payload) {
         case "RELAXED":
