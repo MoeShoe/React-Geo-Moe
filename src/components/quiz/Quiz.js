@@ -12,7 +12,9 @@ let isInitial = true;
 //!
 const usedIndexesArray = [];
 
-let gameIsWon = false;
+let gameIsWon,
+  gameIsLost = false;
+let $lives;
 
 let startTimer = false;
 let quizTimer, $time;
@@ -86,9 +88,9 @@ const Quiz = () => {
   );
 
   //*data formatting
-  const formattedLives = Number.isFinite(lives)
-    ? `${lives} Lives`
-    : "Unlimited Lives";
+  const [formattedLives, setFormattedLives] = useState(
+    Number.isFinite(lives) ? `${lives} Lives` : "Unlimited Lives"
+  );
 
   const [formattedTime, setFormattedTime] = useState(
     new Intl.DateTimeFormat("en-US", {
@@ -112,12 +114,31 @@ const Quiz = () => {
 
   const [numberOfGuessedCountries, setNumberOfGuessedCountries] = useState(0);
 
+  const [guessAnimation, setGuessAnimation] = useState("");
+
+  useEffect(() => {
+    if (guessAnimation) {
+      const animationTimer = setTimeout(() => setGuessAnimation(""), 250);
+
+      return () => clearTimeout(animationTimer);
+    }
+  }, [guessAnimation]);
+
   //* add winning handler
   if (numberOfGuessedCountries === numberOfCountries) {
-    console.log("Congratulations!, you won the game!");
+    console.log("Congratulations!, you won!");
     gameIsWon = true;
-    clearInterval(quizTimer);
   }
+
+  //* add losing handler
+  if (gameIsLost) {
+    console.log("You lost! :( try again?");
+  }
+
+  if (gameIsWon || gameIsLost) clearInterval(quizTimer);
+
+  if (!$lives && $lives !== 0) $lives = lives;
+  if (!$time && $time !== 0) $time = time;
 
   const getRandomCountry = () => {
     const getRandomIndex = (lgth) => Math.trunc(Math.random() * (lgth + 1));
@@ -127,7 +148,7 @@ const Quiz = () => {
     ////////////////////////////////////////////
 
     //TODO
-    // bad! change!
+    //! bad! change!
     if (usedIndexesArray.length === countriesList.length) {
       return;
     }
@@ -160,7 +181,7 @@ const Quiz = () => {
     if (inputGuess.current.value === "") return;
 
     //!
-    if (gameIsWon) return;
+    if (gameIsWon || gameIsLost) return;
 
     const targetCountryName = nextCountryList.at(-1).name;
 
@@ -176,10 +197,10 @@ const Quiz = () => {
         targetCountryName.toLowerCase();
     }
 
+    //* On correct guess
     if (guessIsCorrect) {
-      console.log("guess is correct");
-
       setCountryCardsClasses(shiftClassesGuessCorrect());
+      setGuessAnimation("guess-correct");
 
       if (
         numberOfCountries - numberOfGuessedCountries !== 2 &&
@@ -201,24 +222,35 @@ const Quiz = () => {
       setNumberOfGuessedCountries((prevState) => ++prevState);
 
       inputGuess.current.value = "";
-    } else {
-      console.log("guess is incorrect");
+    }
+    //* On false guess
+    else {
+      setGuessAnimation("guess-false");
+
+      if (Number.isFinite(lives)) {
+        $lives--;
+        setFormattedLives($lives + " Lives");
+        if ($lives === 0) gameIsLost = true;
+      }
     }
 
     if (!startTimer) {
       startTimer = true;
-      $time = time;
 
       quizTimer = setInterval(() => {
+        $time -= 1000; // because it's in Milliseconds
+
         setFormattedTime(
           new Intl.DateTimeFormat("en-US", {
             second: "2-digit",
             minute: "2-digit",
           }).format($time)
         );
-        $time -= 1000; // because it's in Milliseconds
 
-        if ($time < 0) clearInterval(quizTimer);
+        if ($time === 0) {
+          gameIsLost = true;
+          clearInterval(quizTimer);
+        }
       }, 1000);
     }
 
@@ -231,9 +263,27 @@ const Quiz = () => {
   return (
     <div className={styles["quiz-container"]}>
       <div className={styles["quiz-details-container"]}>
-        <div className={styles["quiz-lives"]}>{formattedLives}</div>
+        <div
+          className={styles["quiz-lives"]}
+          style={
+            Number.isFinite(lives)
+              ? {
+                  color: `hsl(${($lives / lives) * 120},100%,40%)`,
+                }
+              : { color: "hsl(120,100%,40%)" }
+          }
+        >
+          {formattedLives}
+        </div>
         <div className={styles["quiz-type"]}>{name}</div>
-        <div className={styles["quiz-time"]}>{formattedTime}</div>
+        <div
+          className={styles["quiz-time"]}
+          style={{
+            color: `hsl(${($time / time) * 120},100%,40%)`,
+          }}
+        >
+          {formattedTime}
+        </div>
       </div>
       <div className={styles["country-cards-container"]}>
         <Card
@@ -322,7 +372,9 @@ const Quiz = () => {
         onSubmit={quizGuessSubmitHandler}
       >
         <input
-          className={styles["quiz-input"]}
+          className={`${styles["quiz-input"]} ${
+            guessAnimation ? styles[guessAnimation] : ""
+          }`}
           maxLength="33"
           placeholder={isInitial ? "Input your guess here!" : ""}
           ref={inputGuess}
