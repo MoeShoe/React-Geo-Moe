@@ -83,10 +83,27 @@
 }
 
 .number-of-countries {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #484b4d;
   font-weight: 700;
   font-size: 30px;
   text-align: center;
+}
+
+.card-navigation-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  height: 30px;
+  width: 45px;
+  margin: 0 35px;
+}
+
+.card-navigation-button .card-navigation-icon {
+  font-size: 20px;
 }
 
 .quiz-input-container {

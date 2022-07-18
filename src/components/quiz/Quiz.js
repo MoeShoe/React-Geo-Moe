@@ -1,8 +1,11 @@
 import { useRef, useEffect, useState, useReducer } from "react";
 import { useSelector, useDispatch } from "react-redux";
+//*icons
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 import styles from "./Quiz.module.css";
 import Card from "../UI/Card";
+import Button from "../UI/Button";
 import getQuizCountry from "../../store/quiz-action-thunk";
 import COUNTRY_NAMES_LIST from "../../constants/COUNTRY_NAMES_LIST";
 import { quizzesActions } from "../../store/quizzes-slice";
@@ -520,7 +523,13 @@ const Quiz = () => {
         </Card>
       </div>
       <div className={styles["number-of-countries"]}>
+        <Button className={styles["card-navigation-button"]}>
+          <FaArrowLeft className={styles["card-navigation-icon"]} />
+        </Button>
         {quizGameState.numberOfGuessedCountries}/{numberOfCountries}
+        <Button className={styles["card-navigation-button"]}>
+          <FaArrowRight className={styles["card-navigation-icon"]} />
+        </Button>
       </div>
       <form
         className={`${styles["quiz-input-container"]}`}
