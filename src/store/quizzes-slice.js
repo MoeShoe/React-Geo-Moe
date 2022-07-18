@@ -75,7 +75,6 @@ const quizzesSlice = createSlice({
       const direction = action.payload.arr;
 
       if (direction === "NEXT") {
-        // if (action.payload.shift) state.quizGameData.nextCountries.shift();
         state.quizGameData.countries.unshift(action.payload.country);
       }
 
@@ -85,12 +84,10 @@ const quizzesSlice = createSlice({
 
     // on successful guess
     onGuessSuccess(state, action) {
-      // const poppedCountry =
       state.quizGameData.countries.splice(
         state.quizGameData.countries.length + action.payload,
         1
       );
-      // state.quizGameData.countries.unshift(poppedCountry);
     },
 
     //on shift cards left

@@ -260,7 +260,7 @@ const Quiz = () => {
       currentCountryIndex: [-5, -4, -3, -2, -1],
       currentCountryClassIndex: 2,
       countryCardsClasses: countryCardsClasses.slice(),
-      // a duplicate array added to handle on guess correct
+      // a duplicate array that is not polluted by animation classes
       $countryCardsClasses: countryCardsClasses.slice(),
     },
 
@@ -359,13 +359,12 @@ const Quiz = () => {
       }
 
       if (numberOfCountries - quizGameState.numberOfGuessedCountries > 3)
-        dispatch(getQuizCountry(getRandomCountry(), "NEXT", true));
+        dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
       else {
         dispatch(
           quizzesActions.setCountryPosition({
             country: { name: "", flag: "" },
             arr: "NEXT",
-            shift: true,
           })
         );
       }
@@ -577,11 +576,15 @@ const Quiz = () => {
         <Button
           className={styles["card-navigation-button"]}
           onClick={leftArrowClickHandler}
+          disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
         >
           <FaArrowLeft className={styles["card-navigation-icon"]} />
         </Button>
         {quizGameState.numberOfGuessedCountries}/{numberOfCountries}
-        <Button className={styles["card-navigation-button"]}>
+        <Button
+          className={styles["card-navigation-button"]}
+          disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
+        >
           <FaArrowRight className={styles["card-navigation-icon"]} />
         </Button>
       </div>

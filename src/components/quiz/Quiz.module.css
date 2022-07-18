@@ -78,6 +78,22 @@
   animation: card-guess-correct 150ms;
 }
 
+.card-is-correct .flag {
+  position: relative;
+  opacity: 0;
+}
+
+.card-is-correct .flag:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px 15px 0 0px;
+  background-color: white;
+  left: 0;
+  top: 0;
+}
+
 .hidden-country {
   opacity: 0;
 }
@@ -100,6 +116,15 @@
   height: 30px;
   width: 45px;
   margin: 0 35px;
+}
+
+.card-navigation-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.card-navigation-button:disabled:hover {
+  background-color: #219f94;
 }
 
 .card-navigation-button .card-navigation-icon {
