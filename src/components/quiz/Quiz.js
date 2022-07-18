@@ -52,11 +52,8 @@ const Quiz = () => {
     (state) => state.quizzes.quiz.quizParams
   );
 
-  const nextCountryList = useSelector(
-    (state) => state.quizzes.quizGameData.nextCountries
-  );
-  const prevCountryList = useSelector(
-    (state) => state.quizzes.quizGameData.prevCountries
+  const fetchedCountriesList = useSelector(
+    (state) => state.quizzes.quizGameData.countries
   );
 
   //!
@@ -188,8 +185,8 @@ const Quiz = () => {
 
         const $currentCountryIndex =
           state.cardClasses.currentCountryIndex.slice(0, 3);
-        const $index = $currentCountryIndex.pop();
-        $currentCountryIndex.unshift($index);
+        const $index = $currentCountryIndex.shift();
+        $currentCountryIndex.push($index);
 
         //* set currentCountryIndex to this
         const $$currentCountryIndex = $currentCountryIndex.concat(
@@ -207,7 +204,30 @@ const Quiz = () => {
         });
 
       case "SHIFT_CLASSES_LEFT":
-        break;
+        const leftCountryCardsClasses =
+          state.cardClasses.$countryCardsClasses.slice();
+        const leftPoppedClass = leftCountryCardsClasses.shift();
+        leftCountryCardsClasses.push(leftPoppedClass);
+
+        let leftCurrentCountryClassIndex =
+          state.cardClasses.currentCountryClassIndex;
+        if (leftCurrentCountryClassIndex !== 0) leftCurrentCountryClassIndex++;
+        else leftCurrentCountryClassIndex = 2;
+
+        const leftCurrentCountryIndex =
+          state.cardClasses.currentCountryIndex.slice();
+        const leftIndex = leftCurrentCountryIndex.shift();
+        leftCurrentCountryIndex.push(leftIndex);
+
+        return deepClone({
+          ...state,
+          cardClasses: {
+            currentCountryIndex: leftCurrentCountryIndex,
+            currentCountryClassIndex: leftCurrentCountryClassIndex,
+            countryCardsClasses: leftCountryCardsClasses,
+            $countryCardsClasses: leftCountryCardsClasses,
+          },
+        });
 
       case "SHIFT_CLASSES_RIGHT":
         break;
@@ -224,6 +244,7 @@ const Quiz = () => {
     isInitial: true,
     countriesList: [],
     gameState: { won: false, lost: false },
+    currentFetchedCountryIndex: -3,
 
     lives: lives, //*
     formattedLives: `${
@@ -236,7 +257,7 @@ const Quiz = () => {
     },
 
     cardClasses: {
-      currentCountryIndex: [-1, -2, -3, -4, -5],
+      currentCountryIndex: [-5, -4, -3, -2, -1],
       currentCountryClassIndex: 2,
       countryCardsClasses: countryCardsClasses.slice(),
       // a duplicate array added to handle on guess correct
@@ -251,6 +272,8 @@ const Quiz = () => {
     quizGameStateReducer,
     quizGameInitialState
   );
+
+  // console.log(quizGameState);
 
   //! reducer end
   ///////////////////////////////////////////////
@@ -280,15 +303,6 @@ const Quiz = () => {
     dispatchQuizGameState({ type: "INITIALIZE_GAME" });
   }, []);
 
-  //* add winning handler
-  if (quizGameState.numberOfGuessedCountries === numberOfCountries) {
-    console.log("Congratulations!, you won!");
-    dispatchQuizGameState({
-      type: "UPDATE_GAME_STATE",
-      payload: { won: true },
-    });
-  }
-
   if (quizGameState.gameState.lost) {
     console.log("You lost! :( try again?");
   }
@@ -312,7 +326,11 @@ const Quiz = () => {
     /* create a handler function in the hook that takes 
     this argument 'inputGuess.current.value.toLowerCase()' */
     //!
-    const targetCountryName = nextCountryList.at(-1).name;
+    const targetCountryName = fetchedCountriesList.at(
+      quizGameState.currentFetchedCountryIndex
+    ).name;
+
+    console.log(targetCountryName);
 
     let guessIsCorrect;
 
@@ -331,10 +349,16 @@ const Quiz = () => {
       dispatchQuizGameState({ type: "SHIFT_GUESS_CORRECT" });
       setGuessAnimation("guess-correct");
 
-      if (
-        numberOfCountries - quizGameState.numberOfGuessedCountries !== 2 &&
-        numberOfCountries - quizGameState.numberOfGuessedCountries !== 1
-      )
+      //* add winning handler
+      if (quizGameState.numberOfGuessedCountries === numberOfCountries - 1) {
+        console.log("Congratulations!, you won!");
+        dispatchQuizGameState({
+          type: "UPDATE_GAME_STATE",
+          payload: { won: true },
+        });
+      }
+
+      if (numberOfCountries - quizGameState.numberOfGuessedCountries > 3)
         dispatch(getQuizCountry(getRandomCountry(), "NEXT", true));
       else {
         dispatch(
@@ -346,7 +370,9 @@ const Quiz = () => {
         );
       }
 
-      dispatch(quizzesActions.onGuessSuccess());
+      dispatch(
+        quizzesActions.onGuessSuccess(quizGameState.currentFetchedCountryIndex)
+      );
 
       dispatchQuizGameState({ type: "INCREMENT_GUESS" });
 
@@ -401,6 +427,15 @@ const Quiz = () => {
     //! end
   };
 
+  //TODO
+  const leftArrowClickHandler = () => {
+    dispatchQuizGameState({ type: "SHIFT_CLASSES_LEFT" });
+    dispatch(quizzesActions.onShiftCardsLeft());
+    console.log("clicked!");
+  };
+
+  console.log(fetchedCountriesList);
+
   return (
     <div className={styles["quiz-container"]}>
       <div className={styles["quiz-details-container"]}>
@@ -429,8 +464,8 @@ const Quiz = () => {
       <div className={styles["country-cards-container"]}>
         <Card
           className={`${styles["country-card"]} ${
-            !nextCountryList
-              .at(quizGameState.cardClasses.currentCountryIndex[2])
+            !fetchedCountriesList
+              .at(quizGameState.cardClasses.currentCountryIndex[0])
               ?.name?.at(0)
               ? styles["hidden-country"]
               : ""
@@ -438,51 +473,7 @@ const Quiz = () => {
         >
           <img
             src={
-              nextCountryList.at(
-                quizGameState.cardClasses.currentCountryIndex[2]
-              )?.flag
-            }
-            alt="Mystery Flag"
-            className={styles.flag}
-          />
-          <div className={styles["country-name"]}>
-            <span>?</span>
-          </div>
-        </Card>
-        <Card
-          className={`${styles["country-card"]} ${
-            !nextCountryList
-              .at(quizGameState.cardClasses.currentCountryIndex[1])
-              ?.name?.at(0)
-              ? styles["hidden-country"]
-              : ""
-          } ${quizGameState.cardClasses.countryCardsClasses[1]}`}
-        >
-          <img
-            src={
-              nextCountryList.at(
-                quizGameState.cardClasses.currentCountryIndex[1]
-              )?.flag
-            }
-            alt="Mystery Flag"
-            className={styles.flag}
-          />
-          <div className={styles["country-name"]}>
-            <span>?</span>
-          </div>
-        </Card>
-        <Card
-          className={`${styles["country-card"]} ${
-            !nextCountryList
-              .at(quizGameState.cardClasses.currentCountryIndex[0])
-              ?.name?.at(0)
-              ? styles["hidden-country"]
-              : ""
-          } ${quizGameState.cardClasses.countryCardsClasses[2]}`}
-        >
-          <img
-            src={
-              nextCountryList.at(
+              fetchedCountriesList.at(
                 quizGameState.cardClasses.currentCountryIndex[0]
               )?.flag
             }
@@ -495,11 +486,19 @@ const Quiz = () => {
         </Card>
         <Card
           className={`${styles["country-card"]} ${
-            !prevCountryList.at(-1)?.name?.at(0) ? styles["hidden-country"] : ""
-          } ${quizGameState.cardClasses.countryCardsClasses[3]}`}
+            !fetchedCountriesList
+              .at(quizGameState.cardClasses.currentCountryIndex[1])
+              ?.name?.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${quizGameState.cardClasses.countryCardsClasses[1]}`}
         >
           <img
-            src={prevCountryList.at(-1)?.flag}
+            src={
+              fetchedCountriesList.at(
+                quizGameState.cardClasses.currentCountryIndex[1]
+              )?.flag
+            }
             alt="Mystery Flag"
             className={styles.flag}
           />
@@ -509,11 +508,63 @@ const Quiz = () => {
         </Card>
         <Card
           className={`${styles["country-card"]} ${
-            !prevCountryList.at(-2)?.name?.at(0) ? styles["hidden-country"] : ""
+            !fetchedCountriesList
+              .at(quizGameState.cardClasses.currentCountryIndex[2])
+              ?.name?.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${quizGameState.cardClasses.countryCardsClasses[2]}`}
+        >
+          <img
+            src={
+              fetchedCountriesList.at(
+                quizGameState.cardClasses.currentCountryIndex[2]
+              )?.flag
+            }
+            alt="Mystery Flag"
+            className={styles.flag}
+          />
+          <div className={styles["country-name"]}>
+            <span>?</span>
+          </div>
+        </Card>
+        <Card
+          className={`${styles["country-card"]} ${
+            !fetchedCountriesList
+              .at(quizGameState.cardClasses.currentCountryIndex[3])
+              ?.name?.at(0)
+              ? styles["hidden-country"]
+              : ""
+          } ${quizGameState.cardClasses.countryCardsClasses[3]}`}
+        >
+          <img
+            src={
+              fetchedCountriesList.at(
+                quizGameState.cardClasses.currentCountryIndex[3]
+              )?.flag
+            }
+            alt="Mystery Flag"
+            className={styles.flag}
+          />
+          <div className={styles["country-name"]}>
+            <span>?</span>
+          </div>
+        </Card>
+        <Card
+          className={`${styles["country-card"]} ${
+            !fetchedCountriesList
+              .at(quizGameState.cardClasses.currentCountryIndex[4])
+              ?.name?.at(0)
+              ? styles["hidden-country"]
+              : ""
           } ${quizGameState.cardClasses.countryCardsClasses[4]}`}
         >
           <img
-            src={prevCountryList.at(-2)?.flag}
+            src={
+              fetchedCountriesList.at(
+                quizGameState.cardClasses.currentCountryIndex[4]
+              )?.flag
+            }
             alt="Mystery Flag"
             className={styles.flag}
           />
@@ -523,7 +574,10 @@ const Quiz = () => {
         </Card>
       </div>
       <div className={styles["number-of-countries"]}>
-        <Button className={styles["card-navigation-button"]}>
+        <Button
+          className={styles["card-navigation-button"]}
+          onClick={leftArrowClickHandler}
+        >
           <FaArrowLeft className={styles["card-navigation-icon"]} />
         </Button>
         {quizGameState.numberOfGuessedCountries}/{numberOfCountries}

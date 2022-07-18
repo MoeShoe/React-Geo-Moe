@@ -13,8 +13,10 @@ const quizzesInitialState = {
     quizParams: {},
   },
   quizGameData: {
-    nextCountries: [], //last element is the current country
-    prevCountries: [],
+    countries: [
+      { name: "", flag: "" },
+      { name: "", flag: "" },
+    ],
   },
 };
 
@@ -68,24 +70,32 @@ const quizzesSlice = createSlice({
       }
     },
 
-    // changes country cards positions
+    // adds country cards based on positions
     setCountryPosition(state, action) {
       const direction = action.payload.arr;
 
       if (direction === "NEXT") {
-        if (action.payload.shift) state.quizGameData.nextCountries.shift();
-        state.quizGameData.nextCountries.unshift(action.payload.country);
+        // if (action.payload.shift) state.quizGameData.nextCountries.shift();
+        state.quizGameData.countries.unshift(action.payload.country);
       }
 
       if (direction === "PREV")
-        state.quizGameData.prevCountries.unshift(action.payload.country);
+        state.quizGameData.countries.push(action.payload.country);
     },
 
     // on successful guess
-    onGuessSuccess(state) {
-      const poppedCountry = state.quizGameData.nextCountries.pop();
-      state.quizGameData.nextCountries.unshift(poppedCountry);
+    onGuessSuccess(state, action) {
+      // const poppedCountry =
+      state.quizGameData.countries.splice(
+        state.quizGameData.countries.length + action.payload,
+        1
+      );
+      // state.quizGameData.countries.unshift(poppedCountry);
     },
+
+    //on shift cards left
+    // onShiftCardsLeft(state) {
+    // },
   },
 });
 
