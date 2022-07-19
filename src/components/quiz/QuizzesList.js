@@ -106,7 +106,7 @@ const QuizzesList = () => {
               <span>🌍</span>You have 15 minutes.
             </li>
             <li className={styles["quiz-detail"]}>
-              <span>🌏</span>You have 3 lives.
+              <span>🌏</span>You have 10 lives.
             </li>
           </ul>
         </Card>

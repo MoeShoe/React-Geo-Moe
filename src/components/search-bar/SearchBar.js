@@ -110,7 +110,7 @@ const SearchBar = (props) => {
           value={country}
           onChange={searchInputChangeHandler}
           placeholder={!isLoading ? "Search a Country!" : "Loading..."}
-          maxLength="33"
+          maxLength="35"
         />
         {/* Fake search bar used for autofill suggestions */}
         <div

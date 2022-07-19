@@ -238,7 +238,7 @@ const Quiz = () => {
           className={`${styles["quiz-input"]} ${
             guessAnimation ? styles[guessAnimation] : ""
           }`}
-          maxLength="33"
+          maxLength="35"
           placeholder={quizGameState.isInitial ? "Input your guess here!" : ""}
           ref={inputGuess}
           disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
