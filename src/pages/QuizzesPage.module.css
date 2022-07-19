@@ -1,7 +1,7 @@
 .quizzes-list-container-exit {
   opacity: 0;
-  transform: translateY(-30px);
-  transition: opacity 500ms, transform 500ms;
+  transform: translateY(-20px);
+  transition: opacity 500ms, transform 400ms;
 }
 
 .quiz-container {

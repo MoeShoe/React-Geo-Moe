@@ -16,7 +16,7 @@ const QuizzesList = () => {
 
   const quizzSelectClickHandler = (quiz) => {
     // Guard Clause
-    if (quizInPlay) return;
+    if (quizData.quizInPlay) return;
 
     setQuizData({ quizInPlay: true, quizType: quiz });
 
