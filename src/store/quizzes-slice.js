@@ -27,21 +27,19 @@ const quizzesSlice = createSlice({
     // resets the quiz
     resetQuiz(state) {
       state.quizInPlay = false;
-
-      // state.quiz = {
-      //   quizType: "",
-      //   quizParams: {},
-      // };
-
-      // state.quizGameData = {
-      //   nextCountries: [],
-      //   prevCountries: [],
-      // };
     },
 
     // sets Quiz Type and initializes the game.
     setCurrentQuiz(state, action) {
       state.quizInPlay = true;
+
+      // resetQuiz in case of Previous playthroughs
+      state.quizGameData = {
+        countries: [
+          { name: "", flag: "" },
+          { name: "", flag: "" },
+        ],
+      };
 
       switch (action.payload) {
         case "RELAXED":

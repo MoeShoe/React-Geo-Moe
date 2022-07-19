@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 //*icons
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -8,8 +8,11 @@ import useSetupQuiz from "../../hooks/use-setup-quiz";
 import styles from "./Quiz.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
+import { quizzesActions } from "../../store/quizzes-slice";
 
 const Quiz = () => {
+  const dispatch = useDispatch();
+
   const inputGuess = useRef();
 
   //* quiz parameters
@@ -37,22 +40,21 @@ const Quiz = () => {
     onlyUN
   );
 
-  if (quizGameState.gameState.lost) {
-    console.log("You lost! :( try again?");
-  }
+  //? may not even use
+  // if (quizGameState.gameState.lost) {
+  //   console.log("You lost! :( try again?");
+  // }
 
   if (quizGameState.gameState.won || quizGameState.gameState.lost) {
-    console.log("game has been resolved!");
-    // dispatch(quizzesActions.resetQuiz());
     clearInterval(quizGameState.timer.quizTimer);
+    dispatch(quizzesActions.resetQuiz());
   }
 
   //* event handlers
   const quizGuessSubmitHandler = (e) => {
     e.preventDefault();
-    //Guard Clause
-    if (inputGuess.current.value === "") return;
-
+    //Guard Clauses
+    if (inputGuess.current.value.trim() === "") return;
     if (quizGameState.gameState.won || quizGameState.gameState.lost) return;
 
     userGuessHandler(inputGuess.current.value) &&

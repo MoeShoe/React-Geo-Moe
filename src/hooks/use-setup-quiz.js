@@ -354,7 +354,6 @@ const useSetupQuiz = (
 
       //* add winning handler
       if (quizGameState.numberOfGuessedCountries === numberOfCountries - 1) {
-        console.log("Congratulations!, you won!");
         dispatchQuizGameState({
           type: "UPDATE_GAME_STATE",
           payload: { won: true },
@@ -418,7 +417,8 @@ const useSetupQuiz = (
         })
       );
     } else if (
-      fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex + 1).name
+      !fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex - 1)
+        .name
     ) {
       dispatchQuizGameState({ type: "SHIFT_CLASSES_RIGHT" });
     }
