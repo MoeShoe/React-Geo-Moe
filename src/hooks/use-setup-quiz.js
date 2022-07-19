@@ -29,7 +29,7 @@ const useSetupQuiz = (
 ) => {
   const dispatch = useDispatch();
 
-  //* helper functions
+  //* Helper functions
   const deepClone = (refData) => JSON.parse(JSON.stringify(refData));
   const getRandomIndex = (lgth) => Math.trunc(Math.random() * lgth);
   const getRandomCountry = () => {
@@ -325,12 +325,12 @@ const useSetupQuiz = (
     }
   }, [guessAnimation]);
 
-  // initializes the game
+  //* Initializes the game
   useEffect(() => {
     dispatchQuizGameState({ type: "INITIALIZE_GAME" });
   }, []);
 
-  //* event handlers
+  //* Event handlers
   const userGuessHandler = (userGuess) => {
     const targetCountryName = fetchedCountriesList.at(
       quizGameState.currentFetchedCountryIndex
@@ -418,7 +418,8 @@ const useSetupQuiz = (
       );
     } else if (
       !fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex - 1)
-        .name
+        .name &&
+      fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex + 1).name
     ) {
       dispatchQuizGameState({ type: "SHIFT_CLASSES_RIGHT" });
     }

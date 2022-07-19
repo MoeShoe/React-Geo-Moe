@@ -1,14 +1,17 @@
 .layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.1);
   top: 0;
   left: 0;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
   /*? again due to map from leaflet */
   z-index: 1000;
-  animation: layout-fade-in 1500ms;
+  animation: layout-fade-in 2s;
 }
 
 @keyframes layout-fade-in {
@@ -17,7 +20,7 @@
     backdrop-filter: blur(0px);
   }
   to {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
   }
 }

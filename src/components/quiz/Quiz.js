@@ -1,19 +1,21 @@
-import { useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 //*icons
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 import useSetupQuiz from "../../hooks/use-setup-quiz";
 
 import styles from "./Quiz.module.css";
+import QuizSummary from "./QuizSummary";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
-import { quizzesActions } from "../../store/quizzes-slice";
 
 const Quiz = () => {
-  const dispatch = useDispatch();
-
   const inputGuess = useRef();
+
+  //TODO
+  //findout whether better to leave it here or integrate it into the reducer.
+  const [quizIsResolved, setQuizIsResolved] = useState(false);
 
   //* quiz parameters
   const { name, numberOfCountries, time, lives, onlyUN } = useSelector(
@@ -47,7 +49,7 @@ const Quiz = () => {
 
   if (quizGameState.gameState.won || quizGameState.gameState.lost) {
     clearInterval(quizGameState.timer.quizTimer);
-    // dispatch(quizzesActions.resetQuiz());
+    !quizIsResolved && setQuizIsResolved(true);
   }
 
   //* event handlers
@@ -242,6 +244,15 @@ const Quiz = () => {
           disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
         />
       </form>
+      {quizIsResolved && (
+        <QuizSummary
+          numberOfGuessedCountries={quizGameState.numberOfGuessedCountries}
+          numberOfCountries={numberOfCountries}
+          mode={name}
+          time={quizTime.formattedTime}
+          lives={quizGameState.formattedLives}
+        />
+      )}
     </div>
   );
 };

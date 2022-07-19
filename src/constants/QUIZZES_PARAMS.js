@@ -2,7 +2,7 @@ import COUNTRY_NAMES_LIST from "./COUNTRY_NAMES_LIST";
 
 const RELAXED_QUIZ_PARAMS = {
   name: "Relaxed",
-  numberOfCountries: 10,
+  numberOfCountries: 3,
   time: 300 * 1_000, // in milliseconds
   lives: Infinity,
   onlyUN: true, // only include countries that are members or obsersver states in the UN, therefore no territories included.
