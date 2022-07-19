@@ -20,27 +20,7 @@ const countryCardsClasses = [
   styles["prev-faded-country"],
 ];
 
-// const shiftClassesRight = () => {
-//   const poppedClass = countryCardsClasses.pop();
-//   countryCardsClasses.unshift(poppedClass);
-
-//   // if (currentCountryIndex !== 4) currentCountryIndex++;
-//   // else currentCountryIndex = 0;
-
-//   return countryCardsClasses.slice();
-// };
-
-// const shiftClassesLeft = () => {
-//   const shiftedClass = countryCardsClasses.shift();
-//   countryCardsClasses.push(shiftedClass);
-
-//   // if (currentCountryIndex !== 0) currentCountryIndex--;
-//   // else currentCountryIndex = 4;
-
-//   return countryCardsClasses.slice();
-// };
-
-//! end
+//!end
 
 const Quiz = () => {
   const dispatch = useDispatch();
@@ -167,13 +147,30 @@ const Quiz = () => {
           formattedLives: `${state.lives} Lives`,
         });
 
-      case "SET_TIMER":
+      case "START_TIMER":
         return deepClone({
           ...state,
           timer: {
             ...state.timer,
-            startTimer: action.payload.startTimer,
-            quizTimer: action.payload.timer,
+            startTimer: true,
+            quizTimer: setInterval(() => {
+              setQuizTime((state) => {
+                const newTime = state.time - 1_000; //because it's in milliseconds
+                if (newTime === 0) {
+                  dispatchQuizGameState({
+                    type: "UPDATE_GAME_STATE",
+                    payload: { lost: true },
+                  });
+                }
+                return {
+                  time: newTime,
+                  formattedTime: new Intl.DateTimeFormat("en-US", {
+                    second: "2-digit",
+                    minute: "2-digit",
+                  }).format(newTime),
+                };
+              });
+            }, 1000),
           },
         });
 
@@ -307,8 +304,6 @@ const Quiz = () => {
     }
   };
 
-  console.log(fetchedCountriesList);
-
   //* Quiz Game initial state
 
   const quizGameInitialState = {
@@ -398,8 +393,6 @@ const Quiz = () => {
       quizGameState.currentFetchedCountryIndex
     ).name;
 
-    console.log(targetCountryName);
-
     let guessIsCorrect;
 
     if (Array.isArray(targetCountryName)) {
@@ -462,28 +455,7 @@ const Quiz = () => {
 
     if (!quizGameState.timer.startTimer) {
       dispatchQuizGameState({
-        type: "SET_TIMER",
-        payload: {
-          startTimer: true,
-          timer: setInterval(() => {
-            setQuizTime((state) => {
-              const newTime = state.time - 1_000; //because it's in milliseconds
-              if (newTime === 0) {
-                dispatchQuizGameState({
-                  type: "UPDATE_GAME_STATE",
-                  payload: { lost: true },
-                });
-              }
-              return {
-                time: newTime,
-                formattedTime: new Intl.DateTimeFormat("en-US", {
-                  second: "2-digit",
-                  minute: "2-digit",
-                }).format(newTime),
-              };
-            });
-          }, 1000),
-        },
+        type: "START_TIMER",
       });
     }
     // undo initial state
@@ -492,7 +464,6 @@ const Quiz = () => {
     //! end
   };
 
-  //TODO
   const leftArrowClickHandler = () => {
     // Guard Clause
     if (
@@ -501,6 +472,9 @@ const Quiz = () => {
     ) {
       return;
     }
+
+    if (!quizGameState.timer.startTimer)
+      dispatchQuizGameState({ type: "START_TIMER" });
 
     dispatchQuizGameState({ type: "SHIFT_CLASSES_LEFT" });
     fetchNextCountry();
