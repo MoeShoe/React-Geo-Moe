@@ -1,12 +1,23 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
 import styles from "./QuizzesPage.module.css";
 import QuizzesList from "../components/quiz/QuizzesList";
 import Quiz from "../components/quiz/Quiz";
+import { quizzesActions } from "../store/quizzes-slice";
 
 const QuizzesPage = () => {
+  const dispatch = useDispatch();
+
   const quizInPlay = useSelector((state) => state.quizzes.quizInPlay);
+
+  //TODO
+  // replace this with a prompt that warns the user before leaving an ongoing quiz, temp solution for now
+  useEffect(() => {
+    dispatch(quizzesActions.resetQuiz());
+    console.log("side effect fired!");
+  }, [dispatch]);
 
   return (
     <>
