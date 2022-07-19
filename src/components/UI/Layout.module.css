@@ -1,0 +1,23 @@
+.layout {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  backdrop-filter: blur(8px);
+  /*? again due to map from leaflet */
+  z-index: 1000;
+  animation: layout-fade-in 1500ms;
+}
+
+@keyframes layout-fade-in {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+  }
+}
