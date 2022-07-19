@@ -73,6 +73,11 @@ const countrySlice = createSlice({
         continent,
       };
     },
+
+    // resets the countries state
+    resetCountries(state) {
+      state.country = countryInitialState.country;
+    },
   },
 });
 

@@ -16,6 +16,11 @@ const neighbourCountriesSlice = createSlice({
       // update the neighbouring countries here
       state.neighbourCountries = action.payload;
     },
+
+    // resets the state
+    resetNeighoubringCountries(state) {
+      state.neighbourCountries = [];
+    },
   },
 });
 

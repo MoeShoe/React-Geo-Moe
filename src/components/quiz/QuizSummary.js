@@ -33,7 +33,14 @@ const QuizSummary = (props) => {
       className={`${fadeOutAnimation ? styles["fade-out-animation"] : ""}`}
     >
       <Card className={`${styles["summary-container"]}`}>
-        <div className={styles["summary-percentage"]}>
+        <div
+          className={styles["summary-percentage"]}
+          style={{
+            color: `hsl(${
+              (numberOfGuessedCountries / numberOfCountries) * 120
+            },100%,40%)`,
+          }}
+        >
           {((numberOfGuessedCountries / numberOfCountries) * 100).toFixed(0)}%
         </div>
         <div className={styles["summary-details-container"]}>
