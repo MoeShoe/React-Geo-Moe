@@ -61,6 +61,28 @@ const Quiz = () => {
   //* helper functions
   const deepClone = (refData) => JSON.parse(JSON.stringify(refData));
   const getRandomIndex = (lgth) => Math.trunc(Math.random() * lgth);
+  const fetchNextCountry = () => {
+    if (
+      numberOfCountries -
+        (quizGameState.numberOfGuessedCountries +
+          (fetchedCountriesList.length - 2)) >
+      0
+    )
+      dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
+    else if (
+      numberOfCountries -
+        (quizGameState.numberOfGuessedCountries +
+          (fetchedCountriesList.length - 2)) >
+      -2
+    ) {
+      dispatch(
+        quizzesActions.setCountryPosition({
+          country: { name: "", flag: "" },
+          arr: "NEXT",
+        })
+      );
+    }
+  };
 
   const getRandomCountry = () => {
     // Guard Clause
@@ -156,87 +178,136 @@ const Quiz = () => {
         });
 
       case "SHIFT_GUESS_CORRECT":
-        const slicedCardClasses = state.cardClasses.$countryCardsClasses.slice(
-          0,
-          3
-        );
-
-        const shiftedClass = slicedCardClasses.shift();
-        slicedCardClasses.push(shiftedClass);
-
+        //TODO too imperative
         //* set the countryCardsClasses to this
-        const $$countryCardsClasses = slicedCardClasses.concat(
-          state.cardClasses.$countryCardsClasses.slice(3)
-        );
+        const $$countryCardsClasses =
+          state.cardClasses.$countryCardsClasses.map(($class) => {
+            if ($class === styles["current-country"])
+              return styles["next-faded-country"];
+            if ($class === styles["next-faded-country"])
+              return styles["next-country"];
+            if ($class === styles["next-country"])
+              return styles["current-country"];
+            return $class;
+          });
 
         //* set the $countryCardsClasses to this
         const $$$countryCardsClasses = $$countryCardsClasses.slice();
 
-        $$countryCardsClasses[state.cardClasses.currentCountryClassIndex] =
-          $$countryCardsClasses[state.cardClasses.currentCountryClassIndex] +
-          ` ${styles["card-is-correct"]}`;
+        $$countryCardsClasses[
+          $$countryCardsClasses.indexOf(styles["next-faded-country"])
+        ] =
+          $$countryCardsClasses[
+            $$countryCardsClasses.indexOf(styles["next-faded-country"])
+          ] + ` ${styles["card-is-correct"]}`;
 
-        //* set currentCountryClassIndex to this
-        let $currentCountryClassIndex =
-          state.cardClasses.currentCountryClassIndex;
-
-        if ($currentCountryClassIndex !== 0) $currentCountryClassIndex--;
-        else $currentCountryClassIndex = 2;
-
-        const $currentCountryIndex =
-          state.cardClasses.currentCountryIndex.slice(0, 3);
-        const $index = $currentCountryIndex.shift();
-        $currentCountryIndex.push($index);
-
+        //TODO too imperative
         //* set currentCountryIndex to this
-        const $$currentCountryIndex = $currentCountryIndex.concat(
-          state.cardClasses.currentCountryIndex.slice(3)
+        const $$currentCountryIndex = state.cardClasses.currentCountryIndex.map(
+          (ind) => {
+            if (ind === state.currentFetchedCountryIndex)
+              return state.currentFetchedCountryIndex - 2;
+            if (ind === state.currentFetchedCountryIndex - 2)
+              return state.currentFetchedCountryIndex - 1;
+            if (ind === state.currentFetchedCountryIndex - 1)
+              return state.currentFetchedCountryIndex;
+            return ind;
+          }
         );
 
         return deepClone({
           ...state,
           cardClasses: {
             currentCountryIndex: $$currentCountryIndex,
-            currentCountryClassIndex: $currentCountryClassIndex,
             countryCardsClasses: $$countryCardsClasses,
             $countryCardsClasses: $$$countryCardsClasses,
           },
         });
 
       case "SHIFT_CLASSES_LEFT":
+        //classes
+        //TODO too imperative
         const leftCountryCardsClasses =
-          state.cardClasses.$countryCardsClasses.slice();
-        const leftPoppedClass = leftCountryCardsClasses.shift();
-        leftCountryCardsClasses.push(leftPoppedClass);
+          state.cardClasses.$countryCardsClasses.map(($class) => {
+            if ($class === styles["current-country"])
+              return styles["prev-country"];
+            if ($class === styles["prev-country"])
+              return styles["prev-faded-country"];
+            if ($class === styles["prev-faded-country"])
+              return styles["next-faded-country"];
+            if ($class === styles["next-faded-country"])
+              return styles["next-country"];
+            if ($class === styles["next-country"])
+              return styles["current-country"];
+            return $class;
+          });
 
-        let leftCurrentCountryClassIndex =
-          state.cardClasses.currentCountryClassIndex;
-        if (leftCurrentCountryClassIndex !== 0) leftCurrentCountryClassIndex++;
-        else leftCurrentCountryClassIndex = 2;
-
+        // index array
         const leftCurrentCountryIndex =
-          state.cardClasses.currentCountryIndex.slice();
-        const leftIndex = leftCurrentCountryIndex.shift();
-        leftCurrentCountryIndex.push(leftIndex);
+          state.cardClasses.currentCountryIndex.map((ind) => {
+            const $index =
+              ind + 1 > state.currentFetchedCountryIndex + 2
+                ? state.currentFetchedCountryIndex - 2
+                : ind + 1;
+            return $index - 1;
+          });
 
+        const leftFetchedCountryIndex = state.currentFetchedCountryIndex - 1;
         return deepClone({
           ...state,
+          currentFetchedCountryIndex: leftFetchedCountryIndex,
           cardClasses: {
             currentCountryIndex: leftCurrentCountryIndex,
-            currentCountryClassIndex: leftCurrentCountryClassIndex,
             countryCardsClasses: leftCountryCardsClasses,
             $countryCardsClasses: leftCountryCardsClasses,
           },
         });
 
       case "SHIFT_CLASSES_RIGHT":
-        break;
+        //classes
+        //TODO too imperative
+        const rightCountryCardsClasses =
+          state.cardClasses.$countryCardsClasses.map(($class) => {
+            if ($class === styles["current-country"])
+              return styles["next-country"];
+            if ($class === styles["prev-country"])
+              return styles["current-country"];
+            if ($class === styles["prev-faded-country"])
+              return styles["prev-country"];
+            if ($class === styles["next-faded-country"])
+              return styles["prev-faded-country"];
+            if ($class === styles["next-country"])
+              return styles["next-faded-country"];
+            return $class;
+          });
+
+        // index array
+        const rightCurrentCountryIndex =
+          state.cardClasses.currentCountryIndex.map((ind) => {
+            const $index =
+              ind - 1 < state.currentFetchedCountryIndex - 2
+                ? state.currentFetchedCountryIndex + 2
+                : ind - 1;
+            return $index + 1;
+          });
+
+        const rightFetchedCountryIndex = state.currentFetchedCountryIndex + 1;
+        return deepClone({
+          ...state,
+          currentFetchedCountryIndex: rightFetchedCountryIndex,
+          cardClasses: {
+            currentCountryIndex: rightCurrentCountryIndex,
+            countryCardsClasses: rightCountryCardsClasses,
+            $countryCardsClasses: rightCountryCardsClasses,
+          },
+        });
 
       default:
-        console.log("you are in the default block!");
         return deepClone({ ...state });
     }
   };
+
+  console.log(fetchedCountriesList);
 
   //* Quiz Game initial state
 
@@ -258,7 +329,6 @@ const Quiz = () => {
 
     cardClasses: {
       currentCountryIndex: [-5, -4, -3, -2, -1],
-      currentCountryClassIndex: 2,
       countryCardsClasses: countryCardsClasses.slice(),
       // a duplicate array that is not polluted by animation classes
       $countryCardsClasses: countryCardsClasses.slice(),
@@ -272,8 +342,6 @@ const Quiz = () => {
     quizGameStateReducer,
     quizGameInitialState
   );
-
-  // console.log(quizGameState);
 
   //! reducer end
   ///////////////////////////////////////////////
@@ -358,25 +426,23 @@ const Quiz = () => {
         });
       }
 
-      if (numberOfCountries - quizGameState.numberOfGuessedCountries > 3)
-        dispatch(getQuizCountry(getRandomCountry(), "NEXT"));
-      else {
-        dispatch(
-          quizzesActions.setCountryPosition({
-            country: { name: "", flag: "" },
-            arr: "NEXT",
-          })
-        );
-      }
-
       dispatch(
         quizzesActions.onGuessSuccess(quizGameState.currentFetchedCountryIndex)
       );
 
       dispatchQuizGameState({ type: "INCREMENT_GUESS" });
 
-      //? find a way!
+      //? find a way
       inputGuess.current.value = "";
+
+      //Guard Clause
+      if (
+        !fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex - 1)
+          .name
+      ) {
+        return;
+      }
+      fetchNextCountry();
     }
     //* On false guess
     else {
@@ -428,12 +494,29 @@ const Quiz = () => {
 
   //TODO
   const leftArrowClickHandler = () => {
+    // Guard Clause
+    if (
+      !fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex - 1)
+        .name
+    ) {
+      return;
+    }
+
     dispatchQuizGameState({ type: "SHIFT_CLASSES_LEFT" });
-    dispatch(quizzesActions.onShiftCardsLeft());
-    console.log("clicked!");
+    fetchNextCountry();
   };
 
-  console.log(fetchedCountriesList);
+  const rightArrowClickHandler = () => {
+    // Guard Clause
+    if (
+      !fetchedCountriesList.at(quizGameState.currentFetchedCountryIndex + 1)
+        .name
+    ) {
+      return;
+    }
+
+    dispatchQuizGameState({ type: "SHIFT_CLASSES_RIGHT" });
+  };
 
   return (
     <div className={styles["quiz-container"]}>
@@ -576,14 +659,27 @@ const Quiz = () => {
         <Button
           className={styles["card-navigation-button"]}
           onClick={leftArrowClickHandler}
-          disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
+          disabled={
+            quizGameState.gameState.won ||
+            quizGameState.gameState.lost ||
+            !fetchedCountriesList.at(
+              quizGameState.currentFetchedCountryIndex - 1
+            )?.name
+          }
         >
           <FaArrowLeft className={styles["card-navigation-icon"]} />
         </Button>
         {quizGameState.numberOfGuessedCountries}/{numberOfCountries}
         <Button
           className={styles["card-navigation-button"]}
-          disabled={quizGameState.gameState.won || quizGameState.gameState.lost}
+          onClick={rightArrowClickHandler}
+          disabled={
+            quizGameState.gameState.won ||
+            quizGameState.gameState.lost ||
+            !fetchedCountriesList.at(
+              quizGameState.currentFetchedCountryIndex + 1
+            )?.name
+          }
         >
           <FaArrowRight className={styles["card-navigation-icon"]} />
         </Button>
