@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 //*icons
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { BsFillFlagFill } from "react-icons/bs";
 
 import useSetupQuiz from "../../hooks/use-setup-quiz";
 
@@ -32,6 +33,7 @@ const Quiz = () => {
     userGuessHandler,
     quizTime,
     guessAnimation,
+    surrenderButtonClickHandler,
     leftArrowClickHandler,
     rightArrowClickHandler,
   ] = useSetupQuiz(
@@ -78,6 +80,14 @@ const Quiz = () => {
           }
         >
           {quizGameState.formattedLives}
+        </div>
+        <div className={styles["surrender-button-container"]}>
+          <Button
+            className={styles["surrender-button"]}
+            onClick={surrenderButtonClickHandler}
+          >
+            <BsFillFlagFill />
+          </Button>
         </div>
         <div
           className={styles["quiz-time"]}

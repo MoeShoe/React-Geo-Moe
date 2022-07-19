@@ -280,9 +280,7 @@ const useSetupQuiz = (
     currentFetchedCountryIndex: -3,
 
     lives: lives, //*
-    formattedLives: `${
-      Number.isFinite(lives) ? lives + " Lives" : "Unlimited Lives"
-    }`,
+    formattedLives: `${Number.isFinite(lives) ? lives + " Lives" : "∞ Lives"}`,
 
     timer: {
       startTimer: false,
@@ -425,6 +423,13 @@ const useSetupQuiz = (
     }
   };
 
+  const surrenderButtonClickHandler = () => {
+    dispatchQuizGameState({
+      type: "UPDATE_GAME_STATE",
+      payload: { lost: true },
+    });
+  };
+
   const leftArrowClickHandler = () => {
     // Guard Clause
     if (
@@ -460,6 +465,7 @@ const useSetupQuiz = (
     userGuessHandler,
     quizTime,
     guessAnimation,
+    surrenderButtonClickHandler,
     leftArrowClickHandler,
     rightArrowClickHandler,
   ];

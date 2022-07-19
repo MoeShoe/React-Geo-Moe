@@ -11,6 +11,21 @@
   font-size: 33px;
 }
 
+.surrender-button {
+  font-size: 22px;
+  height: 30px;
+  width: 60px;
+  background-color: #fa5953;
+}
+
+.surrender-button:hover {
+  background-color: #f70800;
+}
+
+.surrender-button:active {
+  background-color: #c00b0b;
+}
+
 .quiz-details-container {
   display: flex;
   justify-content: space-around;
