@@ -47,7 +47,7 @@ const Quiz = () => {
 
   if (quizGameState.gameState.won || quizGameState.gameState.lost) {
     clearInterval(quizGameState.timer.quizTimer);
-    dispatch(quizzesActions.resetQuiz());
+    // dispatch(quizzesActions.resetQuiz());
   }
 
   //* event handlers
