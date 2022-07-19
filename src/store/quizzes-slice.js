@@ -27,7 +27,6 @@ const quizzesSlice = createSlice({
     // resets the quiz
     resetQuiz(state) {
       state.quizInPlay = false;
-      console.log("quiz reset!");
     },
 
     // sets Quiz Type and initializes the game.

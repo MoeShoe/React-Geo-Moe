@@ -65,6 +65,7 @@ const Quiz = () => {
 
   return (
     <div className={styles["quiz-container"]}>
+      <div className={styles["quiz-type"]}>{name}</div>
       <div className={styles["quiz-details-container"]}>
         <div
           className={styles["quiz-lives"]}
@@ -78,7 +79,6 @@ const Quiz = () => {
         >
           {quizGameState.formattedLives}
         </div>
-        <div className={styles["quiz-type"]}>{name}</div>
         <div
           className={styles["quiz-time"]}
           style={{

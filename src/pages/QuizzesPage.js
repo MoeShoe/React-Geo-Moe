@@ -16,7 +16,6 @@ const QuizzesPage = () => {
   // replace this with a prompt that warns the user before leaving an ongoing quiz, temp solution for now
   useEffect(() => {
     dispatch(quizzesActions.resetQuiz());
-    console.log("side effect fired!");
   }, [dispatch]);
 
   return (
