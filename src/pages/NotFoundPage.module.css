@@ -1,0 +1,40 @@
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 75px);
+}
+
+.four-zero-four {
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 200px;
+  font-weight: 800;
+  cursor: pointer;
+  text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+}
+
+.zero {
+  color: #578052;
+  transition: color 500ms;
+}
+
+.four-zero-four:hover .zero {
+  color: #1e3b8b;
+}
+
+.four {
+  color: #1e3b8b;
+  transition: color 500ms;
+}
+
+.four-zero-four:hover .four {
+  color: #578052;
+}
+
+.not-found-description {
+  font-size: 30px;
+  font-weight: 600;
+}
