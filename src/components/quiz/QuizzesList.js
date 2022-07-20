@@ -108,6 +108,10 @@ const QuizzesList = () => {
             <li className={styles["quiz-detail"]}>
               <span>🌏</span>You have 10 lives.
             </li>
+            <li className={styles["quiz-detail"]}>
+              <span>🪐</span>Some territories have the same flag as their
+              country.
+            </li>
           </ul>
         </Card>
       </div>
