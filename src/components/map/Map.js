@@ -11,7 +11,9 @@ import Card from "../UI/Card";
 /* find a fix to #closed being added to the URL after a pop up is closed
  on the map or downgrade to leaflet 1.7.0 where this is not an issue*/
 
-let map;
+let map, popupTimer;
+//this way it only runs once
+let initialPopup = true;
 
 const Map = () => {
   const dispatch = useDispatch();
@@ -51,17 +53,21 @@ const Map = () => {
   //* creates pin with message on where the user clicked on the map
   useEffect(() => {
     //adds the pop up
-    if (!pinMessage) return;
+    if (initialPopup) {
+      initialPopup = false;
+      //adds click me pop up on the map after 5s
+      popupTimer = setTimeout(
+        () =>
+          L.popup({ className: styles.popup })
+            .setLatLng([36, 3])
+            .setContent("Click me!")
+            .openOn(map),
+        5_000
+      );
+    }
 
-    //adds click me pop up on the map after 5s
-    // setTimeout(
-    //   () =>
-    //     L.popup({ className: styles.popup })
-    //       .setLatLng([36, 3])
-    //       .setContent("Click me!")
-    //       .openOn(map),
-    //   5_000
-    // );
+    if (!pinMessage) return;
+    if (popupTimer) clearTimeout(popupTimer);
 
     const message = !pinIsLoading ? pinMessage : "🌎 Loading...";
     L.popup().setLatLng(userClickLatlng).setContent(message).openOn(map);

@@ -198,6 +198,10 @@
   box-shadow: 0px 0px 50px 10px hsl(0, 100%, 40%);
 }
 
+#guess-false {
+  text-shadow: 0px 0px 15px rgba(255, 0, 0, 1);
+}
+
 @keyframes card-guess-correct {
   from {
     transform: translate(0);

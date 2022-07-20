@@ -44,11 +44,6 @@ const Quiz = () => {
     onlyUN
   );
 
-  //? may not even use
-  // if (quizGameState.gameState.lost) {
-  //   console.log("You lost! :( try again?");
-  // }
-
   if (quizGameState.gameState.won || quizGameState.gameState.lost) {
     clearInterval(quizGameState.timer.quizTimer);
     !quizIsResolved && setQuizIsResolved(true);
@@ -78,6 +73,7 @@ const Quiz = () => {
                 }
               : { color: "hsl(120,100%,40%)" }
           }
+          id={`${guessAnimation ? styles[guessAnimation] : ""}`}
         >
           {quizGameState.formattedLives}
         </div>

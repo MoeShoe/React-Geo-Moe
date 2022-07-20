@@ -28,7 +28,7 @@ const NavBar = () => {
 
   const getRandomCountryHandler = () => {
     const randomCountryIndex = Math.trunc(
-      Math.random() * (COUNTRY_NAMES_LIST.length + 1)
+      Math.random() * COUNTRY_NAMES_LIST.length
     );
     const randomCountry = COUNTRY_NAMES_LIST[randomCountryIndex].official;
     dispatch(fetchCountryData(randomCountry));
