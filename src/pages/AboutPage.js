@@ -1,5 +1,5 @@
 //* icons
-import { BsGithub, BsLinkedin } from "react-icons/bs";
+import { BsGithub, BsLinkedin, BsFillPersonBadgeFill } from "react-icons/bs";
 
 import styles from "./AboutPage.module.css";
 
@@ -39,6 +39,20 @@ const AboutPage = () => {
               style={{ color: "#000" }}
             />{" "}
             GitHub
+          </a>
+        </div>
+        <div className={styles["contact"]}>
+          <a
+            href="https://moussas.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles["contact-link"]}
+          >
+            <BsFillPersonBadgeFill
+              className={styles["contact-icon"]}
+              style={{ color: "#76316A" }}
+            />{" "}
+            Personal Page
           </a>
         </div>
         <div className={styles["contact"]}>
