@@ -1,2 +1,2 @@
 # GeoMoe
-currently hosted on <a href="geomoe.netlify.app">Netlify</a>
+currently hosted on <a href="https://geomoe.netlify.app/About">Netlify</a>
