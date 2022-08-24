@@ -1,2 +1,2 @@
 # GeoMoe
-a cool website
+currently hosted on <a href="geomoe.netlify.app">Netlify</a>
