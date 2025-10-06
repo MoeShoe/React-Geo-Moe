@@ -8,11 +8,8 @@ const AboutPage = () => {
     <div className={styles["about-page-container"]}>
       <div className={styles["about-title"]}>About</div>
       <div className={styles["about-container-details"]}>
-        This webapp was made with 💜 by S. Moussa. I took the endeavor of making
-        this webapp as a challenge to myself to prove my comptence as a Web
-        Developer. Fueling myself in this journey by my passion for Coding, my
-        love for Geography and my pure dogged persistence. This webapp is not
-        meant to reflect any of my political views as a developer for it was
+        Made with 💜 by S. Moussa. This webapp is not
+        meant to reflect any political views for it was
         made with complete objectivity in mind, its goal is purely educational.
         The code repository for this webapp is public and anyone can contribute
         to it on{" "}
@@ -39,20 +36,6 @@ const AboutPage = () => {
               style={{ color: "#000" }}
             />{" "}
             GitHub
-          </a>
-        </div>
-        <div className={styles["contact"]}>
-          <a
-            href="https://moussas.netlify.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles["contact-link"]}
-          >
-            <BsFillPersonBadgeFill
-              className={styles["contact-icon"]}
-              style={{ color: "#76316A" }}
-            />{" "}
-            Personal Page
           </a>
         </div>
         <div className={styles["contact"]}>
